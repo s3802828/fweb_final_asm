@@ -11,21 +11,21 @@ export default function BreakingNewsCarousel() {
                     <div class="carousel-item active">
                         <img src="https://izisoft.io/wp-content/uploads/2020/03/creative-powerpoint-template-QFKTK2.jpg" class="d-block w-100" alt="..." />
                         <div class="carousel-caption d-none d-md-block">
-                            <h5>First slide label</h5>
+                            <h5>TITLE 1</h5>
                             <p>Some representative placeholder content for the first slide.</p>
                         </div>
                     </div>
                     <div class="carousel-item">
                         <img src="https://izisoft.io/wp-content/uploads/2020/03/creative-powerpoint-template-QFKTK2.jpg" class="d-block w-100" alt="..." />
                         <div class="carousel-caption d-none d-md-block">
-                            <h5>Second slide label</h5>
+                            <h5>TITLE 2</h5>
                             <p>Some representative placeholder content for the second slide.</p>
                         </div>
                     </div>
                     <div class="carousel-item">
                         <img src="https://izisoft.io/wp-content/uploads/2020/03/creative-powerpoint-template-QFKTK2.jpg" class="d-block w-100" alt="..." />
                         <div class="carousel-caption d-none d-md-block">
-                            <h5>Third slide label</h5>
+                            <h5>TITLE 3</h5>
                             <p>Some representative placeholder content for the third slide.</p>
                         </div>
                     </div>

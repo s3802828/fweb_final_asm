@@ -12,8 +12,8 @@ function App() {
       {/* <NewsPage /> */}
       {/*<ForumPage />*/}
       {/* <Footer /> */}
-      <Login/>
-      {/*<Signup/>*/}
+      {/*<Login/>*/}
+      <Signup/>
     </div>
   );
 }

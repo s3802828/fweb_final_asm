@@ -1,4 +1,4 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import Footer from './Footer';
 import ForumPage from './ForumPage';
 import Navbar from './Navbar';

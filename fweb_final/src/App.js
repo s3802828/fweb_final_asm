@@ -5,6 +5,7 @@ import Navbar from './Navbar';
 import NewsPage from './NewsPage';
 import Login from './Login';
 import Signup from './Signup';
+import Posts from './Posts';
 function App() {
   return (
     <div>
@@ -13,7 +14,8 @@ function App() {
       {/*<ForumPage />*/}
       {/* <Footer /> */}
       {/*<Login/>*/}
-      <Signup/>
+      {/*<Signup/>*/}
+      <Posts />
     </div>
   );
 }

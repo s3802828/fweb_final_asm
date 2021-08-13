@@ -3,13 +3,17 @@ import Footer from './Footer';
 import ForumPage from './ForumPage';
 import Navbar from './Navbar';
 import NewsPage from './NewsPage';
+import Login from './Login';
+import Signup from './Signup';
 function App() {
   return (
     <div>
-      <Navbar />
-      <NewsPage />
+      {/* <Navbar /> */}
+      {/* <NewsPage /> */}
       {/*<ForumPage />*/}
-      <Footer />
+      {/* <Footer /> */}
+      {/*<Login/>*/}
+      <Signup/>
     </div>
   );
 }

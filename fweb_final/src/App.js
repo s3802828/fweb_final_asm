@@ -4,6 +4,7 @@ import ForumPage from './ForumPage';
 import Navbar from './Navbar';
 import NewsPage from './NewsPage';
 import Login from './Login';
+import Signup from './Signup';
 function App() {
   return (
     <div>
@@ -12,6 +13,7 @@ function App() {
       {/*<ForumPage />*/}
       {/* <Footer /> */}
       <Login/>
+      {/*<Signup/>*/}
     </div>
   );
 }

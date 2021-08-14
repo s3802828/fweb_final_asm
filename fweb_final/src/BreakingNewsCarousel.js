@@ -1,4 +1,7 @@
-export default function BreakingNewsCarousel() {
+import { Link } from "react-router-dom"
+
+export default function BreakingNewsCarousel(props) {
+    let arrayNews = ["1", "2", "3"]
     return (
         <div>
             <div id="carouselExampleCaptions" class="carousel slide mb-3 mt-3" data-bs-ride="carousel">
@@ -8,27 +11,16 @@ export default function BreakingNewsCarousel() {
                     <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
                 </div>
                 <div class="carousel-inner">
-                    <div class="carousel-item active" style={{ "height": "250px" }}>
-                        <img src="https://izisoft.io/wp-content/uploads/2020/03/creative-powerpoint-template-QFKTK2.jpg" class="d-block w-100 img-fluid" alt="..." />
-                        <div class="carousel-caption d-none d-md-block">
-                            <h4>TITLE 1</h4>
-                            <p>Some representative placeholder content for the first slide.</p>
-                        </div>
-                    </div>
-                    <div class="carousel-item" style={{ "height": "250px" }}>
-                        <img src="https://izisoft.io/wp-content/uploads/2020/03/creative-powerpoint-template-QFKTK2.jpg" class="d-block w-100 img-fluid" alt="..." />
-                        <div class="carousel-caption d-none d-md-block">
-                            <h4>TITLE 2</h4>
-                            <p>Some representative placeholder content for the second slide.</p>
-                        </div>
-                    </div>
-                    <div class="carousel-item" style={{ "height": "250px" }}>
-                        <img src="https://izisoft.io/wp-content/uploads/2020/03/creative-powerpoint-template-QFKTK2.jpg" class="d-block w-100 img-fluid" alt="..." />
-                        <div class="carousel-caption d-none d-md-block">
-                            <h4>TITLE 3</h4>
-                            <p>Some representative placeholder content for the third slide.</p>
-                        </div>
-                    </div>
+                    {arrayNews.map((element, i) =>(
+                        <div class= {`carousel-item ${i === 0 && 'active'}`} style={{ "height": "250px" }}>
+                            <Link to="/articles">
+                                <img src="https://izisoft.io/wp-content/uploads/2020/03/creative-powerpoint-template-QFKTK2.jpg" class="d-block w-100 img-fluid" alt="..." />
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h4>{`TITLE ${element}`}</h4>
+                                    <p>Some representative placeholder content for the first slide.</p>
+                                </div>
+                            </Link>
+                        </div>))}
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>

@@ -12,13 +12,6 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 function App() {
   return (
     <div>
-      {/*<NewsPage />*/}
-      {/*<CreatePost />*/}
-      {/*<ForumPage />*/}
-      {/**/}
-      {/**/}
-      {/*<Posts />*/}
-      {/*<ReportPage />*/}
       <Router>
         <Navbar />
         <Switch>
@@ -30,7 +23,7 @@ function App() {
         </Switch>
         <Footer />
       </Router>
-     
+      
     </div>
   );
 }

@@ -10,6 +10,7 @@ import Signup from './Signup';
 import Posts from './Posts';
 import ReportPage from './ReportPage';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import MyProfile from './MyProfile';
 function App() {
   return (
     <div>
@@ -17,11 +18,11 @@ function App() {
         <Navbar />
         <CreatePost />
         <Switch>
-          {/* <Route exact base path="/"><NewsPage /></Route> */}
-          {/* <Route path="/forum"><ForumPage /></Route> */}
-          {/* <Route path="/login"><Login/></Route>
-          <Route path="/signup"><Signup/></Route> */}
-          {/* <Route path="/articles"><ReportPage /></Route> */}
+          <Route exact base path="/"><NewsPage /></Route>
+          <Route path="/forum"><ForumPage /></Route>
+          <Route path="/login"><Login/></Route>
+          <Route path="/signup"><Signup/></Route>
+          <Route path="/articles"><ReportPage /></Route>
         </Switch>
         <Footer />
       </Router>

@@ -1,9 +1,6 @@
-<<<<<<< HEAD
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-=======
 import 'bootstrap/dist/css/bootstrap.min.css';
 import CreatePost from './CreatePost';
->>>>>>> origin/Routing_Styling
 import Footer from './Footer';
 import ForumPage from './ForumPage';
 import Navbar from './Navbar';

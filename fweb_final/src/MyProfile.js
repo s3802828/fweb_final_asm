@@ -12,7 +12,7 @@ export default function MyProfile() {
         <div class="container-fluid">
             <div class="row">
                 <div class="col-2">
-                    <Sidebar url={url}/>
+                    {/*<Sidebar url={url}/>*/}
                 </div>
                 <div class="col-8">
                     {/* <Switch>

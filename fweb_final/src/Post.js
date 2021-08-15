@@ -7,8 +7,8 @@ export default function Post(props) {
         <div class="pt-3">
             <div class="card mb-4">
                 <div class="card-header text-muted" id="post-{{$post->id}}">
-                    Posted by: USER
-                    &nbsp;&nbsp;
+                    <a href="/profile" style={{ "text-decoration": "none", "color": "black"}}>Posted by: USER
+                    &nbsp;&nbsp;</a>
 
                     <span class="pull-right">
                         &nbsp;&nbsp;
@@ -23,7 +23,7 @@ export default function Post(props) {
                     </span>
                 </div>
                 {/*<Link to={`${props.url}/post/postdetail`} style={{ "text-decoration": "none", "color": "black" }}></Link>*/}
-                <a href={`${props.url}/post/postdetail`} style={{ "text-decoration": "none", "color": "black"}}>
+                <a href={`${props.url === undefined ? "/forum" : props.url}/post/postdetail`} style={{ "text-decoration": "none", "color": "black"}}>
                     <div class="card-body">
                         <h3 class="card-title">Title - Category {cateid}</h3>
                         <p class="class-text"> Content
@@ -39,7 +39,7 @@ export default function Post(props) {
                     &nbsp;&nbsp;
                     <i class=" fa fa-thumbs-down hover-icon vote-button w3-large" id="post-{{$post->id}}-down" value="0"></i>
                     &nbsp;&nbsp;&nbsp;&nbsp;
-                    <a href={`${props.url}/post/postdetail`} style={{ "text-decoration": "none", "color": "black"}}><i class=" fas fa-comment-dots hover-icon w3-large"></i></a>
+                    <a href={`${props.url == undefined ? "/forum" : props.url}/post/postdetail`} style={{ "text-decoration": "none", "color": "black"}}><i class=" fas fa-comment-dots hover-icon w3-large"></i></a>
                     &nbsp;&nbsp;&nbsp;&nbsp;
                 </div>
             </div>

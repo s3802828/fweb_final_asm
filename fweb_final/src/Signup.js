@@ -33,7 +33,6 @@ function Signup(props) {
                                 <a class="mx-auto"href="/login">Already have an account? Sign In</a>
                             </label>
                         </div>
-                        <p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p>
                     </form>
                 </div>
                 <div class="col">

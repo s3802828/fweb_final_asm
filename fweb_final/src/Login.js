@@ -29,8 +29,6 @@ function Login(props) {
                                 <a class="mx-auto" href="/signup">Create New Account</a>
                             </label>
                         </div>
-                        
-                        <p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p>
                     </form>
                 </div>
                 <div class="col">

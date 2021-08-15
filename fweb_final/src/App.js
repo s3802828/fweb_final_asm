@@ -12,20 +12,23 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import MyProfile from './MyProfile';
 function App() {
   return (
-    <div>
-      <Router>
-        <Navbar />
-        <Switch>
-          <Route exact base path="/"><NewsPage /></Route>
-          <Route path="/forum"><ForumPage /></Route>
-          <Route path="/login"><Login/></Route>
-          <Route path="/signup"><Signup/></Route>
-          <Route path="/articles"><ReportPage /></Route>
-          <Route path="/my_profile"><MyProfile/></Route>
-        </Switch>
-        <Footer />
-      </Router>
-      
+    <div style={{backgroundColor: "#EEEEEE"}}>
+      <div>
+        <Router>
+          <Navbar />
+          <Switch>
+            <Route exact base path="/"><NewsPage /></Route>
+            <Route path="/forum"><ForumPage /></Route>
+            <Route path="/login"><Login /></Route>
+            <Route path="/signup"><Signup /></Route>
+            <Route path="/articles"><ReportPage /></Route>
+            <Route path="/profile"><MyProfile /></Route>
+          </Switch>
+        </Router>
+      </div>
+      <div className="container">
+      <Footer />
+      </div>
     </div>
   );
 }

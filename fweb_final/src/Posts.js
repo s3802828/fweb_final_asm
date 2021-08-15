@@ -2,9 +2,8 @@ import React from 'react'
 
 function Posts() {
     return (
-        <div class="container">
+        <div class="container-fluid">
             <div class="row">
-                <div class="col-lg-8">
                     <article>
                         <header class="my-4">
                             <h1 class="fw-bolder">
@@ -17,7 +16,7 @@ function Posts() {
                             <img src="https://img.buzzfeed.com/buzzfeed-static/static/2016-01/22/17/campaign_images/webdr14/19-hermosos-regalos-para-gente-obsesionada-con-fr-2-25600-1453503418-3_dblbig.jpg" class="figure-img img-fluid rounded" alt="A generic square placeholder image with rounded corners in a figure." />
                             <figcaption class="figure-caption">A caption for the above image.</figcaption>
                         </figure>
-                        <section class="mb-4 ">
+                        <section class="mb-4 " style={{ textAlign: "justify" }}> 
                             <p class="lh-base mb-4 fs-5 lead">Fusce interdum arcu eget ante egestas, egestas sodales eros tristique. Integer vitae commodo libero. Donec tempor tempor metus, in tincidunt tortor cursus id. Nam nec laoreet arcu, id ullamcorper est. Curabitur vel sapien sed lacus scelerisque ullamcorper pulvinar vitae nunc. Donec in elit no </p>
                             <p class="lh-base mb-4 fs-5 lead">Vivamus nec lectus et mi ullamcorper cursus. In elementum, magna quis porta elementum, mauris ante rutrum mauris, sed mattis ex felis ac libero. Morbi ut metus quis risus cursus elementum. </p>
                             <p class="lh-base mb-4 fs-5 lead">Nam et rutrum nisi, vel pharetra eros. Vivamus nec lectus et mi ullamcorper cursus. In elementum, magna quis porta elementum, mauris ante rutrum mauris, sed mattis ex felis ac libero. Morbi ut metus quis risus cursus elementum. Nunc pulvinar pellentesque nisl sed cursus. Vivamus varius pellentesque nulla, lobortis condimentum ex. Nulla auctor velit vel viverra malesuada. Vivamus a efficitur justo.</p>
@@ -78,7 +77,6 @@ function Posts() {
 
                         </div>
                     </section>
-                </div>
             </div>
         </div>
     )

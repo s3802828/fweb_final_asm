@@ -1,11 +1,15 @@
-export default function Post() {
+import { BrowserRouter as Link, useLocation, useParams } from "react-router-dom"
+
+export default function Post(props) {
+    let {cateid} = useParams()
+    console.log(cateid)
     return (
         <div class="pt-3">
             <div class="card mb-4">
                 <div class="card-header text-muted" id="post-{{$post->id}}">
                     Posted by: USER
                     &nbsp;&nbsp;
-                   
+
                     <span class="pull-right">
                         &nbsp;&nbsp;
                         <button type="button" class="btn btn-primary">Follow</button>
@@ -18,26 +22,27 @@ export default function Post() {
     </span>*/}
                     </span>
                 </div>
-
-                <div class="card-body">
-                    <h3 class="card-title">Title</h3>
-                    <p class="class-text"> Content
-                    </p>
-                </div>
-
-                <div class="">
-                    <img class="card-img-bottom" src="http://simpleicon.com/wp-content/uploads/icon2.png" alt="post-image" style={{"width": "50%"}}/>
-                </div>
+                {/*<Link to={`${props.url}/post/postdetail`} style={{ "text-decoration": "none", "color": "black" }}></Link>*/}
+                <a href={`${props.url}/post/postdetail`} style={{ "text-decoration": "none", "color": "black"}}>
+                    <div class="card-body">
+                        <h3 class="card-title">Title - Category {cateid}</h3>
+                        <p class="class-text"> Content
+                        </p>
+                    </div>
+                    <div class="">
+                        <img class="card-img-bottom" src="http://simpleicon.com/wp-content/uploads/icon2.png" alt="post-image" style={{ "width": "50%" }} />
+                    </div>
+                </a>
 
                 <div class="card-footer text-muted">
                     <i class="fa fa-thumbs-up hover-icon vote-button w3-large" id="post-{{$post->id}}-up" value="0"></i>
                     &nbsp;&nbsp;
                     <i class=" fa fa-thumbs-down hover-icon vote-button w3-large" id="post-{{$post->id}}-down" value="0"></i>
                     &nbsp;&nbsp;&nbsp;&nbsp;
-                    <i class=" fas fa-comment-dots hover-icon w3-large" data-toggle="modal" id="post-{{$post->id}}" data-target="#postcomment-{{$post->id}}"></i>
+                    <a href={`${props.url}/post/postdetail`} style={{ "text-decoration": "none", "color": "black"}}><i class=" fas fa-comment-dots hover-icon w3-large"></i></a>
                     &nbsp;&nbsp;&nbsp;&nbsp;
                 </div>
             </div>
-            </div>
-            )
+        </div>
+    )
 }

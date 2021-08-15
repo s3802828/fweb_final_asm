@@ -15,12 +15,13 @@ function App() {
     <div>
       <Router>
         <Navbar />
+        <CreatePost />
         <Switch>
-          <Route exact base path="/"><NewsPage /></Route>
-          <Route path="/forum"><ForumPage /></Route>
-          <Route path="/login"><Login/></Route>
-          <Route path="/signup"><Signup/></Route>
-          <Route path="/articles"><ReportPage /></Route>
+          {/* <Route exact base path="/"><NewsPage /></Route> */}
+          {/* <Route path="/forum"><ForumPage /></Route> */}
+          {/* <Route path="/login"><Login/></Route>
+          <Route path="/signup"><Signup/></Route> */}
+          {/* <Route path="/articles"><ReportPage /></Route> */}
         </Switch>
         <Footer />
       </Router>

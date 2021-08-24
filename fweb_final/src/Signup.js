@@ -27,18 +27,12 @@ function Signup(props) {
                             <input type="password" class="form-control" id="floatingPassword" placeholder="Password"/>
                             <label for="floatingPassword">Retype Password</label>
                         </div>
+                        <button class="w-100 btn btn-lg btn-primary mt-3" type="submit">Sign up</button>
                         <div class="mb-3 mt-3 text-center">
                             <label>
-                                <a href="#">Forgot Password?</a>
+                                <a class="mx-auto"href="/login">Already have an account? Sign In</a>
                             </label>
                         </div>
-                        <button class="w-100 btn btn-lg btn-primary" type="submit">Sign up</button>
-                        <div class="mb-3 mt-3 text-center">
-                            <label>
-                                <a class="mx-auto"href="#">Create New Account?</a>
-                            </label>
-                        </div>
-                        <p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p>
                     </form>
                 </div>
                 <div class="col">

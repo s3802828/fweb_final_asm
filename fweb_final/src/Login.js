@@ -26,11 +26,9 @@ function Login(props) {
                         <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
                         <div class="mb-3 mt-3 text-center">
                             <label>
-                                <a class="mx-auto" href="#">Create New Account?</a>
+                                <a class="mx-auto" href="/signup">Create New Account</a>
                             </label>
                         </div>
-                        
-                        <p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p>
                     </form>
                 </div>
                 <div class="col">

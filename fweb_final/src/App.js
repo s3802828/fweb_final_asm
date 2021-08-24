@@ -1,5 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import CreatePost from './CreatePost';
+import CreateNews from './CreateNews';
 import Footer from './Footer';
 import ForumPage from './ForumPage';
 import Navbar from './Navbar';
@@ -11,14 +12,12 @@ function App() {
   return (
     <div>
 
-      <Navbar />
-      <NewsPage />
       {/*<CreatePost />*/}
       {/*<ForumPage />*/}
       {/* <Footer /> */}
       {/*<Login/>*/}
       {/*<Signup/>*/}
-      <Posts />
+      <CreateNews/>
     </div>
   );
 }

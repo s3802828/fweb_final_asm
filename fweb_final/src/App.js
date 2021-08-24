@@ -1,5 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import CreatePost from './CreatePost';
+import CreateNews from './CreateNews';
 import Footer from './Footer';
 import ForumPage from './ForumPage';
 import Navbar from './Navbar';
@@ -12,6 +13,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import MyProfile from './MyProfile';
 function App() {
   return (
+
     <div style={{backgroundColor: "#EEEEEE"}}>
       <div>
         <Router>

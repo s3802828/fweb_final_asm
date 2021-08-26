@@ -1,66 +1,70 @@
-import Navbar from "./Navbar"
 export default function CreateNews() {
     return (
         <div>
-            <Navbar />
-            <div class="pt-3">
-                <div class="card mb-4">
-                    <div class="card-header text-muted" id="post-{{$post->id}}">
-                        Posted by: USER
-                        &nbsp;&nbsp;
+            <div className="container">
+                <div className="row">
+                    <div className="col-3"></div>
+                    <div className="col-6">
+                        <div class="pt-3">
+                            <div class="card mb-4">
+                                <div class="card-header text-center" id="post-{{$post->id}}">
+                                    CREATE NEW ARTICLE
+                                </div>
 
-                        Created at:
-                        &nbsp;&nbsp;
+                                <div class="card-body container-fluid">
+                                    <form>
+                                        <div class="row">
+                                            <div class="form-group mb-3 col-7">
+                                                <label for="posttitle">Title</label>
+                                                <input type="text" class="form-control border border-secondary" placeholder="Article Title" id="posttitle" />
+                                            </div>
+                                            <div class="form-group mb-3 col-5">
+                                                <label for="inputGroupSelect01">Category</label>
+                                                <div>
+                                                    <select class="custom-select" id="inputGroupSelect01" style={{ "height": "35px" }}>
+                                                        <option selected>Choose Category</option>
+                                                        <option value="1">One</option>
+                                                        <option value="2">Two</option>
+                                                        <option value="3">Three</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label for="postcontent">Content</label>
+                                            <textarea class="form-control border border-secondary" placeholder="Article Content" id="postcontent"></textarea>
+                                        </div>
 
-                        Updated at:
-                        &nbsp;&nbsp;
+                                        <div className="row">
+                                            <div class="form-group mb-3 col-6">
+                                                <div class="custom-file">
+                                                    <label class="custom-file-label" for="inputGroupFile01">Upload Image</label><br />
+                                                    <input type="file" class="custom-file-input" id="inputGroupFile01" />
+                                                </div>
+                                            </div>
+                                            <div class="form-check form-switch col-6">
+                                                <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" />
+                                                <label class="form-check-label" for="flexSwitchCheckDefault">Breaking news</label>
+                                            </div>
+                                        </div>
 
+                                        <div className="text-center">
+                                            &nbsp;&nbsp;
+                                            <button type="button" class="btn btn-primary">Upload</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
 
+                        </div>
                     </div>
-
-                    <div class="card-body">
-                        <h3 class="card-title">Content</h3>
-                    </div>
-                    <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Tittle" aria-label="Username" aria-describedby="basic-addon1" />
-                    </div>
-                    <div class="input-group">
-                        <textarea class="form-control" aria-label="With textarea" placeholder="Write something..."></textarea>
-                    </div>
+                    <div className="col-3"></div>
                 </div>
             </div>
-            <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault"/>
-                    <label class="form-check-label" for="flexSwitchCheckDefault">Breaking news</label>
-            </div>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">Upload</span>
-                    </div>
-                    <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="inputGroupFile01" />
-                        <label class="custom-file-label" for="inputGroupFile01"></label>
-                    </div>
-                </div>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <label class="input-group-text" for="inputGroupSelect01">Category</label>
-                    </div>
-                    <select class="custom-select" id="inputGroupSelect01">
-                        <option selected>Choose...</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
-                    </select>
-                </div>
-                <span class="pull-right">
-                    &nbsp;&nbsp;
-                    <button type="button" class="btn btn-primary">Upload</button>
-                </span>
+
+        </div>
 
 
-            </div>
-
-            )
+    )
 
 }

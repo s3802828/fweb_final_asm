@@ -4,6 +4,7 @@ import Navbar from "./Navbar";
 import { BrowserRouter as Router, Link, Route, Switch, useRouteMatch, useParams } from "react-router-dom";
 import Posts from "./Posts";
 import ProfileCard from "./ProfileCard";
+import UpdateProfile from "./UpdateProfile";
 
 export default function MyProfile() {
     let {path, url} = useRouteMatch()
@@ -21,13 +22,13 @@ export default function MyProfile() {
                     </Switch> */}
 
                     <ProfileCard/>
+                    
 
                     <Post/>
                     <Post/>
                     
                 </div>
                 <div class="col-2 ms-auto me-auto">
-                    <button type="button" class="btn btn-dark mt-3">Change Info</button>
                 </div>
             </div>
         </div>

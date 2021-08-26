@@ -1,4 +1,5 @@
 import './ProfileCard.css'
+import UpdateProfile from './UpdateProfile'
 
 export default function ProfileCard() {
 
@@ -45,6 +46,7 @@ export default function ProfileCard() {
                     <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
                     <li><a href="#"><i class="fab fa-twitter"></i></a></li>
                     <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+                    <UpdateProfile />
                 </ul>
             </div>
           </div>

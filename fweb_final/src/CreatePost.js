@@ -35,7 +35,7 @@ export default function CreatePost() {
 
                             <div class="form-group mb-3">
                                 <div class="custom-file">
-                                    <label class="custom-file-label" for="inputGroupFile01">Upload Image</label>
+                                    <label class="custom-file-label" for="inputGroupFile01">Upload Image</label><br/>
                                     <input type="file" class="custom-file-input" id="inputGroupFile01" />
                                 </div>
                             </div>

@@ -3,56 +3,32 @@ import React from "react";
 function UpdateProfile() {
   return (
     <>
-      <button
-        type="button"
-        class="btn btn-primary"
-        data-bs-toggle="modal"
-        data-bs-target="#staticBackdrop"
-      >
-        Edit
+      <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+        <i class="fas fa-user-edit"></i>
       </button>
 
-      <div
-        class="modal fade"
-        id="staticBackdrop"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
-        tabindex="-1"
-        aria-labelledby="staticBackdropLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog">
+      <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="staticBackdropLabel">
                 Update your information
               </h5>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <body class="bg-light">
-                <div class="container">
+              <body class="bg-light" style={{paddingBottom: "2%"}}>
+                <div class="container-fluid">
                   <main>
                     <div class="py-5 text-center">
-                      <img
-                        class="d-block mx-auto mb-4"
-                        src="../assets/brand/bootstrap-logo.svg"
-                        alt=""
-                        width="72"
-                        height="57"
-                      />
+                      <img class="d-block mx-auto mb-4" src="../assets/brand/bootstrap-logo.svg" alt="" width="72" height="57" />
                       <p class="lead">
-Username display here
+                        Username display here
                       </p>
                     </div>
 
                     <div class="row g-5">
-                      <div class="col-md-7 col-lg-8">
+                      <div class="col-12">
                         <form class="needs-validation" novalidate>
                           <div class="row g-3">
                             <div class="col-sm-6">
@@ -89,7 +65,7 @@ Username display here
                               </div>
                             </div>
 
-                            <div class="col-12">
+                            <div class="col-6">
                               <label for="username" class="form-label">
                                 Username
                               </label>
@@ -105,6 +81,51 @@ Username display here
                                 <div class="invalid-feedback">
                                   Your username is required.
                                 </div>
+                              </div>
+                            </div>
+                            <div class="my-3 col-6">
+                              <div>
+                              <label for="Gender" class="form-label">
+                                Gender
+                                <span class="text-muted">(Optional)</span>
+                              </label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                <input
+                                  id="credit"
+                                  name="paymentMethod"
+                                  type="radio"
+                                  class="form-check-input"
+                                  checked
+                                  required
+                                />
+                                <label class="form-check-label" for="credit">
+                                  Male
+                                </label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                <input
+                                  id="debit"
+                                  name="paymentMethod"
+                                  type="radio"
+                                  class="form-check-input"
+                                  required
+                                />
+                                <label class="form-check-label" for="debit">
+                                  Female
+                                </label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                <input
+                                  id="paypal"
+                                  name="paymentMethod"
+                                  type="radio"
+                                  class="form-check-input"
+                                  required
+                                />
+                                <label class="form-check-label" for="paypal">
+                                  Prefer not to say
+                                </label>
                               </div>
                             </div>
 
@@ -124,7 +145,7 @@ Username display here
                               </div>
                             </div>
 
-                            <div class="col-12">
+                            <div class="col-7">
                               <label for="address" class="form-label">
                                 Address
                               </label>
@@ -140,7 +161,7 @@ Username display here
                               </div>
                             </div>
 
-                            <div class="col-12">
+                            <div class="col-5">
                               <label for="Phone" class="form-label">
                                 Phone number
                                 <span class="text-muted">(Optional)</span>
@@ -151,79 +172,7 @@ Username display here
                                 id="address2"
                                 placeholder="Apartment or suite"
                               />
-                            </div>
-
-                            <div class="col-md-4">
-                              <label for="state" class="form-label">
-                                User type
-                              </label>
-                              <select class="form-select" id="type" required>
-                                <option value="">Select your user type</option>
-                                <option value="">Reporter</option>
-                                <option value=""></option>
-                                <option value=""></option>
-                              </select>
-                              <div class="invalid-feedback">
-                                Please select a type.
-                              </div>
-                            </div>
-
-                            <div class="col-12">
-                              <label for="Phone" class="form-label">
-                                Phone number
-                                <span class="text-muted">(Optional)</span>
-                              </label>
-                              <input
-                                type="text"
-                                class="form-control"
-                                id="address2"
-                                placeholder="Apartment or suite"
-                              />
-                            </div>
-
-                          <div class="my-3">
-                          <label for="Gender" class="form-label">
-                                Gender
-                                <span class="text-muted">(Optional)</span>
-                              </label>
-                            <div class="form-check">
-                              <input
-                                id="credit"
-                                name="paymentMethod"
-                                type="radio"
-                                class="form-check-input"
-                                checked
-                                required
-                              />
-                              <label class="form-check-label" for="credit">
-                                Male
-                              </label>
-                            </div>
-                            <div class="form-check">
-                              <input
-                                id="debit"
-                                name="paymentMethod"
-                                type="radio"
-                                class="form-check-input"
-                                required
-                              />
-                              <label class="form-check-label" for="debit">
-                                Female
-                              </label>
-                            </div>
-                            <div class="form-check">
-                              <input
-                                id="paypal"
-                                name="paymentMethod"
-                                type="radio"
-                                class="form-check-input"
-                                required
-                              />
-                              <label class="form-check-label" for="paypal">
-                                Prefer not to say
-                              </label>
-                            </div>
-                          </div>
+                            </div>  
                           </div>
                         </form>
                       </div>
@@ -247,7 +196,7 @@ Username display here
           </div>
         </div>
       </div>
-      
+
     </>
   );
 }

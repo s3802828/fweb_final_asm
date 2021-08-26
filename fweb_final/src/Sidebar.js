@@ -39,6 +39,7 @@ export default function Sidebar(props) {
                     </li>
                 </ul>
             <hr />
+            <button type="button" class="btn btn-dark" onClick={props.showCreatePostForm ? e => props.showForm(false) : e => props.showForm(true)}>{props.showCreatePostForm ? "Close Form" : "Create New Post"}</button>
         </div>
             )
 }

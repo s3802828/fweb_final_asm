@@ -14,10 +14,11 @@ export default function ForumPage() {
             <div class="row">
 
                 <div class="col-3 ps-5 pe-5">
-                    <Sidebar url={url} />
+                    <Sidebar url={url} showCreatePostForm={showCreatePostForm} showForm={showCreatePostForm => setShowCreatePostForm(showCreatePostForm)} />
                 </div>
 
                 <div class="col-6">
+                {showCreatePostForm && <CreatePost />}
                     <Switch>
                         <Route exact path={`${path}`}><Post url={url} /></Route>
                         <Route exact path={`${path}/:cateid`}><Post url={url} /></Route>
@@ -26,9 +27,7 @@ export default function ForumPage() {
                 </div>
 
                 <div class="col-3 mt-3">
-                    <button type="button" class="btn btn-dark" style={{ marginLeft: "35%" }} onClick={() => setShowCreatePostForm(!showCreatePostForm)}>{showCreatePostForm ? "Close Form" : "Create New Post"}</button>
-
-                    {showCreatePostForm && <CreatePost />}
+                    {/*<button type="button" class="btn btn-dark" style={{ marginLeft: "35%" }} onClick={() => setShowCreatePostForm(!showCreatePostForm)}>{showCreatePostForm ? "Close Form" : "Create New Post"}</button>   */}
                 </div>
             </div>
         </div>

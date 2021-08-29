@@ -3,6 +3,10 @@ var UserSchema = new mongoose.Schema({
     username: String,
     password: String,
     email: String,
+    emailVerified:{
+        type: Boolean,
+        default:false
+    },
     name: String,
     dateOfBirth: Date,
     gender: String,

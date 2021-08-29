@@ -2,7 +2,6 @@ import NewsCard from './NewsCard';
 import BreakingNewsCarousel from './BreakingNewsCarousel';
 import TopNew from './TopNew';
 import { BrowserRouter as Router, Route, Link, useRouteMatch } from 'react-router-dom';
-import ReportPage from './ReportPage';
 export default function NewsPage() {
     let category = [1, 2, 3]
     let cateNewCard = [1, 2, 3, 4, 5, 6]

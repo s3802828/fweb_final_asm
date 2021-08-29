@@ -1,8 +1,7 @@
 import Sidebar from "./Sidebar";
 import Post from "./Post";
-import Navbar from "./Navbar";
 import { BrowserRouter as Router, Link, Route, Switch, useRouteMatch, useParams } from "react-router-dom";
-import Posts from "./Posts";
+import PostDetail from "./PostDetail";
 import CreatePost from "./CreatePost";
 import { useState } from "react";
 
@@ -22,7 +21,7 @@ export default function ForumPage() {
                     <Switch>
                         <Route exact path={`${path}`}><Post url={url} /></Route>
                         <Route exact path={`${path}/:cateid`}><Post url={url} /></Route>
-                        <Route exact path={`${path}/post/postdetail`}><Posts /></Route>
+                        <Route exact path={`${path}/post/postdetail`}><PostDetail /></Route>
                     </Switch>
                 </div>
 

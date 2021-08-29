@@ -1,6 +1,6 @@
 import React from 'react'
 
-function Posts() {
+function PostDetail() {
     return (
         <div class="container-fluid">
             <div class="row">
@@ -82,4 +82,4 @@ function Posts() {
     )
 }
 
-export default Posts
+export default PostDetail;

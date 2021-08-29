@@ -9,6 +9,9 @@ var UserSchema = new mongoose.Schema({
     phoneNumber: String,
     userType: [String],
     avatar: String,
-    followers: [String]
+    followers: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref:"users"
+    }]
  })
  exports.user = mongoose.model('User', UserSchema)

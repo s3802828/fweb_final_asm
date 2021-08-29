@@ -1,14 +1,14 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import CreateNews from './CreateNews';
+import CreateNews from './components/newsPage/CreateNews';
 import Footer from './Footer';
-import ForumPage from './ForumPage';
+import ForumPage from './components/forumPage/ForumPage';
 import Navbar from './Navbar';
-import NewsPage from './NewsPage';
-import Login from './Login';
-import Signup from './Signup';
-import ReportPage from './ReportPage';
+import NewsPage from './components/newsPage/NewsPage';
+import Login from './components/login_signup/Login';
+import Signup from './components/login_signup/Signup';
+import ReportPage from './components/newsPage/ReportPage';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import MyProfile from './MyProfile';
+import MyProfile from './components/profilePage/MyProfile';
 function App() {
   return (
 

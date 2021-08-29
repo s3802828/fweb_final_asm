@@ -1,10 +1,6 @@
-import Sidebar from "./Sidebar";
-import Post from "./Post";
-import Navbar from "./Navbar";
-import { BrowserRouter as Router, Link, Route, Switch, useRouteMatch, useParams } from "react-router-dom";
-import Posts from "./Posts";
+import Post from "../forumPage/Post";
+import { BrowserRouter as useRouteMatch} from "react-router-dom";
 import ProfileCard from "./ProfileCard";
-import UpdateProfile from "./UpdateProfile";
 
 export default function MyProfile() {
     let {path, url} = useRouteMatch()

@@ -4,6 +4,9 @@ var mongoose = require('mongoose')
  
 var bodyParser = require('body-parser')
  
+var auth = require('./routes/auth.js')
+var verifyEmail = require('./routes/verifyEmail.js')
+
 app.use(bodyParser.json())
 
 mongoose.connect("mongodb+srv://giangle:mypassword@cluster0.sfxdv.mongodb.net/furtherweb")
@@ -29,3 +32,6 @@ News_category.news_category.insertMany(newsCategoryJSON, function(error, data){
         console.log("News Category has successfully been populated!")
     }
 })
+
+app.use('/auth', auth)
+app.use('/', verifyEmail)

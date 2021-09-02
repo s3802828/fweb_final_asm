@@ -11,11 +11,18 @@ var PostSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref:"users",
     },
-    vote: [{
+    vote: {
         type: mongoose.Schema.Types.ObjectId,
         ref:"users"
-    }],
+    },
     created_at: Date,
     updated_at: Date
  })
+
+PostSchema.method("toJSON", function() {
+    const { __v, _id, ...object } = this.toObject();
+    object.id = _id;
+    return object;
+  });
+
  exports.post = mongoose.model('Post', PostSchema)

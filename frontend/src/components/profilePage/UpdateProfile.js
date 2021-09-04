@@ -93,11 +93,11 @@ function UpdateProfile() {
                               <div class="form-check form-check-inline">
                                 <input
                                   id="credit"
-                                  name="paymentMethod"
+                                  name="gender"
                                   type="radio"
                                   class="form-check-input"
-                                  checked
-                                  required
+                                  value="male"
+                                  
                                 />
                                 <label class="form-check-label" for="credit">
                                   Male
@@ -106,10 +106,10 @@ function UpdateProfile() {
                               <div class="form-check form-check-inline">
                                 <input
                                   id="debit"
-                                  name="paymentMethod"
+                                  name="gender"
                                   type="radio"
                                   class="form-check-input"
-                                  required
+                                  value="femail"
                                 />
                                 <label class="form-check-label" for="debit">
                                   Female
@@ -118,10 +118,10 @@ function UpdateProfile() {
                               <div class="form-check form-check-inline">
                                 <input
                                   id="paypal"
-                                  name="paymentMethod"
+                                  name="gender"
                                   type="radio"
                                   class="form-check-input"
-                                  required
+                                  value="none"
                                 />
                                 <label class="form-check-label" for="paypal">
                                   Prefer not to say
@@ -170,7 +170,7 @@ function UpdateProfile() {
                                 type="text"
                                 class="form-control"
                                 id="address2"
-                                placeholder="Apartment or suite"
+                                placeholder="Phone number"
                               />
                             </div>  
                           </div>

@@ -23,8 +23,7 @@ function App() {
             <Route path="/signup"><Signup /></Route>
             <Route path="/articles"><ReportPage /></Route>
             <Route path="/profile"><MyProfile /></Route>
-            <Route path="/articleform"><CreateNews /></Route>
-            
+            <Route path="/articleform"><CreateNews /></Route>        
           </Switch>
           <Footer />
         </Router>

@@ -1,9 +1,11 @@
 import Post from "../forumPage/Post";
 import { BrowserRouter as useRouteMatch} from "react-router-dom";
 import ProfileCard from "./ProfileCard";
+import './profile.css'
+
 
 export default function MyProfile() {
-    let {path, url} = useRouteMatch()
+    // let {path, url} = useRouteMatch()
 
     return (
         <div class="container-fluid">
@@ -19,9 +21,15 @@ export default function MyProfile() {
 
                     <ProfileCard/>
                     
+                    
+                    
 
-                    <Post/>
-                    <Post/>
+                    <div class="posts">
+                        <Post/>
+                        <Post/>
+                    </div>
+                   
+                    
                     
                 </div>
                 <div class="col-2 ms-auto me-auto">

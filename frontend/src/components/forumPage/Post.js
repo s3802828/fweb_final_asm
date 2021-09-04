@@ -35,7 +35,7 @@ export default function Post(props) {
                 </a>
 
                 <div class="card-footer text-muted">
-                    <i class="fa fa-thumbs-up hover-icon vote-button w3-large" id="post-{{$post->id}}-up" value="0"></i>
+                    <i class="fa fa-thumbs-up hover-icon vote-button w3-large" id="like-button" value="0"></i>
                     &nbsp;&nbsp;
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <a href={`${props.url == undefined ? "/forum" : props.url}/post/postdetail`} style={{ "text-decoration": "none", "color": "black"}}><i class=" fas fa-comment-dots hover-icon w3-large"></i></a>

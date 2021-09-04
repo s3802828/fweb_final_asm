@@ -1,8 +1,14 @@
 var app = require('express')()
+
+var voteRoute = require('./routes/voteRoute')
+
+var categorizeRoute = require ('./routes/categorizeRoute')
  
 var mongoose = require('mongoose')
  
 var bodyParser = require('body-parser')
+var cors = require('cors')
+app.use(cors())
  
 app.use(bodyParser.json())
 
@@ -29,3 +35,28 @@ News_category.news_category.insertMany(newsCategoryJSON, function(error, data){
         console.log("News Category has successfully been populated!")
     }
 })
+
+app.use('/vote', voteRoute)
+
+app.use('/categorize', categorizeRoute)
+
+// var new_post = new Posts({
+    // title: "ABC",
+    // content: "kjsfjaknfkahfasfh",
+    // image: "",
+    // post_category_id: "6128c6eb460773537ff30995",
+    // user_id: "6131de60484352a2fc8ef29c",    
+//     }).save()
+
+
+
+// var user = new User({
+
+//     username: "Tran Duy Phong",
+//     email: "s3879069@rmit.edu.vn",
+
+//     password: "mypassword",
+
+//     userType: ["user"]
+
+//     }).save()

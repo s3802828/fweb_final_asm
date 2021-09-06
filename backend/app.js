@@ -7,6 +7,7 @@ var Post_category = require("./models/post_category")
 var bodyParser = require('body-parser')
 var auth = require('./routes/signUpLoginRoutes/auth')
 var verifyEmail = require('./routes/signUpLoginRoutes/verifyEmail')
+var newsPageRoute = require('./routes/newpageRoute/fetchNewPageRoute')
 var newsCategoryJSON = require("./sampleNewsCategory.json")
 var News_category = require("./models/news_category")
 
@@ -15,8 +16,9 @@ app.use(bodyParser.json())
 
 //"mongodb+srv://giangle:mypassword@cluster0.sfxdv.mongodb.net/furtherweb"
 //"mongodb+srv://myuser:mypassword@cluster0.1lbnn.mongodb.net/testdb"
-postCategoryJSON.map( async (element, index) => {
+postCategoryJSON.map( async (element) => {
     var existedElement = await Post_category.post_category.findOne({name: element.name})
+    console.log(existedElement)
     if(!existedElement){
         Post_category.post_category.create({name: element.name}, function(error, data){
             if(error){
@@ -28,7 +30,7 @@ postCategoryJSON.map( async (element, index) => {
     }
 })
 
-newsCategoryJSON.map( async (element, index) => {
+newsCategoryJSON.map( async (element) => {
     var existedElement = await News_category.news_category.findOne({name: element.name})
     //console.log(element.name)
     if(!existedElement){
@@ -41,7 +43,7 @@ newsCategoryJSON.map( async (element, index) => {
         })
     }
 })
-
+app.use('/news', newsPageRoute)
 app.use('/auth', auth)
 app.use('/', verifyEmail)
 

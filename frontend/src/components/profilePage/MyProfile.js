@@ -3,7 +3,7 @@ import { BrowserRouter as useRouteMatch} from "react-router-dom";
 import ProfileCard from "./ProfileCard";
 
 export default function MyProfile() {
-    let {path, url} = useRouteMatch()
+   // let {path, url} = useRouteMatch()
 
     return (
         <div class="container-fluid">

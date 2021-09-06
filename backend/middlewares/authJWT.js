@@ -7,7 +7,7 @@ exports.verifyToken = (req, res, next) => {
     }
     jwt.verify(token, "furtherweb_private_key", (error, decoded) => {
         if(error){
-            return res.send("Unauthorized")
+            return res.send({message: "Unauthorized"})
         }
         req.user = decoded;
         next();
@@ -22,7 +22,7 @@ exports.isAdmin = (req,res,next) => {
             next()
         }
         else{
-            return res.send('No admin')
+            return res.send({isAdmin: false})
         }
     })
 }
@@ -35,7 +35,7 @@ exports.isReporter = (req,res,next) => {
             next()
         }
         else{
-            return res.send('No reporter')
+            return res.send({isReporter: false})
         }
     })
 }

@@ -1,12 +1,12 @@
 exports.publicAccess = (req, res) => {
-    res.send("Public Access")
+    res.send({isPublic: true})
 }
 exports.userAccess = (req, res) => {
-    res.send("User Access")
+    res.send({isUser: true})
 }
 exports.reporterAccess = (req, res) => {
-    res.send("Reporter Access")
+    res.send({isReporter: true})
 }
 exports.adminAccess = (req, res) => {
-    res.send("Admin Access")
+    res.send({isAdmin: true})
 }

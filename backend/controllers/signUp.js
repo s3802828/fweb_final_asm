@@ -9,7 +9,7 @@ exports.signup = async (req,res) => {
         username: req.body.username,
         email: req.body.email,
         password: bcrypt.hashSync(req.body.password, 8),
-        userType: req.body.userType
+        userType: ['user']
     }).save()
     var newToken = {
         userId: user._id,
@@ -18,5 +18,5 @@ exports.signup = async (req,res) => {
     let savedToken = await new Token(newToken).save()
     const verifyLink = `localhost:9000/user/verify/${user._id}/${savedToken.token}`
     sendEmail.sendEmail(user.email, verifyLink)
-    res.send("Verification email has been sent to you. Please verify your email to continue!")
+    res.send({message:"Verification email has been sent to you. Please verify your email to continue!"})
 }

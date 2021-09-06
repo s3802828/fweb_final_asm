@@ -8,27 +8,30 @@ exports.login = (req, res) => {
             return res.send(error)
         }
         if (user) {
-            if (user.emailVerified) {
-                console.log('hello')
-                if (!bcrypt.compareSync(req.body.password, user.password)) {
-                    return res.send("Invalid password")
-                } else {
+            console.log('hello')
+            if (!bcrypt.compareSync(req.body.password, user.password)) {
+                return res.send({ message: "Wrong password. Please try again!" })
+            } else {
+                if (user.emailVerified) {
                     console.log("gm")
                     let jwtToken = jwt.sign({ id: user._id }, "furtherweb_private_key", {
                         expiresIn: 10800
                     })
                     let authenticatedUser = {
                         id: user._id,
-                        userTypes: user.userTypes,
+                        username: user.username,
                         accessToken: jwtToken
                     }
                     return res.send({ authenticatedUser })
+                } else {
+                    return res.send({
+                        deleteTokenUser: user._id,
+                        message: "Your email has not been verified."
+                    })
                 }
-            } else {
-                return res.send("Your email has not been verified. Please check again!")
             }
         } else {
-            return res.send("User is not existed")
+            return res.send({ message: "Wrong username. Please try again!" })
         }
     })
 }

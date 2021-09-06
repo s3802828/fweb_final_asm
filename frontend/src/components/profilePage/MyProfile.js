@@ -5,11 +5,7 @@ import './profile.css'
 
 
 export default function MyProfile() {
-<<<<<<< HEAD
-    // let {path, url} = useRouteMatch()
-=======
    // let {path, url} = useRouteMatch()
->>>>>>> signup_login
 
     return (
         <div class="container-fluid">

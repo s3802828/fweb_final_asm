@@ -1,6 +1,5 @@
 var app = require('express')()
 require("dotenv").config();
-require("./config/database").connect();
 var cors = require('cors')
 var postCategoryJSON = require("./samplePostCategory.json")
 var Post_category = require("./models/post_category")
@@ -9,6 +8,8 @@ var auth = require('./routes/signUpLoginRoutes/auth')
 var verifyEmail = require('./routes/signUpLoginRoutes/verifyEmail')
 var newsCategoryJSON = require("./sampleNewsCategory.json")
 var News_category = require("./models/news_category")
+var forumPosts = require("./routes/forums/forumsRoute")
+var profileUser = require("./routes/profile/profileRoutes")
 
 app.use(cors())
 app.use(bodyParser.json())
@@ -44,5 +45,6 @@ newsCategoryJSON.map( async (element, index) => {
 
 app.use('/auth', auth)
 app.use('/', verifyEmail)
-
+app.use('/profile', profileUser)
+app.use('/forums', forumPosts)
 module.exports = app;

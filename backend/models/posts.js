@@ -14,8 +14,6 @@ var PostSchema = new mongoose.Schema({
     vote: [{
         type: mongoose.Schema.Types.ObjectId,
         ref:"users"
-    }],
-    created_at: Date,
-    updated_at: Date
- })
+    }]
+ }, {timestamps: true})
  exports.post = mongoose.model('Post', PostSchema)

@@ -8,7 +8,6 @@ const mongoose = require('mongoose')
 
 exports.categorize_by_posts = async (req, res) => {
     var category = await Post_Category.findOne({_id: req.params.category_id})
-    console.log(category._id.toString())
     Posts.find({post_category_id: category._id}, function(err,posts){
         if(err){
             return res.send(err)

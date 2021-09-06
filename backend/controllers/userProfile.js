@@ -14,11 +14,12 @@ app.get('/', (req,res) => {
     res.send('Welcome to mongodb Api')
 })
 
-var userProfile = require("./models/users")
+var userProfile = require("../models/users")
 app.get('/users', function(req, res){
     userProfile.user.find({},(err, result) =>{
         res.send(result)})
 })
+app.listen(5300)
 
 
 

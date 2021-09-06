@@ -1,6 +1,5 @@
 var app = require('express')()
 require("dotenv").config();
-require("./config/database").connect();
 var cors = require('cors')
 var postCategoryJSON = require("./samplePostCategory.json")
 var Post_category = require("./models/post_category")

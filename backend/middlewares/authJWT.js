@@ -1,11 +1,12 @@
 const jwt = require('jsonwebtoken');
 const { user } = require('../models/users');
+const {SECRET_KEY} = process.env
 exports.verifyToken = (req, res, next) => {
     let token = req.headers["x-access-token"];
     if(!token){
         return res.send('No token provided')
     }
-    jwt.verify(token, "furtherweb_private_key", (error, decoded) => {
+    jwt.verify(token, SECRET_KEY, (error, decoded) => {
         if(error){
             return res.send({message: "Unauthorized"})
         }

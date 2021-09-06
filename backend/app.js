@@ -13,21 +13,8 @@ var News_category = require("./models/news_category")
 app.use(cors())
 app.use(bodyParser.json())
 
-// mongoose.connect("mongodb+srv://giangle:mypassword@cluster0.sfxdv.mongodb.net/furtherweb")
-// .then(() => app.listen(9000, () => console.log("Succesfully connected!!!")))
-// .catch((error) => console.log(error.message))
-
-// mongoose.connect("mongodb+srv://myuser:mypassword@cluster0.1lbnn.mongodb.net/testdb")
-// .then(() => app.listen(9000, () => console.log("Succesfully connected!!!")))
-// .catch((error) => console.log(error.message))
-
-// Post_category.post_category.insertMany(postCategoryJSON, function(error, data){
-//     if(error){
-//         console.log("Post Category has already been populated!")
-//     } else {
-//         console.log("Post Category has successfully been populated!")
-//     }
-// })
+//"mongodb+srv://giangle:mypassword@cluster0.sfxdv.mongodb.net/furtherweb"
+//"mongodb+srv://myuser:mypassword@cluster0.1lbnn.mongodb.net/testdb"
 postCategoryJSON.map( async (element, index) => {
     var existedElement = await Post_category.post_category.findOne({name: element.name})
     if(!existedElement){
@@ -40,15 +27,6 @@ postCategoryJSON.map( async (element, index) => {
         })
     }
 })
-
-
-// News_category.news_category.insertMany(newsCategoryJSON, function(error, data){
-//     if(error){
-//         console.log("News Category has already been populated!")
-//     } else {
-//         console.log("News Category has successfully been populated!")
-//     }
-// })
 
 newsCategoryJSON.map( async (element, index) => {
     var existedElement = await News_category.news_category.findOne({name: element.name})

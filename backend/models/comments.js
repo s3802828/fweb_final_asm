@@ -9,5 +9,5 @@ var CommentSchema = new mongoose.Schema({
         ref:"posts"
     },
     content: String
- })
+ }, {timestamps: true})
  exports.comment = mongoose.model('Comment', CommentSchema)

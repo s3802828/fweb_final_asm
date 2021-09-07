@@ -1,0 +1,10 @@
+ fetch("http://localhost:9000/forums/posts")
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        setPosts(data);})
+        fetch("http://localhost:9000/forums/post_category")
+            .then(response => response.json())
+            .then((data) =>
+            setpostCategoryId(data))
+       }

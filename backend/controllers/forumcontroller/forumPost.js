@@ -10,8 +10,17 @@
         res.send(result)})
     }
 
+    exports.fetchUserPost = function(req, res){
+        console.log('abc')
+    Posts.post.find({user_id : req.params.id},(err, result) =>{
+        
+            res.send(result)})
+    }
+
     var Post_category = require("../../models/post_category")
     exports.fetchPostCategories = function (req, res){
         Post_category.post_category.find({},(err, result) =>{
             res.send(result)})
     }
+
+

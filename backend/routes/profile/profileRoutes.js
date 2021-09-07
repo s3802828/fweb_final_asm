@@ -1,5 +1,6 @@
 var router = require('express').Router()
-var {profile} = require('../../controllers/forumcontroller/userProfile')
-router.get("/:id", profile)
+var {profile, getAllUsers} = require('../../controllers/forumcontroller/userProfile')
 
+router.get("/profiledetails/:id", profile)
+router.get("/allusers", getAllUsers)
 module.exports = router;

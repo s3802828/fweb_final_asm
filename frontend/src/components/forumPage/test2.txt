@@ -6,18 +6,33 @@ import {
 import { useEffect, useState } from "react";
 
 export default function Post(props) {
+  let { cateid } = useParams();
+  console.log(cateid);
 
+  const [Posts, setPosts] = useState([]);
+  const fetchPost = () => {
+    fetch("http://localhost:9000/forums/posts")
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        setPosts(data);
+      });
+  };
+  useEffect(() => {
+    fetchPost();
+  }, []);
+
+  const postfo = Posts.map((element, index) => {
     return (
-        
-      <div class="card mb-4 mt-3">
-        <div class="card-header text-muted" id={props.element._id}>
+      <div class="card mb-4" key={index}>
+        <div class="card-header text-muted" id="post-{{$post->id}}">
           <a
-            href={`/profile/${props.element.user_id}`}
+            href="/profile"
             style={{ "text-decoration": "none", color: "black" }}
           >
-            Posted by: {props.element.username ? props.element.username : props.username}&nbsp;&nbsp;
+            Posted by: {element.user_id}&nbsp;&nbsp;
           </a>
-          
+
           <span class="pull-right">
             &nbsp;&nbsp;
             <button type="button" class="btn btn-primary">
@@ -37,13 +52,13 @@ export default function Post(props) {
           href={`${
             props.url === undefined ? "/forum" : props.url
           }/post/postdetail`}
-          style={{ "textDecoration": "none", color: "black" }}
+          style={{ "text-decoration": "none", color: "black" }}
         >
           <div class="card-body">
             <h3 class="card-title">
-              {props.element.title} 
+              {element.title} - {element.post_category_id} {cateid}
             </h3>
-            <p class="class-text">{props.element.content}</p>
+            <p class="class-text"></p>
           </div>
           <div class="">
             <img
@@ -53,6 +68,7 @@ export default function Post(props) {
               style={{ width: "50%" }}
             />
           </div>
+          )
         </a>
 
         <div class="card-footer text-muted">
@@ -66,7 +82,7 @@ export default function Post(props) {
             href={`${
               props.url == undefined ? "/forum" : props.url
             }/post/postdetail`}
-            style={{ "textDecoration": "none", color: "black" }}
+            style={{ "text-decoration": "none", color: "black" }}
           >
             <i class=" fas fa-comment-dots hover-icon w3-large"></i>
           </a>
@@ -74,8 +90,8 @@ export default function Post(props) {
         </div>
       </div>
     );
-  ;
- 
+  });
+  return postfo;
 }
 
 // return (

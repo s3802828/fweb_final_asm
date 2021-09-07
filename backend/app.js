@@ -1,8 +1,9 @@
 var app = require('express')()
 
 var voteRoute = require('./routes/voteRoute')
-
 var categorizeRoute = require ('./routes/categorizeRoute')
+var userUpdateRoute = require ('./routes/userUpdateRoute')
+var userFollowRoute = require ('./routes/userFollowRoute')
  
 var mongoose = require('mongoose')
  
@@ -13,7 +14,7 @@ app.use(cors())
 app.use(bodyParser.json())
 
 mongoose.connect("mongodb+srv://giangle:mypassword@cluster0.sfxdv.mongodb.net/furtherweb")
-.then(() => app.listen(9000, () => console.log("Succesfully connected!!!")))
+.then(() => app.listen(8000, () => console.log("Succesfully connected!!!")))
 .catch((error) => console.log(error.message))
 
 var postCategoryJSON = require("./samplePostCategory.json")
@@ -37,8 +38,10 @@ News_category.news_category.insertMany(newsCategoryJSON, function(error, data){
 })
 
 app.use('/vote', voteRoute)
-
 app.use('/categorize', categorizeRoute)
+
+app.use('', userUpdateRoute)
+app.use('', userFollowRoute)
 
 // var new_post = new Posts({
     // title: "ABC",

@@ -36,7 +36,7 @@ export default function Post(props) {
         <a
           href={`${
             props.url === undefined ? "/forum" : props.url
-          }/post/postdetail`}
+          }/post/postdetail/${props.element._id}`}
           style={{ "textDecoration": "none", color: "black" }}
         >
           <div class="card-body">
@@ -65,7 +65,7 @@ export default function Post(props) {
           <a
             href={`${
               props.url == undefined ? "/forum" : props.url
-            }/post/postdetail`}
+            }/post/postdetail/${props.element._id}`}
             style={{ "textDecoration": "none", color: "black" }}
           >
             <i class=" fas fa-comment-dots hover-icon w3-large"></i>

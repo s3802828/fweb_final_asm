@@ -10,7 +10,7 @@ export default function ProfileCard(props) {
      .then(data => {console.log(data); 
       data.map((element) => {
         if(element.followers.includes(props.user._id))
-          setuserFollowing(userFollowing + 1)
+        {return setuserFollowing( userFollowing + 1)}
       })})
       //setuserFollowing(data)})
   }
@@ -36,7 +36,7 @@ export default function ProfileCard(props) {
                       </div>
                       <div class="data">
                         <h4>Phone</h4>
-                          <p>{props.user.phone ? props.user.phone : 'Your phone goes here'}</p>
+                          <p>{props.user.phoneNumber ? props.user.phoneNumber : 'Your phone goes here'}</p>
                     </div>
                   </div>
               </div>

@@ -1,31 +1,49 @@
 import React from 'react'
 import { useEffect, useState } from "react"
+import { useParams } from 'react-router'
 
 
 function PostDetail() {
-    const endPoint = 'http://localhost:9000/forums/posts'
-    const [postDetail, setpostDetail] = useState([])
+    const {id} = useParams()
+    const endPoint = `http://localhost:9000/forums/posts/${id}`
+    const [postDetail, setpostDetail] = useState({})
+    const fetchUserInfo = (passId, oldData, setFunction) => {
+        fetch(`http://localhost:9000/profile/profiledetails/${passId}`)
+            .then((res) => res.json())
+            .then((dataProfile) => setFunction({...oldData, username: dataProfile.username }));
+        }
+    
     const fetchPostDetail = () => {
         fetch(endPoint)
        .then(response => response.json())
-       .then(data => {console.log(data); setpostDetail(data)})
+       .then(data => {console.log(data); fetchUserInfo(data.user_id, data, setpostDetail)})
+        //   fetch(`http://localhost:9000/profile/profiledetails/${data.user_id}`)
+        //     .then((res) => res.json())
+        //     .then((dataProfile) => setpostDetail({...data, username: dataProfile.username }));})
     }
+   
+    const [postComment, setpostComment] = useState({})
+    const fetchPostComment = () => {
+        fetch(`http://localhost:9000/forums/comment/${id}`)
+       .then(response => response.json())
+       .then(data => {console.log(data);
+        fetchUserInfo(data.user_id, data, setpostComment)
+    })}
     useEffect(()=>{
-        fetchPostDetail()
+        fetchPostDetail();
+        fetchPostComment();
     },[])
-    
     return (
        
         <div class="container-fluid">
             <div class="row">
-           { postDetail.map((element) => {
-               return(
                 <article>
+                    {console.log(postDetail)}
                 <header class="my-4">
                     <h1 class="fw-bolder">
-                        {element.title}
+                        {postDetail.title}
                     </h1>
-                    <p class="text-muted fst-italic">Posted on January 1, 2021 by {element.user_id}</p>
+                    <p class="text-muted fst-italic">Posted on January 1, 2021 by {postDetail.username}</p>
                     <p class="fw-normal">categories<button class="btn btn-light btn-sm">urgent</button><button class="btn btn-light btn-sm">popular</button></p>
                 </header>
                 <figure class="img-fluid">
@@ -33,14 +51,9 @@ function PostDetail() {
                     <figcaption class="figure-caption">A caption for the above image.</figcaption>
                 </figure>
                 <section class="mb-4 " style={{ textAlign: "justify" }}> 
-                    <p class="lh-base mb-4 fs-5 lead">{element.content}</p>
+                    <p class="lh-base mb-4 fs-5 lead">{postDetail.content}</p>
                 </section>
             </article>
-               )
-            
-        })}
-                    
-
                     <section>
                         <div class="mt-5">
                             <div class="card bg-light">
@@ -59,7 +72,7 @@ function PostDetail() {
                                             <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
                                             <div class="ms-3">
                                                 <div class="fw-bold">Commenter Name</div>
-                                                In elementum, magna quis porta elementum, mauris ante rutrum mauris, sed mattis ex felis ac libero. Morbi ut metus quis risus cursus elementum. Nunc pulvinar pellentesque nisl sed cursus. Vivamus varius pellentesque nulla, lobortis condimentum ex. Nulla auctor velit vel viverra malesuada. Vivamus a efficitur justo.
+                                                <div>{postComment.comment}</div>
 
                                                 <div class="d-flex mt-4">
                                                     <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>

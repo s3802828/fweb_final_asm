@@ -27,7 +27,7 @@ export default function ForumPage() {
       .then( (data) => {
         data.map(async (postElement) => {
           var newElement = {};
-          await fetch(`http://localhost:9000/profile/${postElement.user_id}`)
+          await fetch(`http://localhost:9000/profile/profiledetails/${postElement.user_id}`)
             .then((res) => res.json())
             .then((data) => newElement = {...postElement, username: data.username })
             .then(res => setPosts(Posts => [...Posts, res]));
@@ -59,12 +59,12 @@ export default function ForumPage() {
           <Switch>
             <Route exact path={`${path}`}>
               {Posts.map((element) => {
-                return <Post element={element} />;
+                return <Post element={element} url = {url}/>;
               })}
             </Route>
             {/* <Route exact path={`${path}/:cateid`}><Post url={url} /></Route> */}
-            <Route exact path={`${path}/post/postdetail`}>
-              <PostDetail />
+            <Route exact path={`${path}/post/postdetail/:id`}>
+              <PostDetail/>
             </Route>
           </Switch>
         </div>

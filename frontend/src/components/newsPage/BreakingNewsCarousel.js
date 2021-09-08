@@ -1,22 +1,32 @@
+import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 
 export default function BreakingNewsCarousel(props) {
-    let arrayNews = ["1", "2", "3"]
+    const endPoint = 'http://localhost:9000/news'
+    const [breakingNewsList, setBreakingNewsList] = useState([])
+    const getBreakingNews = () => {
+        fetch(endPoint + '/breakingnews').then(res => res.json()).then(data => {
+            setBreakingNewsList(data)
+        })
+    }
+    useEffect(() => {
+        getBreakingNews()
+    }, [])
     return (
         <div>
             <div id="carouselExampleCaptions" class="carousel slide mb-3 mt-3" data-bs-ride="carousel">
-                <div class="carousel-indicators">
-                    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                <div class="carousel-indicators" id = "breakingButton">
+                    {breakingNewsList.map((element, i) => {
+                        return <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to={`${i}`} className ={`${i === 0 ?'active' : ''}`} aria-current={`${i === 0 ? 'true' : ''}`} aria-label={`Slide ${i + 1}`}></button>
+                    })}
                 </div>
                 <div class="carousel-inner">
-                    {arrayNews.map((element, i) =>(
+                    {breakingNewsList.map((element, i) =>(
                         <div class= {`carousel-item ${i === 0 && 'active'}`} style={{ "height": "250px" }}>
                             <Link to="/articles">
                                 <img src="https://izisoft.io/wp-content/uploads/2020/03/creative-powerpoint-template-QFKTK2.jpg" class="d-block w-100 img-fluid" alt="..." />
                                 <div class="carousel-caption d-none d-md-block">
-                                    <h4>{`TITLE ${element}`}</h4>
+                                    <h3>{`${element.title}`}</h3>
                                     <p>Some representative placeholder content for the first slide.</p>
                                 </div>
                             </Link>

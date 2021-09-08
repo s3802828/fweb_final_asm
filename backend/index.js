@@ -1,10 +1,43 @@
 const http = require("http");
 const app = require("./app");
 const server = http.createServer(app);
+const mongoose = require('mongoose')
+const { MONGO_URI } = process.env;
+var newsCategoryJSON = require("./sampleNewsCategory.json")
+var News_category = require("./models/news_category")
+var postCategoryJSON = require("./samplePostCategory.json")
+var Post_category = require("./models/post_category")
 
 const { SERVER_PORT } = process.env;
+mongoose.connect(MONGO_URI)
+  .then(() => server.listen(SERVER_PORT, () => {
+    console.log(`Server running on port ${SERVER_PORT}. Database successfully connected`);
+    postCategoryJSON.map( async (element) => {
+      var existedElement = await Post_category.post_category.findOne({name: element.name})
+      if(!existedElement){
+          Post_category.post_category.create({name: element.name}, function(error, data){
+              if(error){
+                  console.log(error)
+              } else {
+                  console.log(data)
+              }
+          })
+      }
+  })
+  
+  newsCategoryJSON.map( async (element) => {
+      var existedElement = await News_category.news_category.findOne({name: element.name})
+      //console.log(element.name)
+      if(!existedElement){
+          News_category.news_category.create({name: element.name}, function(error, data){
+              if(error){
+                  console.log(error)
+              } else {
+                  console.log(data)
+              }
+          })
+      }
+  })
+  }))
+  .catch((error) => console.log(error.message))
 
-// server listening 
-server.listen(SERVER_PORT, () => {
-  console.log(`Server running on port ${SERVER_PORT}`);
-});

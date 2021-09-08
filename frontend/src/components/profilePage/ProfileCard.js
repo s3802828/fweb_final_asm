@@ -3,24 +3,30 @@ import './ProfileCard.css'
 import UpdateProfile from './UpdateProfile'
 
 export default function ProfileCard(props) {
-  const [userFollowing, setuserFollowing] = useState(0)
+  const [userFollowing, setuserFollowing] = useState()
   const fetchFollowing = () => {
       fetch(`http://localhost:9000/profile/allusers`)
      .then(response => response.json())
-     .then(data => {console.log(data); 
-      data.map((element) => {
+     .then( data => {console.log(data);
+      var following = data.filter((element) => {
+        console.log(element.followers)
+        console.log(props.user._id)
         if(element.followers.includes(props.user._id))
-        {return setuserFollowing( userFollowing + 1)}
-      })})
-      //setuserFollowing(data)})
+          {return element}
+      })
+      console.log(following)
+      setuserFollowing(following)
+    })
   }
   useEffect(()=>{
       fetchFollowing();
-  },[])
+      console.log(props.user._id)
+  },[props.user._id])
 
 
   return (
     <div class="wrapper">
+      {console.log(props.user._id)}
           <div class="left">
               <img src="https://wallpaperaccess.com/full/2213424.jpg" alt="user" width="100"></img>
               <h4>{props.user.name ? props.user.name : 'Your name is here'}</h4>
@@ -50,7 +56,7 @@ export default function ProfileCard(props) {
                       </div>
                       <div class="data">
                         <h4>Following</h4>
-                          <p>{userFollowing}</p>
+                          <p>{userFollowing ? userFollowing.length : "0" }</p>
                     </div>
                   </div>
               </div>

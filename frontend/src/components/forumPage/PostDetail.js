@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import { useParams } from 'react-router'
 
 
-function PostDetail() {
+export default function PostDetail() {
     const {id} = useParams()
     const endPoint = `http://localhost:9000/forums/posts/${id}`
     const [postDetail, setpostDetail] = useState({})
@@ -21,14 +21,21 @@ function PostDetail() {
         //     .then((res) => res.json())
         //     .then((dataProfile) => setpostDetail({...data, username: dataProfile.username }));})
     }
-   
-    const [postComment, setpostComment] = useState({})
+    const [postCommentList, setPostCommentList] = useState([])
     const fetchPostComment = () => {
         fetch(`http://localhost:9000/forums/comment/${id}`)
        .then(response => response.json())
-       .then(data => {console.log(data);
-        fetchUserInfo(data.user_id, data, setpostComment)
-    })}
+       .then((data) => {
+        data.map(async (commentElement) => {
+          var newElement = {};
+          await fetch(`http://localhost:9000/profile/profiledetails/${commentElement.user_id}`)
+            .then((res) => res.json())
+            .then((data) => newElement = {...commentElement, username: data.username })
+            .then(res => setPostCommentList(postCommentList => [...postCommentList, res]));
+          //fetchPostUser(postElement.user_id)
+        })});
+        //setPosts(newData);
+      };
     useEffect(()=>{
         fetchPostDetail();
         fetchPostComment();
@@ -38,7 +45,7 @@ function PostDetail() {
         <div class="container-fluid">
             <div class="row">
                 <article>
-                    {console.log(postDetail)}
+                    {console.log(postCommentList)}
                 <header class="my-4">
                     <h1 class="fw-bolder">
                         {postDetail.title}
@@ -53,7 +60,7 @@ function PostDetail() {
                 <section class="mb-4 " style={{ textAlign: "justify" }}> 
                     <p class="lh-base mb-4 fs-5 lead">{postDetail.content}</p>
                 </section>
-            </article>
+                </article>
                     <section>
                         <div class="mt-5">
                             <div class="card bg-light">
@@ -67,42 +74,23 @@ function PostDetail() {
                                             <button class="btn btn-dark mt-3 pull-right">Post</button>
                                         </form>
                                     </div>
-                                    <div class="row">
+                                    {console.log(postCommentList)}
+                                    {postCommentList.map(
+                                        (postComment) => 
+                                    {return (
+                                        <div class="row">
                                         <div class="d-flex mb-4">
-                                            <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
-                                            <div class="ms-3">
-                                                <div class="fw-bold">Commenter Name</div>
-                                                <div>{postComment.comment}</div>
-
-                                                <div class="d-flex mt-4">
-                                                    <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
-                                                    <div class="ms-3">
-                                                        <div class="fw-bold">Commenter Name</div>
-                                                        Vivamus varius pellentesque nulla, lobortis condimentum ex. Nulla auctor velit vel viverra malesuada. Vivamus a efficitur justo.
-                                                    </div>
-                                                </div>
-
-                                                <div class="d-flex mt-4">
-                                                    <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
-                                                    <div class="ms-3">
-                                                        <div class="fw-bold">Commenter Name</div>
-                                                        Nulla auctor velit vel viverra malesuada. Vivamus a efficitur justo.
-                                                    </div>
-                                                </div>
+                                            <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." />
                                             </div>
-                                        </div>
-
-                                        <div class="d-flex">
-                                            <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
                                             <div class="ms-3">
-                                                <div class="fw-bold">Commenter Name</div>
-                                                When I look at the universe and all the ways the universe wants to kill us, I find it hard to reconcile that with statements of beneficence.
+                                                <div class="fw-bold">{postComment.username}</div>
+                                                <div>{postComment.content}</div>
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                            </div>
+                                         </div> )}    
+                                    )}
                             </div>
-
+                        </div>
                         </div>
                     </section>
             </div>
@@ -110,4 +98,3 @@ function PostDetail() {
     )
 }
 
-export default PostDetail;

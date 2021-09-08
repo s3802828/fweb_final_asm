@@ -11,18 +11,22 @@ export default function Post(props) {
         
       <div class="card mb-4 mt-3">
         <div class="card-header text-muted" id={props.element._id}>
+          <div>
           <a
             href={`/profile/${props.element.user_id}`}
             style={{ "text-decoration": "none", color: "black" }}
           >
             Posted by: {props.element.username ? props.element.username : props.username}&nbsp;&nbsp;
           </a>
-          
+          {props.createdAt}
+          </div>
           <span class="pull-right">
             &nbsp;&nbsp;
+
             <button type="button" class="btn btn-primary">
               Follow
             </button>
+            </span>
             {/*<span class="dropdown">
                             <i class="fas fa-edit pull-right hover-icon w3-xlarge" data-toggle="dropdown"></i>
                             <div class="dropdown-menu" aria-labelledby="editMenu">
@@ -30,7 +34,7 @@ export default function Post(props) {
                                 <div class="dropdown-item" id="delete-post" data-toggle="modal" data-target="#deletePost{{$post->id}}"> Delete post</div>
                             </div>
     </span>*/}
-          </span>
+       
         </div>
         {/*<Link to={`${props.url}/post/postdetail`} style={{ "text-decoration": "none", "color": "black" }}></Link>*/}
         <a

@@ -2,7 +2,7 @@
     var Posts = require("../../models/posts")
     exports.forumPost = function(req, res){
     Posts.post.find({},(err, result) =>{
-        res.send(result)})
+        res.send(result)}).sort({'createdAt': 'desc'})
     }
 
     exports.fetchPostDetail = function (req, res){
@@ -14,7 +14,7 @@
         console.log('abc')
     Posts.post.find({user_id : req.params.id},(err, result) =>{
         
-            res.send(result)})
+            res.send(result)}).sort({'createdAt': 'desc'})
     }
 
     var Post_category = require("../../models/post_category")

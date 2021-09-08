@@ -7,6 +7,14 @@ import emailsent from './emailsent.gif'
 
 function Signup(props) {
     const validationSchema = Yup.object().shape({
+        firstname: Yup.string()
+            .required('Firstname is required')
+            .max(10, 'Firstname must not exceed 10 characters')
+            .matches(/^[a-zA-Z]+$/, 'Firstname must only contain letters'),
+        lastname: Yup.string()
+            .required('Lastname is required')
+            .max(10, 'Lastname must not exceed 10 characters')
+            .matches(/^[a-zA-Z]+$/, 'Lastname must only contain letters'),
         username: Yup.string()
             .required('Username is required')
             .min(6, 'Username must be at least 6 characters')
@@ -31,14 +39,15 @@ function Signup(props) {
     const endPoint = "http://localhost:9000/auth/signup"
     const signUp = data => {
         let registrant = {}
+        //let c
         const deleteToken = localStorage.getItem("deleteToken")
         if ( deleteToken === "") {
             registrant = {
-                username: data.username, password: data.password, email: data.email
+                username: data.username, password: data.password, email: data.email, name: data.firstname + " " + data.lastname
             }
         } else {
             registrant = {
-                username: data.username, password: data.password, email: data.email, deleteToken: JSON.parse(deleteToken)
+                username: data.username, password: data.password, email: data.email, deleteToken: JSON.parse(deleteToken), name: data.firstname + " " + data.lastname
             }
         }
         console.log(registrant)
@@ -64,6 +73,16 @@ function Signup(props) {
                             <h1 class="h3 mb-3 fw-normal text-center">SIGN UP</h1>
 
                             <div class="form-floating">
+                                <input type="username" class={`form-control ${errors.firstname ? 'is-invalid' : ''}`} id="floatingInput-firstname" placeholder="Kienhq51" {...register('firstname')} />
+                                <label for="floatingInput-username">First Name</label>
+                                <div className="invalid-feedback">{errors.firstname?.message}</div>
+                            </div>
+                            <div class="form-floating mt-2">
+                                <input type="username" class={`form-control ${errors.lastname ? 'is-invalid' : ''}`} id="floatingInput-lastname" placeholder="Kienhq51" {...register('lastname')} />
+                                <label for="floatingInput-username">Last Name</label>
+                                <div className="invalid-feedback">{errors.lastname?.message}</div>
+                            </div>
+                            <div class="form-floating mt-2">
                                 <input type="username" class={`form-control ${errors.username || returnMessage === "Username is already existed." ? 'is-invalid' : ''}`} id="floatingInput-username" placeholder="Kienhq51" {...register('username')} />
                                 <label for="floatingInput-username">Username</label>
                                 <div className="invalid-feedback">{returnMessage === "Username is already existed." && returnMessage} {errors.username?.message}</div>

@@ -11,6 +11,8 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import MyProfile from './components/profilePage/MyProfile';
 import { useEffect, useState } from 'react';
 import authHeader from './components/login_signup/authHeader';
+import CategorizedNews from './components/newsPage/CategorizedNews';
+import BreakingNewsPage from './components/newsPage/BreakingNewsPage';
 function App() {
   //Authorization
   const [isAdmin, setIsAdmin] = useState(false)
@@ -52,7 +54,7 @@ function App() {
     console.log(isPublic)
   }, []
   )
-
+  
   return (
     <div>
       {isPublic &&
@@ -60,6 +62,8 @@ function App() {
         <Navbar isUser = {isUser} currentUser = {currentUser} isReporter = {isReporter}/>
         <Switch>
           <Route exact base path="/"><NewsPage /></Route>
+          <Route exact path="/category/:cateId"><CategorizedNews /></Route>
+          <Route exact path="/breaking"><BreakingNewsPage /></Route>
           <Route path="/forum"><ForumPage /></Route>
           <Route exact path="/login"><Login /></Route>
           <Route path="/login/:verified"><Login /></Route>

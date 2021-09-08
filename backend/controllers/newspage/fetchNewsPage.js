@@ -11,9 +11,29 @@ exports.fetchBreakingNews = (req, res) => {
         }
     }).sort({'createdAt': 'desc'}).limit(10)
 }
+exports.fetchBreakingNewsUnlimit = (req, res) => {
+    newsModel.find({breaking: "1"}, function(error, data){
+        if(error){
+            console.log(error)
+            return res.send([])
+        } else {
+            return res.send(data)
+        }
+    }).sort({'createdAt': 'desc'})
+}
 
 exports.fetchAllNewsCategory = (req, res) => {
     newsCategoryModel.find({}, function(error, data){
+        if(error){
+            console.log(error)
+            return res.send([])
+        } else {
+            return res.send(data)
+        }
+    })
+}
+exports.fetchOneNewsCategory = (req, res) => {
+    newsCategoryModel.findOne({_id: req.params.cate_id}, function(error, data){
         if(error){
             console.log(error)
             return res.send([])

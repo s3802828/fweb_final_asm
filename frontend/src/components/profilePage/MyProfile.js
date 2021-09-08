@@ -1,36 +1,45 @@
 import Post from "../forumPage/Post";
-import { BrowserRouter as useRouteMatch} from "react-router-dom";
+
 import ProfileCard from "./ProfileCard";
 import './profile.css'
-
+import { useState, useEffect } from "react";
+import { useParams } from "react-router";
 
 export default function MyProfile() {
-<<<<<<< HEAD
-    // let {path, url} = useRouteMatch()
-=======
-   // let {path, url} = useRouteMatch()
->>>>>>> signup_login
+const {id} = useParams()
+console.log(id)
+const endPoint = `http://localhost:9000/forums/userpost/${id}`
+const [userPost, setuserPost] = useState([])
+const fetchUserPost = () => {
+    fetch(endPoint)
+   .then(response => response.json())
+   .then(data => {console.log(data); setuserPost(data)})
+}
 
+const [userProfile, setuserProfile] = useState()
+const fetchUserProfile = () => {
+    fetch(`http://localhost:9000/profile/profiledetails/${id}`)
+   .then(response => response.json())
+   .then(data => {console.log(data); setuserProfile(data)})
+}
+useEffect(()=>{
+    fetchUserProfile();
+    fetchUserPost()
+},[])
     return (
         <div class="container-fluid">
             <div class="row">
                 <div class="col-2">
-                    {/*<Sidebar url={url}/>*/}
                 </div>
                 <div class="col-8">
-                    {/* <Switch>
-                    <Route exact path={`${path}/:cateid`}><Post url={url}/></Route>
-                    <Route exact path={`${path}/post/postdetail`}><Posts/></Route>
-                    </Switch> */}
-
-                    <ProfileCard/>
-                    
-                    
-                    
-
+                    {console.log(userProfile)}
+                    <ProfileCard user={userProfile !== undefined &&  userProfile}/>
                     <div class="posts">
-                        <Post/>
-                        <Post/>
+                        {userPost.map((element) => {
+                            console.log(element)
+                            return <Post username={userProfile !== undefined &&userProfile.username} element={element}/>;
+                        })}
+
                     </div>
                    
                     

@@ -1,6 +1,19 @@
 import React from 'react'
+import { useState } from 'react'
+import axios from 'axios'
 
 function PostDetail() {
+    const [content, setContent] = useState("");
+    const handleSubmit = async (e)=>{
+        e.preventDefault();
+        const newComment = {
+            content,
+        };
+
+        try {
+          axios.post("http://localhost:5000/api/comments", newComment);
+        } catch (err) {}
+    }
     return (
         <div class="container-fluid">
             <div class="row">
@@ -31,12 +44,16 @@ function PostDetail() {
                             <div class="card bg-light">
                                 <div class="card-body container">
                                     <div class="row">
-                                        <form class="my-4 mx-2">
+                                        <form class="my-4 mx-2" onSubmit={handleSubmit}>
                                             <div class="form-floating">
-                                                <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style={{ "height": "100px" }}></textarea>
+                                                <textarea class="form-control" 
+                                                placeholder="Leave a comment here" 
+                                                id="floatingTextarea2" 
+                                                style={{ "height": "100px" }}
+                                                onChange={(e) => setContent(e.target.value)}></textarea>
                                                 <label for="floatingTextarea2">Comments</label>
                                             </div>
-                                            <button class="btn btn-dark mt-3 pull-right">Post</button>
+                                            <button type="submit" class="btn btn-dark mt-3 pull-right">Post</button>
                                         </form>
                                     </div>
                                     <div class="row">

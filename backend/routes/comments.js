@@ -1,30 +1,30 @@
 const router = require("express").Router();
-const Post = require("../models/posts");
+const Comment = require("../models/comments");
 
-//CREATE POST
+//CREATE COMMENT
 router.post("/", async (req, res) => {
-  const newPost = new Post(req.body);
+  const newComment = new Comment(req.body);
   try {
-    const savedPost = await newPost.save();
-    res.status(200).json(savedPost);
+    const savedComment = await newComment.save();
+    res.status(200).json(savedComment);
   } catch (err) {
     res.status(500).json(err);
   }
 });
 
-//UPDATE POST
+//UPDATE COMMENT
 router.put("/:id", async (req, res) => {
   try {
-    const post = await Post.findById(req.params.id);
+    const comment = await Comment.findById(req.params.id);
       try {
-        const updatedPost = await post.findByIdAndUpdate(
+        const updatedComment = await comment.findByIdAndUpdate(
           req.params.id,
           {
             $set: req.body,
           },
           { new: true }
         );
-        res.status(200).json(updatedPost);
+        res.status(200).json(updatedComment);
       } catch (err) {
         res.status(500).json(err);
       }
@@ -34,13 +34,13 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-//DELETE POST
+//DELETE COMMENT
 router.delete("/:id", async (req, res) => {
   try {
-    const post = await Post.findById(req.params.id);
+    const comment = await Comment.findById(req.params.id);
       try {
-        await post.delete();
-        res.status(200).json("Post has been deleted...");
+        await comment.delete();
+        res.status(200).json("Comment has been deleted...");
       } catch (err) {
         res.status(500).json(err);
       }
@@ -49,11 +49,11 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-//GET POST
+//GET COMMENT
 router.get("/:id", async (req, res) => {
   try {
-    const post = await Post.findById(req.params.id);
-    res.status(200).json(post);
+    const comment = await Comment.findById(req.params.id);
+    res.status(200).json(comment);
   } catch (err) {
     res.status(500).json(err);
   }

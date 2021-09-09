@@ -12,5 +12,5 @@ exports.categorize_by_posts = async (req, res) => {
         }
         console.log(typeof posts.post_category_id)
         res.send(posts)
-    })
+    }).sort({'createdAt': 'desc'})
 }

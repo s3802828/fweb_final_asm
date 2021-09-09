@@ -6,8 +6,46 @@ import {
 import { useEffect, useState } from "react";
 
 export default function Post(props) {
+    const new_like = "http://localhost:9000/vote/addvote"
+    const dislike = "http://localhost:9000/vote/deletevote"
+    const [liked, setLiked] = useState(true)
+    const [numberOfVotes, setnumberOfVotes] = useState()
+
+    const currentUser = JSON.parse(localStorage.getItem("user"))
+
+    const create_like = (post_id) => {
+      fetch(new_like, {
+        method: 'PUT',
+
+         headers: {
+
+           'Content-Type': 'application/json'
+
+         },
+
+         body: JSON.stringify({ post_id: post_id, user_id: currentUser.id})
+      })
+      .then(response => response.json())
+      .then(data => {setnumberOfVotes(data)})
+    }
+
+    const dis_like = (post_id) => {
+      fetch(dislike, {
+        method: 'PUT',
+
+         headers: {
+
+           'Content-Type': 'application/json'
+
+         },
+
+         body: JSON.stringify({ post_id: post_id, user_id: currentUser.id})
+      })
+      .then(response => response.json())
+      .then(data => {setnumberOfVotes(data)})
+    }
+
     return (
-        
       <div class="card mb-4 mt-3">
         <div class="card-header text-muted" id={props.element._id}>
           <div>
@@ -59,11 +97,18 @@ export default function Post(props) {
         </a>
 
         <div class="card-footer text-muted">
-          <i
-            class="fa fa-thumbs-up hover-icon vote-button w3-large"
-            id="post-{{$post->id}}-up"
-            value="0"
-          ></i>
+          <span>
+            <span style={liked ? {color: "#0d6efd" } : {}} onClick= {liked ? () => {setLiked(false); dis_like(props.element._id)} : () => {setLiked(true); create_like(props.element._id)}}>
+              <i
+                class="fa fa-thumbs-up hover-icon vote-button w3-large"
+                id="post-{{$post->id}}-up"
+                value="0"
+              ></i>
+            </span>
+            <span class="numberOfLikes">
+              {numberOfVotes ? numberOfVotes.vote.length : props.element.vote.length} Likes
+            </span>
+          </span>
           &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
           <a
             href={`${

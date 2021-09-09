@@ -9,7 +9,7 @@ exports.create_vote = async (req, res) => {
         return res.send("User has voted")
     }
     currentVote.vote.push(req.body.user_id)
-    Posts.findOneAndUpdate({_id: req.body.post_id},{ vote: currentVote.vote}, function(err, result){
+    Posts.findOneAndUpdate({_id: req.body.post_id},{ vote: currentVote.vote}, {new: true},function(err, result){
         if(err){
             return res.send(err)
         }
@@ -27,7 +27,7 @@ exports.delete_vote = async (req, res) => {
     let d =  voteArray.filter((delete_like, id)=>{
         return delete_like.toString() !== req.body.user_id
     })
-    Posts.findOneAndUpdate({_id: req.body.post_id},{vote: d}, function(err, result){
+    Posts.findOneAndUpdate({_id: req.body.post_id},{vote: d}, {new: true}, function(err, result){
         if(err){
             return res.send(err)
         }

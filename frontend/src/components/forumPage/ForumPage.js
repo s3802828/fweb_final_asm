@@ -12,7 +12,7 @@ import PostDetail from "./PostDetail";
 import CreatePost from "./CreatePost";
 import { useState, useEffect } from "react";
 
-export default function ForumPage() {
+export default function ForumPage(props) {
   const [Posts, setPosts] = useState([]);
   //const [postUserInfo, setPostUserInfo] = useState({})
   // const fetchPostUser = (userId) => {
@@ -42,6 +42,9 @@ export default function ForumPage() {
     var years = Math.floor(diffTimeInMs / (1000 * 60 * 60 * 24 * 365))
     if (years > 0) 
     {return `${years > 1 ? `${years} years ago` : `${years} year ago`} `}
+    var months = Math.floor(diffTimeInMs / (1000 * 60 * 60 * 24 * 30))
+    if (months > 0) 
+    {return `${months > 1 ? `${months} months ago` : `${months} month ago`} `}
     var days = Math.floor(diffTimeInMs / (1000 * 60 * 60 * 24))
     if (days > 0) 
     {return `${days > 1 ? `${days} days ago` : `${days} day ago`} `}
@@ -82,7 +85,7 @@ export default function ForumPage() {
           <Switch>
             <Route exact path={`${path}`}>
               {Posts.map((element) => {
-                return <Post createdAt={countTimeDiff(element.createdAt)} element={element} url = {url}/>;
+                return <Post isUser = {props.isUser} createdAt={countTimeDiff(element.createdAt)} element={element} url = {url}/>;
               })}
             </Route>
             {/* <Route exact path={`${path}/:cateid`}><Post url={url} /></Route> */}

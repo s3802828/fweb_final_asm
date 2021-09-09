@@ -8,10 +8,15 @@ import { useEffect, useState } from "react";
 export default function Post(props) {
     const new_like = "http://localhost:9000/vote/addvote"
     const dislike = "http://localhost:9000/vote/deletevote"
-    const [liked, setLiked] = useState(true)
+    const [liked, setLiked] = useState(false)
     const [numberOfVotes, setnumberOfVotes] = useState()
 
     const currentUser = JSON.parse(localStorage.getItem("user"))
+    useEffect(() => {
+        if(props.isUser && props.element.vote.includes(currentUser.id)){
+          setLiked(true)
+        }
+    }, [props.element.vote, props.isUser])
 
     const create_like = (post_id) => {
       fetch(new_like, {
@@ -98,14 +103,14 @@ export default function Post(props) {
 
         <div class="card-footer text-muted">
           <span>
-            <span style={liked ? {color: "#0d6efd" } : {}} onClick= {liked ? () => {setLiked(false); dis_like(props.element._id)} : () => {setLiked(true); create_like(props.element._id)}}>
+            <span style={props.isUser && liked ? {color: "#0d6efd" } : {}} onClick= {props.isUser && (liked ? () => {setLiked(false); dis_like(props.element._id)} : () => {setLiked(true); create_like(props.element._id)})}>
               <i
                 class="fa fa-thumbs-up hover-icon vote-button w3-large"
                 id="post-{{$post->id}}-up"
                 value="0"
               ></i>
             </span>
-            <span class="numberOfLikes">
+            <span class="numberOfLikes ms-2">
               {numberOfVotes ? numberOfVotes.vote.length : props.element.vote.length} Likes
             </span>
           </span>

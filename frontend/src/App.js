@@ -60,7 +60,7 @@ function App() {
         <Navbar isUser = {isUser} currentUser = {currentUser} isReporter = {isReporter}/>
         <Switch>
           <Route exact base path="/"><NewsPage /></Route>
-          <Route path="/forum"><ForumPage /></Route>
+          <Route path="/forum"><ForumPage isUser = {isUser}/></Route>
           <Route exact path="/login"><Login /></Route>
           <Route path="/login/:verified"><Login /></Route>
           <Route path="/signup"><Signup /></Route>

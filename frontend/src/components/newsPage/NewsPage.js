@@ -45,8 +45,8 @@ export default function NewsPage() {
         }
     }
     const getLatestCovidData = () => {
-        fetch('https://corona-api.com/countries/VN').then(res => res.json()).then(data => {
-            setLatestCovidDataVietnam(data.data.latest_data)
+        fetch('https://corona.lmao.ninja/v2/countries/VN').then(res => res.json()).then(data => {
+            setLatestCovidDataVietnam(data)
         })
         fetch('https://corona.lmao.ninja/v2/all').then(res => res.json()).then(data => {
             setLatestCovidDataGlobal(data)
@@ -85,7 +85,7 @@ export default function NewsPage() {
                                             <h1>Vietnam Live Statistics</h1>
                                             <div style={{ color: "red" }}>
                                                 <span style={{ fontSize: 20 }}>Total Cases: </span>
-                                                <div style={{ fontSize: 35, fontWeight: "bold" }}>{latestCovidDataVietnam.confirmed && latestCovidDataVietnam.confirmed.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</div>
+                                                <div style={{ fontSize: 35, fontWeight: "bold" }}>{latestCovidDataVietnam.cases && latestCovidDataVietnam.cases.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</div>
                                             </div>
                                             <div style={{ color: "grey" }}>
                                                 <span style={{ fontSize: 20 }}>Deaths: </span>
@@ -97,7 +97,7 @@ export default function NewsPage() {
                                             </div>
                                             <div style={{ color: "#FFB830" }}>
                                                 <span style={{ fontSize: 20 }}>Active cases:</span>
-                                                <div style={{ fontSize: 35, fontWeight: "bold" }}> {latestCovidDataVietnam.critical && latestCovidDataVietnam.critical.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</div>
+                                                <div style={{ fontSize: 35, fontWeight: "bold" }}> {latestCovidDataVietnam.active && latestCovidDataVietnam.active.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</div>
                                             </div>
                                         </div> : <div>Vietnam Case Statistics: See below link</div>}
                                         {latestCovidDataGlobal ?

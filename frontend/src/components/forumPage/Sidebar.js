@@ -2,12 +2,22 @@ import { useEffect, useState } from "react"
 
 export default function Sidebar(props) {
     const endPoint = 'http://localhost:9000/forums/post_category'
+    const endPoint1 = "http://localhost:9000/categorize/categorize_post"
     const [postCategoryList, setpostCategoryList] = useState([])
     const fetchPostCategories = () => {
         fetch(endPoint)
        .then(response => response.json())
        .then(data => {console.log(data); setpostCategoryList(data)})
     }
+
+
+    const categorzie_posts = (id) => {
+        console.log(id)
+        fetch(endPoint1 + `/${id}`)
+        .then(response => response.json())
+        .then(data => {props.setPostList(data)})
+    }
+
     useEffect(()=>{
         fetchPostCategories()
     },[])
@@ -35,7 +45,7 @@ export default function Sidebar(props) {
                     {postCategoryList.map((element, index)=>{
                         {console.log(element)}
                         return (<li key={index}>
-                        <a href="" class="nav-link link-dark">
+                        <a href="" class="nav-link link-dark" onClick={(e) => {e.preventDefault();console.log("clicked");categorzie_posts(`${element._id}`)}}>
                             <svg class="bi me-2" width="16" height="16"><use xlinkHref="#table" /></svg>
                             {element.name} 
                         </a>

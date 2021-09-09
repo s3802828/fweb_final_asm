@@ -6,7 +6,6 @@ import {
 import { useEffect, useState } from "react";
 
 export default function Post(props) {
-
     return (
         
       <div class="card mb-4 mt-3">

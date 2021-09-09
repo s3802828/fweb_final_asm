@@ -37,7 +37,6 @@ export default function ForumPage() {
       });
   };
   
-  
   const countTimeDiff = (time) => 
   {var diffTimeInMs = Date.now() - new Date(time)
     var years = Math.floor(diffTimeInMs / (1000 * 60 * 60 * 24 * 365))
@@ -70,6 +69,7 @@ export default function ForumPage() {
       <div class="row">
         <div class="col-3 ps-5 pe-5">
           <Sidebar
+              setPostList = {e => setPosts(e)}
             showCreatePostForm={showCreatePostForm}
             showForm={(showCreatePostForm) =>
               setShowCreatePostForm(showCreatePostForm)

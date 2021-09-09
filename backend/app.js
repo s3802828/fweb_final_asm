@@ -6,6 +6,10 @@ var auth = require('./routes/signUpLoginRoutes/auth')
 var verifyEmail = require('./routes/signUpLoginRoutes/verifyEmail')
 var forumPosts = require("./routes/forums/forumsRoute")
 var profileUser = require("./routes/profile/profileRoutes")
+var voteRoute = require('./routes/forums/voteRoute')
+var categorizeRoute = require ('./routes/forums/categorizeRoute')
+
+
 
 app.use(cors())
 app.use(bodyParser.json())
@@ -17,4 +21,7 @@ app.use('/auth', auth)
 app.use('/', verifyEmail)
 app.use('/profile', profileUser)
 app.use('/forums', forumPosts)
+
+app.use('/vote', voteRoute)
+app.use('/categorize', categorizeRoute)
 module.exports = app;

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-
+import { Switch, useRouteMatch } from "react-router"
 export default function Sidebar(props) {
     const endPoint = 'http://localhost:9000/forums/post_category'
     const endPoint1 = "http://localhost:9000/categorize/categorize_post"
@@ -10,17 +10,11 @@ export default function Sidebar(props) {
        .then(data => {console.log(data); setpostCategoryList(data)})
     }
 
-
-    const categorzie_posts = (id) => {
-        console.log(id)
-        fetch(endPoint1 + `/${id}`)
-        .then(response => response.json())
-        .then(data => {props.setPostList(data)})
-    }
-
     useEffect(()=>{
         fetchPostCategories()
     },[])
+
+    //new
     return (
         <div class="d-flex flex-column flex-shrink-0 p-3 bg-light mt-3" style={{"width": "100%;"}}>
             <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
@@ -30,7 +24,7 @@ export default function Sidebar(props) {
             <hr />
                 <ul class="nav nav-pills flex-column mb-auto">
                     <li class="nav-item">
-                        <a href='' class="nav-link link-dark" aria-current="page">
+                        <a href='/forum' class="nav-link link-dark" aria-current="page">
                             <svg class="bi me-2" width="16" height="16"><use xlinkHref="#home" /></svg>
                             General
                         </a>
@@ -41,16 +35,22 @@ export default function Sidebar(props) {
                             Popular
                         </a>
                     </li>
-                    
-                    {postCategoryList.map((element, index)=>{
-                        {console.log(element)}
-                        return (<li key={index}>
-                        <a href="" class="nav-link link-dark" onClick={(e) => {e.preventDefault();console.log("clicked");categorzie_posts(`${element._id}`)}}>
-                            <svg class="bi me-2" width="16" height="16"><use xlinkHref="#table" /></svg>
-                            {element.name} 
-                        </a>
-                    </li>)
-                    })}
+                    {/* <Switch>
+                        <Route exact path={`${path}`}> */}
+                            {postCategoryList.map((element, index)=>{
+                                {console.log(element)}
+                                return (<li key={index}>
+                                <a href={`/forum/categorized/${element._id}`} class="nav-link link-dark">
+                                    <svg class="bi me-2" width="16" height="16"><use xlinkHref="#table" /></svg>
+                                    {element.name} 
+                                </a>
+                            </li>)
+                            })}
+                        {/* </Route>
+                        <Route exact path={`${path}/categorized/:id`}>
+                            <Categorized_Posts/>
+                        </Route>
+                    </Switch> */}
                 </ul>
             <hr />
             <button type="button" class="btn btn-dark" onClick={props.showCreatePostForm ? e => props.showForm(false) : e => props.showForm(true)}>{props.showCreatePostForm ? "Close Form" : "Create New Post"}</button>

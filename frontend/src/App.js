@@ -11,6 +11,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import MyProfile from './components/profilePage/MyProfile';
 import { useEffect, useState } from 'react';
 import authHeader from './components/login_signup/authHeader';
+import CategorizedPost from './components/forumPage/CategorizedPost';
 function App() {
   //Authorization
   const [isAdmin, setIsAdmin] = useState(false)
@@ -60,7 +61,8 @@ function App() {
         <Navbar isUser = {isUser} currentUser = {currentUser} isReporter = {isReporter}/>
         <Switch>
           <Route exact base path="/"><NewsPage /></Route>
-          <Route path="/forum"><ForumPage isUser = {isUser}/></Route>
+          <Route exact path="/forum"><ForumPage isUser = {isUser}/></Route>
+          <Route path="/forum/categorized/:categorized_id"><CategorizedPost isUser = {isUser}/></Route>
           <Route exact path="/login"><Login /></Route>
           <Route path="/login/:verified"><Login /></Route>
           <Route path="/signup"><Signup /></Route>

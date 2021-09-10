@@ -1,9 +1,9 @@
 var Users = require('../../models/users').user
  
 
-exports.userUpdate = async (req,res) => {
+exports.userUpdate = (req,res) => {
   //hit the update button
-  await Users.findByIdAndUpdate({_id: req.params.id}, {
+  Users.findByIdAndUpdate({_id: req.params.id}, {
     username: req.body.username,
     email: req.body.email,
     gender: req.body.gender,

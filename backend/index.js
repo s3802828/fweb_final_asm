@@ -7,12 +7,12 @@ var newsCategoryJSON = require("./sampleNewsCategory.json")
 var News_category = require("./models/news_category")
 var postCategoryJSON = require("./samplePostCategory.json")
 var Post_category = require("./models/post_category")
-
 const { SERVER_PORT } = process.env;
 mongoose.connect(MONGO_URI)
+
   .then(() => server.listen(SERVER_PORT, () => {
     console.log(`Server running on port ${SERVER_PORT}. Database successfully connected`);
-    postCategoryJSON.map( async (element) => {
+    postCategoryJSON.map( async (element, index) => {
       var existedElement = await Post_category.post_category.findOne({name: element.name})
       if(!existedElement){
           Post_category.post_category.create({name: element.name}, function(error, data){
@@ -25,7 +25,7 @@ mongoose.connect(MONGO_URI)
       }
   })
   
-  newsCategoryJSON.map( async (element) => {
+  newsCategoryJSON.map( async (element, index) => {
       var existedElement = await News_category.news_category.findOne({name: element.name})
       //console.log(element.name)
       if(!existedElement){
@@ -40,4 +40,3 @@ mongoose.connect(MONGO_URI)
   })
   }))
   .catch((error) => console.log(error.message))
-

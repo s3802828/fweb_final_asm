@@ -13,6 +13,8 @@ import { useEffect, useState } from 'react';
 import authHeader from './components/login_signup/authHeader';
 import CategorizedNews from './components/newsPage/CategorizedNews';
 import BreakingNewsPage from './components/newsPage/BreakingNewsPage';
+import CategorizedPost from './components/forumPage/CategorizedPost';
+import PostDetail from './components/forumPage/PostDetail';
 function App() {
   //Authorization
   const [isAdmin, setIsAdmin] = useState(false)
@@ -65,13 +67,15 @@ function App() {
           <Route exact path="/category/:cateId"><CategorizedNews /></Route>
           <Route exact path="/breaking"><BreakingNewsPage /></Route>
           <Route path="/forum"><ForumPage /></Route>
+          <Route exact path="/forum"><ForumPage isUser = {isUser}/></Route>
+          <Route exact path="/forum/categorized/:categorized_id"><CategorizedPost isUser = {isUser}/></Route>
+          <Route exact path="/forum/post/postdetail/:id"><PostDetail /></Route>
           <Route exact path="/login"><Login /></Route>
           <Route path="/login/:verified"><Login /></Route>
           <Route path="/signup"><Signup /></Route>
           <Route path="/articles"><ReportPage /></Route>
-          <Route path="/profile"><MyProfile /></Route>
+          <Route path="/profile/:id"><MyProfile /></Route>
           <Route path="/articleform"><CreateNews /></Route>
-
         </Switch>
         <Footer />
       </Router>}

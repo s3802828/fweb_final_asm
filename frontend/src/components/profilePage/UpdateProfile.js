@@ -40,10 +40,10 @@ function UpdateProfile(props) {
     //     .required('Confirm Password is required')
     //     .oneOf([Yup.ref('password'), null], 'Confirm Password does not match')
 });
-const { register, handleSubmit, formState: { errors } } = useForm({
+const { register, unregister, handleSubmit, formState: { errors } } = useForm({
     resolver: yupResolver(validationSchema),
     // defaultValues: { username: user && user.username}
-    shouldUnregister: false,
+    shouldUnregister: true,
     shouldFocusError: false,
     mode: 'onSubmit'
 });
@@ -106,7 +106,7 @@ const update = data => {
                                 id="firstName"
                                 placeholder="Your name"
                                 defaultValue={`${props.user ? props.user.name : ''}`}  
-                                {...register('name')}
+                                {...register('name')} 
                               />
                             </div>
 
@@ -138,7 +138,7 @@ const update = data => {
                                   id="username"
                                   placeholder="Username"
                                   defaultValue={`${props.user ? props.user.username : ''}`}  
-                                  {...register('username')}
+                                  {...register('username')} 
                                 />
                                 <div className="invalid-feedback">{returnMessage === "Username is already existed." && returnMessage} {errors.username?.message}</div>
                               </div>
@@ -216,7 +216,7 @@ const update = data => {
                                 id="address"
                                 placeholder="1234 Main St"
                                 defaultValue={`${props.user ? props.user.address : ''}`}
-                                {...register('address')}
+                                {...register('address')} 
                               />
                             </div>
 
@@ -231,7 +231,7 @@ const update = data => {
                                 id="address2"
                                 placeholder="Phone number"
                                 defaultValue={`${props.user ? props.user.phoneNumber : ''}`}
-                                {...register('phoneNumber')}
+                                {...register('phoneNumber')} 
                               />
                               <div className="invalid-feedback"> {errors.phoneNumber?.message}</div>
                             </div>  
@@ -244,7 +244,15 @@ const update = data => {
                             >
                               Cancel
                             </button>
-                            <button  class="btn btn-primary" type="submit">
+                            <button  class="btn btn-primary" type="submit" onClick={() => {
+                              unregister("name", {keepDefaultValue: true});
+                              unregister("dateOfBirth", {keepDefaultValue: true});
+                              unregister("username", {keepDefaultValue: true});
+                              unregister("address", {keepDefaultValue: true});
+                              unregister("phoneNumber", {keepDefaultValue: true});
+                            
+                            }  
+                              }>
                               Save changes
                             </button>
                           </div>

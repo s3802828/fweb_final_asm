@@ -7,20 +7,24 @@ import emailsent from './emailsent.gif'
 
 function Signup(props) {
     const validationSchema = Yup.object().shape({
-        username: Yup.string()
+        name: Yup.string().trim()
+            .required('Name is required')
+            .max(50, 'Name must not exceed 50 characters')
+            .matches(/^(?![ ]+$)[a-zA-Z .]*$/, 'Name must only contain letters and space'),
+        username: Yup.string().trim()
             .required('Username is required')
             .min(6, 'Username must be at least 6 characters')
             .max(15, 'Username must not exceed 15 characters')
             .matches(/^[a-zA-Z0-9_]+$/, 'Username must only contain letters, numbers, or "_"'),
-        email: Yup.string()
+        email: Yup.string().trim()
             .required('Email is required')
             .email('Email is invalid'),
-        password: Yup.string()
+        password: Yup.string().trim()
             .required('Password is required')
             .min(8, 'Password must be at least 8 characters')
             .max(40, 'Password must not exceed 40 characters')
             .matches(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]*$/, 'Password must contain at least one letter, one number, and one special character'),
-        confirmPassword: Yup.string()
+        confirmPassword: Yup.string().trim()
             .required('Confirm Password is required')
             .oneOf([Yup.ref('password'), null], 'Confirm Password does not match')
     });
@@ -31,14 +35,15 @@ function Signup(props) {
     const endPoint = "http://localhost:9000/auth/signup"
     const signUp = data => {
         let registrant = {}
+        //let c
         const deleteToken = localStorage.getItem("deleteToken")
         if ( deleteToken === "") {
             registrant = {
-                username: data.username, password: data.password, email: data.email
+                username: data.username, password: data.password, email: data.email, name: data.name
             }
         } else {
             registrant = {
-                username: data.username, password: data.password, email: data.email, deleteToken: JSON.parse(deleteToken)
+                username: data.username, password: data.password, email: data.email, deleteToken: JSON.parse(deleteToken), name: data.name
             }
         }
         console.log(registrant)
@@ -64,6 +69,11 @@ function Signup(props) {
                             <h1 class="h3 mb-3 fw-normal text-center">SIGN UP</h1>
 
                             <div class="form-floating">
+                                <input type="username" class={`form-control ${errors.name ? 'is-invalid' : ''}`} id="floatingInput-name" placeholder="Kienhq51" {...register('name')} />
+                                <label for="floatingInput-name">Name</label>
+                                <div className="invalid-feedback">{errors.name?.message}</div>
+                            </div>
+                            <div class="form-floating mt-2">
                                 <input type="username" class={`form-control ${errors.username || returnMessage === "Username is already existed." ? 'is-invalid' : ''}`} id="floatingInput-username" placeholder="Kienhq51" {...register('username')} />
                                 <label for="floatingInput-username">Username</label>
                                 <div className="invalid-feedback">{returnMessage === "Username is already existed." && returnMessage} {errors.username?.message}</div>

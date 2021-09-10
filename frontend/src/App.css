@@ -7,6 +7,9 @@ body{
 html{
   height:100%
 }
+.categoryroute:hover{
+  color: "red"
+}
 .App-logo {
   height: 40vmin;
   pointer-events: none;

@@ -1,8 +1,3 @@
-import {
-  BrowserRouter as Link,
-  useLocation,
-  useParams,
-} from "react-router-dom";
 import { useEffect, useState } from "react";
 
 export default function Post(props) {
@@ -21,13 +16,9 @@ export default function Post(props) {
     const create_like = (post_id) => {
       fetch(new_like, {
         method: 'PUT',
-
          headers: {
-
            'Content-Type': 'application/json'
-
          },
-
          body: JSON.stringify({ post_id: post_id, user_id: currentUser.id})
       })
       .then(response => response.json())
@@ -80,9 +71,7 @@ export default function Post(props) {
         </div>
         {/*<Link to={`${props.url}/post/postdetail`} style={{ "text-decoration": "none", "color": "black" }}></Link>*/}
         <a
-          href={`${
-            props.url === undefined ? "/forum" : props.url
-          }/post/postdetail/${props.element._id}`}
+          href={`/forum/post/postdetail/${props.element._id}`}
           style={{ "textDecoration": "none", color: "black" }}
         >
           <div class="card-body">
@@ -116,11 +105,8 @@ export default function Post(props) {
           </span>
           &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
           <a
-            href={`${
-              props.url == undefined ? "/forum" : props.url
-            }/post/postdetail/${props.element._id}`}
-            style={{ "textDecoration": "none", color: "black" }}
-          >
+          href={`/forum/post/postdetail/${props.element._id}`}
+          style={{ "textDecoration": "none", color: "black" }}>
             <i class=" fas fa-comment-dots hover-icon w3-large"></i>
           </a>
           &nbsp;&nbsp;&nbsp;&nbsp;

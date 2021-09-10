@@ -1,19 +1,11 @@
 import Sidebar from "./Sidebar";
 import Post from "./Post";
-import {
-  BrowserRouter as Router,
-  Link,
-  Route,
-  Switch,
-  useRouteMatch,
-  useParams,
-} from "react-router-dom";
-import PostDetail from "./PostDetail";
 import CreatePost from "./CreatePost";
 import { useState, useEffect } from "react";
 
 export default function ForumPage(props) {
   const [Posts, setPosts] = useState([]);
+  const [sortedPostArray, setSortedPostArray] = useState([])
   //const [postUserInfo, setPostUserInfo] = useState({})
   // const fetchPostUser = (userId) => {
   //     var newElement = {}
@@ -21,21 +13,27 @@ export default function ForumPage(props) {
   //     .then(res => res.json())
   //     .then(data => setPostUserInfo({username: data.username}))
   // }
-  const fetchPost = () => {
+  const fetchPost =  () => {
     fetch("http://localhost:9000/forums/posts")
       .then((response) => response.json())
       .then((data) => {
-        data.map(async (postElement) => {
-          var newElement = {};
+        data.map(async function(postElement){
           await fetch(`http://localhost:9000/profile/profiledetails/${postElement.user_id}`)
             .then((res) => res.json())
-            .then((data) => newElement = {...postElement, username: data.username })
-            .then(res => setPosts(Posts => [...Posts, res]));
+            .then((data) => {setPosts(Posts => [...Posts, {...postElement, username: data.username }])})
+            // .then(res => setPosts(Posts => [...Posts, res]));
           //fetchPostUser(postElement.user_id)
         });
-        //setPosts(newData);
+        //setPosts(data);
       });
   };
+  const sortPostArray = () => {
+    var newPostArray = [...Posts];
+    newPostArray.sort((first, second) => {
+      return (new Date(second.createdAt) - new Date(first.createdAt))
+    })
+    setSortedPostArray(newPostArray)
+  }
   
   const countTimeDiff = (time) => 
   {var diffTimeInMs = Date.now() - new Date(time)
@@ -58,14 +56,13 @@ export default function ForumPage(props) {
     if (seconds > 0) 
     {return `${seconds > 1 ? `${seconds} seconds ago` : `${seconds} second ago`} `}}
   
-  
-
-
-
   useEffect(() => {
     fetchPost();
   }, []);
-  let { path, url } = useRouteMatch();
+
+  useEffect(() => {
+    sortPostArray();
+  }, [Posts]);
   const [showCreatePostForm, setShowCreatePostForm] = useState(false);
   return (
     <div class="container-fluid">
@@ -82,17 +79,9 @@ export default function ForumPage(props) {
 
         <div class="col-6">
           {showCreatePostForm && <CreatePost />}
-          <Switch>
-            <Route exact path={`${path}`}>
-              {Posts.map((element) => {
-                return <Post isUser = {props.isUser} createdAt={countTimeDiff(element.createdAt)} element={element} url = {url}/>;
-              })}
-            </Route>
-            {/* <Route exact path={`${path}/:cateid`}><Post url={url} /></Route> */}
-            <Route exact path={`${path}/post/postdetail/:id`}>
-              <PostDetail/>
-            </Route>
-          </Switch>
+            {sortedPostArray.map((element) => {
+              return <Post isUser = {props.isUser} createdAt={countTimeDiff(element.createdAt)} element={element}/>;
+            })} 
         </div>
 
         <div class="col-3 mt-3">

@@ -10,7 +10,7 @@ function Signup(props) {
         name: Yup.string().trim()
             .required('Name is required')
             .max(50, 'Name must not exceed 50 characters')
-            .matches(/^(?![ ]+$)[a-zA-Z .]*$/, 'Firstname must only contain letters and space'),
+            .matches(/^(?![ ]+$)[a-zA-Z .]*$/, 'Name must only contain letters and space'),
         username: Yup.string().trim()
             .required('Username is required')
             .min(6, 'Username must be at least 6 characters')

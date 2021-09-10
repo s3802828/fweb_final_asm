@@ -1,6 +1,71 @@
 import React from "react";
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as Yup from 'yup';
+import { useState, useEffect } from "react";
 
-function UpdateProfile() {
+
+
+function UpdateProfile(props) {
+
+  const currentUser = JSON.parse(localStorage.getItem("user"))
+  // const [user, setUser] = useState()
+  // useEffect(() => {
+  //   setUser(props.user)
+  // }, [props.user])
+  const validationSchema = Yup.object().shape({
+    username: Yup.string()
+        .required('Username is required')
+        .min(6, 'Username must be at least 6 characters')
+        .max(15, 'Username must not exceed 15 characters')
+        .matches(/^[a-zA-Z0-9_]+$/, 'Username must only contain letters, numbers, or "_"'),
+    // email: Yup.string()
+    //     .required('Email is required')
+    //     .email('Email is invalid'),
+    phoneNumber: Yup.string()
+      .min(7, 'Phone number must contains at least 7 digits')
+      .max(11, 'Phone number must contains maximum 11 digits')
+      .matches(/^[0-9]*/, 'Phone numbers can only contain numbers'),
+    address: Yup.string(),
+    name: Yup.string(),
+    dateOfBirth: Yup.string()
+      .matches(/^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d$/, 'DoB must match the format dd/mm/yyyy')
+
+    // password: Yup.string()
+    //     .required('Password is required')
+    //     .min(8, 'Password must be at least 8 characters')
+    //     .max(40, 'Password must not exceed 40 characters')
+    //     .matches(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]*$/, 'Password must contain at least one letter, one number, and one special character'),
+    // confirmPassword: Yup.string()
+    //     .required('Confirm Password is required')
+    //     .oneOf([Yup.ref('password'), null], 'Confirm Password does not match')
+});
+const { register, handleSubmit, formState: { errors } } = useForm({
+    resolver: yupResolver(validationSchema),
+    // defaultValues: { username: user && user.username}
+    shouldUnregister: false,
+    shouldFocusError: false,
+    mode: 'onSubmit'
+});
+
+const [returnMessage, setReturnMessage] = useState("")
+const endPoint = `http://localhost:9000/user/`
+
+const update = data => {
+  console.log(data)
+  console.log(currentUser)
+  fetch(endPoint + `${currentUser.id}/update`, {
+      method: 'PUT',
+      headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+      },
+      body: JSON.stringify(data)
+  }).then(response => response.json()).then(data => setReturnMessage(data.message))
+};
+
+
+
   return (
     <>
       <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
@@ -23,46 +88,42 @@ function UpdateProfile() {
                     <div class="py-5 text-center">
                       <img class="d-block mx-auto mb-4" src="../assets/brand/bootstrap-logo.svg" alt="" width="72" height="57" />
                       <p class="lead">
-                        Username display here
+                        {props.user.username}
                       </p>
                     </div>
 
                     <div class="row g-5">
                       <div class="col-12">
-                        <form class="needs-validation" novalidate>
+                        <form class="needs-validation" onSubmit={handleSubmit(update)} >
                           <div class="row g-3">
                             <div class="col-sm-6">
                               <label for="firstName" class="form-label">
-                                First name
+                                Name
                               </label>
                               <input
                                 type="text"
-                                class="form-control"
+                                class={`form-control ${errors.name || returnMessage === "Username is already existed." ? 'is-invalid' : ''}`}
                                 id="firstName"
-                                placeholder=""
-                                value=""
-                                required
+                                placeholder="Your name"
+                                defaultValue={`${props.user ? props.user.name : ''}`}  
+                                {...register('name')}
                               />
-                              <div class="invalid-feedback">
-                                Valid first name is required.
-                              </div>
                             </div>
 
                             <div class="col-sm-6">
                               <label for="lastName" class="form-label">
-                                Last name
+                                DoB
                               </label>
                               <input
                                 type="text"
-                                class="form-control"
-                                id="lastName"
-                                placeholder=""
-                                value=""
-                                required
+                                class={`form-control ${errors.dateOfBirth || returnMessage === "Username is already existed." ? 'is-invalid' : ''}`}
+                                id="DoB"
+                                placeholder="dd/mm/yyyy"
+                                defaultValue={`${props.user ? props.user.dateOfBirth : ''}`} 
+                                {...register('dateOfBirth')} 
                               />
-                              <div class="invalid-feedback">
-                                Valid last name is required.
-                              </div>
+                              <div className="invalid-feedback"> {errors.dateOfBirth?.message}</div>
+
                             </div>
 
                             <div class="col-6">
@@ -73,14 +134,13 @@ function UpdateProfile() {
                                 <span class="input-group-text">@</span>
                                 <input
                                   type="text"
-                                  class="form-control"
+                                  class={`form-control ${errors.username || returnMessage === "Username is already existed." ? 'is-invalid' : ''}`}
                                   id="username"
                                   placeholder="Username"
-                                  required
+                                  defaultValue={`${props.user ? props.user.username : ''}`}  
+                                  {...register('username')}
                                 />
-                                <div class="invalid-feedback">
-                                  Your username is required.
-                                </div>
+                                <div className="invalid-feedback">{returnMessage === "Username is already existed." && returnMessage} {errors.username?.message}</div>
                               </div>
                             </div>
                             <div class="my-3 col-6">
@@ -103,13 +163,14 @@ function UpdateProfile() {
                                   Male
                                 </label>
                               </div>
+
                               <div class="form-check form-check-inline">
                                 <input
                                   id="debit"
                                   name="gender"
                                   type="radio"
                                   class="form-check-input"
-                                  value="femail"
+                                  value="female"
                                 />
                                 <label class="form-check-label" for="debit">
                                   Female
@@ -131,18 +192,18 @@ function UpdateProfile() {
 
                             <div class="col-12">
                               <label for="email" class="form-label">
-                                Email <span class="text-muted">(Optional)</span>
+                                Email
                               </label>
                               <input
                                 type="email"
                                 class="form-control"
                                 id="email"
                                 placeholder="you@example.com"
+                                defaultValue={`${props.user ? props.user.email : ''}`}
+                                disabled
+                                {...register('email')}
                               />
-                              <div class="invalid-feedback">
-                                Please enter a valid email address for the
-                                updates.
-                              </div>
+                              {console.log(props.user.email)}
                             </div>
 
                             <div class="col-7">
@@ -154,11 +215,9 @@ function UpdateProfile() {
                                 class="form-control"
                                 id="address"
                                 placeholder="1234 Main St"
-                                required
+                                defaultValue={`${props.user ? props.user.address : ''}`}
+                                {...register('address')}
                               />
-                              <div class="invalid-feedback">
-                                Please enter your shipping address.
-                              </div>
                             </div>
 
                             <div class="col-5">
@@ -168,11 +227,26 @@ function UpdateProfile() {
                               </label>
                               <input
                                 type="text"
-                                class="form-control"
+                                class={`form-control ${errors.phoneNumber || returnMessage === "Username is already existed." ? 'is-invalid' : ''}`}
                                 id="address2"
                                 placeholder="Phone number"
+                                defaultValue={`${props.user ? props.user.phoneNumber : ''}`}
+                                {...register('phoneNumber')}
                               />
+                              <div className="invalid-feedback"> {errors.phoneNumber?.message}</div>
                             </div>  
+                          </div>
+                          <div class="modal-footer">
+                            <button
+                              type="button"
+                              class="btn btn-secondary"
+                              data-bs-dismiss="modal"
+                            >
+                              Cancel
+                            </button>
+                            <button  class="btn btn-primary" type="submit">
+                              Save changes
+                            </button>
                           </div>
                         </form>
                       </div>
@@ -181,18 +255,7 @@ function UpdateProfile() {
                 </div>
               </body>
             </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Cancel
-              </button>
-              <button type="button" class="btn btn-primary">
-                Save changes
-              </button>
-            </div>
+            
           </div>
         </div>
       </div>

@@ -66,7 +66,7 @@ export default function ProfileCard(props) {
                     <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
                     <li><a href="#"><i class="fab fa-twitter"></i></a></li>
                     <li><a href="#"><i class="fab fa-instagram"></i></a></li>
-                    <UpdateProfile />
+                    <UpdateProfile user = {props.user !== undefined && props.user}/>
                 </ul>
             </div>
           </div>

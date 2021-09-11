@@ -26,6 +26,7 @@ useEffect(()=>{
     fetchUserProfile();
     fetchUserPost()
 },[])
+
     return (
         <div class="container-fluid">
             <div class="row">
@@ -37,7 +38,7 @@ useEffect(()=>{
                     <div class="posts">
                         {userPost.map((element) => {
                             console.log(element)
-                            return <Post username={userProfile !== undefined &&userProfile.username} element={element}/>;
+                            return <Post isProfilePage = {true} username={userProfile !== undefined && userProfile.username} element={element}/>;
                         })}
 
                     </div>

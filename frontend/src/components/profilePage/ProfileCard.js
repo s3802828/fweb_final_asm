@@ -59,7 +59,7 @@ export default function ProfileCard(props) {
   },[props.user._id, props.user.followers])
 
   console.log("HELOOOOOOOOOOOOOO")
-  console.log("FOLLOW STATUS: " + followState)
+  //console.log("FOLLOW STATUS: " + followState)
   console.log("FOLLOWERS: " + JSON.stringify(props.user.followers))
 
   return (

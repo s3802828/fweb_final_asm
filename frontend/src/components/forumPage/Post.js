@@ -1,47 +1,14 @@
+import {
+  BrowserRouter as Link,
+  useLocation,
+  useParams,
+} from "react-router-dom";
 import { useEffect, useState } from "react";
 
 export default function Post(props) {
-    const new_like = "http://localhost:9000/vote/addvote"
-    const dislike = "http://localhost:9000/vote/deletevote"
-    const [liked, setLiked] = useState(false)
-    const [numberOfVotes, setnumberOfVotes] = useState()
-
-    const currentUser = JSON.parse(localStorage.getItem("user"))
-    useEffect(() => {
-        if(props.isUser && props.element.vote.includes(currentUser.id)){
-          setLiked(true)
-        }
-    }, [props.element.vote, props.isUser])
-
-    const create_like = (post_id) => {
-      fetch(new_like, {
-        method: 'PUT',
-         headers: {
-           'Content-Type': 'application/json'
-         },
-         body: JSON.stringify({ post_id: post_id, user_id: currentUser.id})
-      })
-      .then(response => response.json())
-      .then(data => {setnumberOfVotes(data)})
-    }
-
-    const dis_like = (post_id) => {
-      fetch(dislike, {
-        method: 'PUT',
-
-         headers: {
-
-           'Content-Type': 'application/json'
-
-         },
-
-         body: JSON.stringify({ post_id: post_id, user_id: currentUser.id})
-      })
-      .then(response => response.json())
-      .then(data => {setnumberOfVotes(data)})
-    }
 
     return (
+        
       <div class="card mb-4 mt-3">
         <div class="card-header text-muted" id={props.element._id}>
           <div>
@@ -71,7 +38,9 @@ export default function Post(props) {
         </div>
         {/*<Link to={`${props.url}/post/postdetail`} style={{ "text-decoration": "none", "color": "black" }}></Link>*/}
         <a
-          href={`/forum/post/postdetail/${props.element._id}`}
+          href={`${
+            props.url === undefined ? "/forum" : props.url
+          }/post/postdetail/${props.element._id}`}
           style={{ "textDecoration": "none", color: "black" }}
         >
           <div class="card-body">
@@ -91,22 +60,18 @@ export default function Post(props) {
         </a>
 
         <div class="card-footer text-muted">
-          <span>
-            <span style={props.isUser && liked ? {color: "#0d6efd" } : {}} onClick= {props.isUser && (liked ? () => {setLiked(false); dis_like(props.element._id)} : () => {setLiked(true); create_like(props.element._id)})}>
-              <i
-                class="fa fa-thumbs-up hover-icon vote-button w3-large"
-                id="post-{{$post->id}}-up"
-                value="0"
-              ></i>
-            </span>
-            <span class="numberOfLikes ms-2">
-              {numberOfVotes ? numberOfVotes.vote.length : props.element.vote.length} Likes
-            </span>
-          </span>
+          <i
+            class="fa fa-thumbs-up hover-icon vote-button w3-large"
+            id="post-{{$post->id}}-up"
+            value="0"
+          ></i>
           &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
           <a
-          href={`/forum/post/postdetail/${props.element._id}`}
-          style={{ "textDecoration": "none", color: "black" }}>
+            href={`${
+              props.url == undefined ? "/forum" : props.url
+            }/post/postdetail/${props.element._id}`}
+            style={{ "textDecoration": "none", color: "black" }}
+          >
             <i class=" fas fa-comment-dots hover-icon w3-large"></i>
           </a>
           &nbsp;&nbsp;&nbsp;&nbsp;

@@ -19,26 +19,10 @@ export default function ProfileCard(props) {
       setuserFollowing(following)
     })
   }
-
-  const follow = () => {
-    fetch(`http://localhost:9000/user/${currentUser.id}/follow`, {
-      method: 'PUT',
-       headers: {
-         'Content-Type': 'application/json'
-       },
-       body: JSON.stringify({id: props.user._id })
-    })
-    .then(response => response.json())
-    .then(data => console.log(data))
-  }
-
-
   useEffect(()=>{
       fetchFollowing();
       console.log(props.user._id)
   },[props.user._id])
-
-
 
 
   return (
@@ -87,7 +71,7 @@ export default function ProfileCard(props) {
                     <li><a href="#"><i class="fab fa-instagram"></i></a></li>
                     <UpdateProfile user = {props.user !== undefined && props.user}/>
 
-                    <button id="follow-btn"type="button" class="btn btn-primary float-right" onClick={() => follow()}>
+                    <button id="follow-btn"type="button" class="btn btn-primary float-right">
                     Follow
                     </button>
                 </ul>

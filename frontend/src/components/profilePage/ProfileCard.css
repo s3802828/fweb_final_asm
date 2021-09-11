@@ -8,6 +8,11 @@
   font-family: 'Josefin Sans', sans-serif;
 }
 
+#follow-btn {
+  float: right;
+  margin-bottom: 1em;
+}
+
 body{
    background-color: #f3f3f3;
 }
@@ -105,6 +110,7 @@ body{
   text-align: center;
   line-height: 45px;
 }
+
 
 .wrapper .social_media ul li a{
   color :#fff;

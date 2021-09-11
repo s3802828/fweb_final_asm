@@ -8,7 +8,7 @@ var UserSchema = new mongoose.Schema({
         default:false
     },
     name: String,
-    dateOfBirth: Date,
+    dateOfBirth: String,
     gender: String,
     phoneNumber: String,
     address: String,

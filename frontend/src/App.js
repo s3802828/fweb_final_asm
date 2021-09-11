@@ -74,7 +74,7 @@ function App() {
           <Route path="/login/:verified"><Login /></Route>
           <Route path="/signup"><Signup /></Route>
           <Route path="/articles"><ReportPage /></Route>
-          <Route path="/profile/:id"><MyProfile /></Route>
+          <Route path="/profile/:id"><MyProfile is/></Route>
           <Route path="/articleform"><CreateNews /></Route>
         </Switch>
         <Footer />

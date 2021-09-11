@@ -10,8 +10,13 @@ var verifyEmail = require('./routes/signUpLoginRoutes/verifyEmail')
 var newsPageRoute = require('./routes/newpageRoute/fetchNewPageRoute')
 var forumPosts = require("./routes/forums/forumsRoute")
 var profileUser = require("./routes/profile/profileRoutes")
+
+var userUpdateRoute = require ('./routes/profile/userUpdateRoute')
+var userFollowRoute = require ('./routes/profile/userFollowRoute')
+
 var voteRoute = require('./routes/forums/voteRoute')
 var categorizeRoute = require ('./routes/forums/categorizeRoute')
+
 
 
 
@@ -28,6 +33,11 @@ app.use('/', verifyEmail)
 app.use('/profile', profileUser)
 app.use('/forums', forumPosts)
 
+app.use('', userUpdateRoute)
+app.use('', userFollowRoute)
+
+
 app.use('/vote', voteRoute)
 app.use('/categorize', categorizeRoute)
+
 module.exports = app;

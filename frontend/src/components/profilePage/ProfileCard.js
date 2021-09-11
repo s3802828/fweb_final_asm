@@ -3,6 +3,7 @@ import './ProfileCard.css'
 import UpdateProfile from './UpdateProfile'
 
 export default function ProfileCard(props) {
+  const currentUser = JSON.parse(localStorage.getItem("user"))
   const [userFollowing, setuserFollowing] = useState()
   const fetchFollowing = () => {
       fetch(`http://localhost:9000/profile/allusers`)
@@ -34,7 +35,9 @@ export default function ProfileCard(props) {
           </div>
           <div class="right">
               <div class="info">
-                  <h3>Information</h3>
+                  <h3>Information
+                  
+                  </h3>
                   <div class="info_data">
                       <div class="data">
                           <h4>Email</h4>
@@ -66,9 +69,14 @@ export default function ProfileCard(props) {
                     <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
                     <li><a href="#"><i class="fab fa-twitter"></i></a></li>
                     <li><a href="#"><i class="fab fa-instagram"></i></a></li>
-                    <UpdateProfile />
+                    <UpdateProfile user = {props.user !== undefined && props.user}/>
+
+                    <button id="follow-btn"type="button" class="btn btn-primary float-right">
+                    Follow
+                    </button>
                 </ul>
             </div>
+            
           </div>
       </div>
       

@@ -10,7 +10,8 @@ exports.userUpdate = (req,res) => {
     address: req.body.address,
     name: req.body.name,
     phoneNumber: req.body.phoneNumber,
-    dateOfBirth: req.body.dateOfBirth
+    dateOfBirth: req.body.dateOfBirth,
+    gender: req.body.gender
   
   }, function(err, result) {
     if(err){

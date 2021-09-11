@@ -7,14 +7,13 @@ import { useState, useEffect } from "react";
 
 
 function UpdateProfile(props) {
-
   const currentUser = JSON.parse(localStorage.getItem("user"))
   // const [user, setUser] = useState()
   // useEffect(() => {
   //   setUser(props.user)
   // }, [props.user])
   const validationSchema = Yup.object().shape({
-    username: Yup.string()
+    username: Yup.string().trim()
         .required('Username is required')
         .min(6, 'Username must be at least 6 characters')
         .max(15, 'Username must not exceed 15 characters')
@@ -22,14 +21,16 @@ function UpdateProfile(props) {
     // email: Yup.string()
     //     .required('Email is required')
     //     .email('Email is invalid'),
-    phoneNumber: Yup.string()
+    phoneNumber: Yup.string().trim()
       .min(7, 'Phone number must contains at least 7 digits')
       .max(11, 'Phone number must contains maximum 11 digits')
       .matches(/^[0-9]*/, 'Phone numbers can only contain numbers'),
-    address: Yup.string(),
-    name: Yup.string(),
-    dateOfBirth: Yup.string()
-      .matches(/^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d$/, 'DoB must match the format dd/mm/yyyy')
+    address: Yup.string().trim(),
+    name: Yup.string().trim()
+      .matches(/^(?![ ]+$)[a-zA-Z .]*$/, 'Name must only contain letters and space'),
+    dateOfBirth: Yup.string().trim()
+      .matches(/^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d$/, 'DoB must match the format dd/mm/yyyy'),
+    gender: Yup.string().trim()
 
     // password: Yup.string()
     //     .required('Password is required')
@@ -143,51 +144,19 @@ const update = data => {
                                 <div className="invalid-feedback">{returnMessage === "Username is already existed." && returnMessage} {errors.username?.message}</div>
                               </div>
                             </div>
-                            <div class="my-3 col-6">
-                              <div>
-                              <label for="Gender" class="form-label">
+                            <div class="col-6">
+                              <label for="lastName" class="form-label">
                                 Gender
-                                <span class="text-muted">(Optional)</span>
                               </label>
-                              </div>
-                              <div class="form-check form-check-inline">
-                                <input
-                                  id="credit"
-                                  name="gender"
-                                  type="radio"
-                                  class="form-check-input"
-                                  value="male"
-                                  
-                                />
-                                <label class="form-check-label" for="credit">
-                                  Male
-                                </label>
-                              </div>
-
-                              <div class="form-check form-check-inline">
-                                <input
-                                  id="debit"
-                                  name="gender"
-                                  type="radio"
-                                  class="form-check-input"
-                                  value="female"
-                                />
-                                <label class="form-check-label" for="debit">
-                                  Female
-                                </label>
-                              </div>
-                              <div class="form-check form-check-inline">
-                                <input
-                                  id="paypal"
-                                  name="gender"
-                                  type="radio"
-                                  class="form-check-input"
-                                  value="none"
-                                />
-                                <label class="form-check-label" for="paypal">
-                                  Prefer not to say
-                                </label>
-                              </div>
+                              <input
+                                type="text"
+                                class={`form-control ${errors.gender || returnMessage === "Username is already existed." ? 'is-invalid' : ''}`}
+                                id="DoB"
+                                placeholder="dd/mm/yyyy"
+                                defaultValue={`${props.user ? props.user.gender : ''}`} 
+                                {...register('gender')} 
+                              />
+                              <div className="invalid-feedback"> {errors.gender?.message}</div>
                             </div>
 
                             <div class="col-12">
@@ -250,7 +219,7 @@ const update = data => {
                               unregister("username", {keepDefaultValue: true});
                               unregister("address", {keepDefaultValue: true});
                               unregister("phoneNumber", {keepDefaultValue: true});
-                            
+                              unregister("gender", {keepDefaultValue: true});
                             }  
                               }>
                               Save changes

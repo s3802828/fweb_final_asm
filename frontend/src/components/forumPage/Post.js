@@ -13,6 +13,8 @@ export default function Post(props) {
         }
     }, [props.element.vote, props.isUser])
 
+    console.log("PROPS.ELEMENT" + JSON.stringify(props.element))
+
     const create_like = (post_id) => {
       fetch(new_like, {
         method: 'PUT',
@@ -22,7 +24,9 @@ export default function Post(props) {
          body: JSON.stringify({ post_id: post_id, user_id: currentUser.id})
       })
       .then(response => response.json())
-      .then(data => {setnumberOfVotes(data)})
+      .then(data => {
+        console.log("VOTE DATA" + JSON.stringify(data))
+        setnumberOfVotes(data)})
     }
 
     const dis_like = (post_id) => {

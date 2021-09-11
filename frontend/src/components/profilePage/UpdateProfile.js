@@ -67,6 +67,7 @@ const update = data => {
 
 
 
+
   return (
     <>
       <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
@@ -106,7 +107,7 @@ const update = data => {
                                 class={`form-control ${errors.name || returnMessage === "Username is already existed." ? 'is-invalid' : ''}`}
                                 id="firstName"
                                 placeholder="Your name"
-                                defaultValue={`${props.user ? props.user.name : ''}`}  
+                                defaultValue={`${props.user.name ? props.user.name : ''}`}  
                                 {...register('name')} 
                               />
                             </div>
@@ -120,7 +121,7 @@ const update = data => {
                                 class={`form-control ${errors.dateOfBirth || returnMessage === "Username is already existed." ? 'is-invalid' : ''}`}
                                 id="DoB"
                                 placeholder="dd/mm/yyyy"
-                                defaultValue={`${props.user ? props.user.dateOfBirth : ''}`} 
+                                defaultValue={`${props.user.dateOfBirth ? props.user.dateOfBirth : ''}`} 
                                 {...register('dateOfBirth')} 
                               />
                               <div className="invalid-feedback"> {errors.dateOfBirth?.message}</div>
@@ -138,7 +139,7 @@ const update = data => {
                                   class={`form-control ${errors.username || returnMessage === "Username is already existed." ? 'is-invalid' : ''}`}
                                   id="username"
                                   placeholder="Username"
-                                  defaultValue={`${props.user ? props.user.username : ''}`}  
+                                  defaultValue={`${props.user.username ? props.user.username : ''}`}  
                                   {...register('username')} 
                                 />
                                 <div className="invalid-feedback">{returnMessage === "Username is already existed." && returnMessage} {errors.username?.message}</div>
@@ -152,8 +153,8 @@ const update = data => {
                                 type="text"
                                 class={`form-control ${errors.gender || returnMessage === "Username is already existed." ? 'is-invalid' : ''}`}
                                 id="DoB"
-                                placeholder="dd/mm/yyyy"
-                                defaultValue={`${props.user ? props.user.gender : ''}`} 
+                                placeholder="Your gender"
+                                defaultValue={`${props.user.gender ? props.user.gender : ''}`} 
                                 {...register('gender')} 
                               />
                               <div className="invalid-feedback"> {errors.gender?.message}</div>
@@ -168,7 +169,7 @@ const update = data => {
                                 class="form-control"
                                 id="email"
                                 placeholder="you@example.com"
-                                defaultValue={`${props.user ? props.user.email : ''}`}
+                                defaultValue={`${props.user.email ? props.user.email : ''}`}
                                 disabled
                                 {...register('email')}
                               />
@@ -184,7 +185,7 @@ const update = data => {
                                 class="form-control"
                                 id="address"
                                 placeholder="1234 Main St"
-                                defaultValue={`${props.user ? props.user.address : ''}`}
+                                defaultValue={`${props.user.address ? props.user.address : ''}`}
                                 {...register('address')} 
                               />
                             </div>
@@ -199,7 +200,7 @@ const update = data => {
                                 class={`form-control ${errors.phoneNumber || returnMessage === "Username is already existed." ? 'is-invalid' : ''}`}
                                 id="address2"
                                 placeholder="Phone number"
-                                defaultValue={`${props.user ? props.user.phoneNumber : ''}`}
+                                defaultValue={`${props.user.phoneNumber ? props.user.phoneNumber : ''}`}
                                 {...register('phoneNumber')} 
                               />
                               <div className="invalid-feedback"> {errors.phoneNumber?.message}</div>

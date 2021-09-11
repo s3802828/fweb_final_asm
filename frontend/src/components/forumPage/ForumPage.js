@@ -20,7 +20,7 @@ export default function ForumPage(props) {
         data.map(async function(postElement){
           await fetch(`http://localhost:9000/profile/profiledetails/${postElement.user_id}`)
             .then((res) => res.json())
-            .then((data) => {setPosts(Posts => [...Posts, {...postElement, username: data.username }])})
+            .then((data) => {setPosts(Posts => [...Posts, {...postElement, username: data.username, followers: data.followers }])})
             // .then(res => setPosts(Posts => [...Posts, res]));
           //fetchPostUser(postElement.user_id)
         });

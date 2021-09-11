@@ -29,7 +29,7 @@ export default function CategorizedPost(props) {
           var newElement = {};
           await fetch(`http://localhost:9000/profile/profiledetails/${postElement.user_id}`)
             .then((res) => res.json())
-            .then((dataProfile) => newElement = {...postElement, username: dataProfile.username })
+            .then((dataProfile) => newElement = {...postElement, username: dataProfile.username, followers: dataProfile.followers })
             .then(res => setCategorizedPosts(categorizedPosts => [...categorizedPosts, res]));
         });
       });

@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
+import './Post.css'
 
 export default function Post(props) {
     const new_like = "http://localhost:9000/vote/addvote"
     const dislike = "http://localhost:9000/vote/deletevote"
     const [liked, setLiked] = useState(false)
     const [numberOfVotes, setnumberOfVotes] = useState()
+    const [user, setUser] = useState()
+    const [followState, setFollowState] = useState(false)
 
     const currentUser = JSON.parse(localStorage.getItem("user"))
     useEffect(() => {
@@ -12,6 +15,34 @@ export default function Post(props) {
           setLiked(true)
         }
     }, [props.element.vote, props.isUser])
+
+    console.log("PROPS.ELEMENT" + JSON.stringify(props.element))
+
+    const follow = () => {
+      fetch(`http://localhost:9000/user/${currentUser.id}/follow`, {
+        method: 'PUT',
+         headers: {
+           'Content-Type': 'application/json'
+         },
+         body: JSON.stringify({id: props.element.user_id})
+      })
+      .then(response => response.json())
+      .then(data => setUser(data))
+    }
+
+    const unFollow = () => {
+      fetch(`http://localhost:9000/user/${currentUser.id}/unfollow`, {
+        method: 'PUT',
+         headers: {
+           'Content-Type': 'application/json'
+         },
+         body: JSON.stringify({id: props.element.user_id})
+      })
+      .then(response => response.json())
+      .then(data => {
+        setUser(data)
+      })
+    }
 
     const create_like = (post_id) => {
       fetch(new_like, {
@@ -22,7 +53,9 @@ export default function Post(props) {
          body: JSON.stringify({ post_id: post_id, user_id: currentUser.id})
       })
       .then(response => response.json())
-      .then(data => {setnumberOfVotes(data)})
+      .then(data => {
+        console.log("VOTE DATA" + JSON.stringify(data))
+        setnumberOfVotes(data)})
     }
 
     const dis_like = (post_id) => {
@@ -41,6 +74,13 @@ export default function Post(props) {
       .then(data => {setnumberOfVotes(data)})
     }
 
+    useEffect(() => {
+      var followers = props.element.followers
+      if (currentUser != null && followers && followers.includes(currentUser.id) ) {
+        setFollowState(true)
+      }
+    }, [props.element.followers])
+
     return (
       <div class="card mb-4 mt-3">
         <div class="card-header text-muted" id={props.element._id}>
@@ -52,13 +92,16 @@ export default function Post(props) {
             Posted by: {props.element.username ? props.element.username : props.username}&nbsp;&nbsp;
           </a>
           {props.createdAt}
+          {props.isProfilePage ? "" : <button id="flw-btn" type="button" class="btn btn-primary float-right"
+          style={currentUser != null && followState ? {background: "grey"} : {}} 
+          onClick={currentUser != null && (followState ? () => {setFollowState(false); unFollow();} : () => {setFollowState(true); follow();})}>
+              {followState ? "Unfollow" : "Follow"}
+          </button>}
           </div>
           <span class="pull-right">
             &nbsp;&nbsp;
 
-            <button type="button" class="btn btn-primary">
-              Follow
-            </button>
+            
             </span>
             {/*<span class="dropdown">
                             <i class="fas fa-edit pull-right hover-icon w3-xlarge" data-toggle="dropdown"></i>

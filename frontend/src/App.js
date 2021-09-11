@@ -63,18 +63,17 @@ function App() {
       <Router>
         <Navbar isUser = {isUser} currentUser = {currentUser} isReporter = {isReporter}/>
         <Switch>
-          <Route exact base path="/"><NewsPage /></Route>
+          <Route exact path="/"><NewsPage /></Route>
           <Route exact path="/category/:cateId"><CategorizedNews /></Route>
           <Route exact path="/breaking"><BreakingNewsPage /></Route>
-          <Route path="/forum"><ForumPage /></Route>
           <Route exact path="/forum"><ForumPage isUser = {isUser}/></Route>
           <Route exact path="/forum/categorized/:categorized_id"><CategorizedPost isUser = {isUser}/></Route>
           <Route exact path="/forum/post/postdetail/:id"><PostDetail /></Route>
           <Route exact path="/login"><Login /></Route>
-          <Route path="/login/:verified"><Login /></Route>
-          <Route path="/signup"><Signup /></Route>
+          <Route exact path="/login/:verified"><Login /></Route>
+          <Route exact path="/signup"><Signup /></Route>
           <Route path="/articles"><ReportPage /></Route>
-          <Route path="/profile/:id"><MyProfile is/></Route>
+          <Route exact path="/profile/:id"><MyProfile /></Route>
           <Route path="/articleform"><CreateNews /></Route>
         </Switch>
         <Footer />

@@ -28,7 +28,7 @@ export default function Navbar(props) {
                                 <strong>{props.currentUser.username}</strong>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownUser2" data-popper-placement="top-end">
-                                {props.isReporter && <li><a class="dropdown-item" href="/articleform">Create New Article</a></li>}
+                                <li><a class="dropdown-item" href="/articleform">Create New Article</a></li>
                                 <li><a class="dropdown-item" href="/profile">Profile</a></li>
                                 <li><hr class="dropdown-divider" /></li>
                                 <li><a class="dropdown-item" href="/" onClick = {(e) => {e.preventDefault(); logout()}}>Sign out</a></li>

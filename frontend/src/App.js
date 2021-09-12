@@ -11,6 +11,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import MyProfile from './components/profilePage/MyProfile';
 import { useEffect, useState } from 'react';
 import authHeader from './components/login_signup/authHeader';
+import EditNews from './components/newsPage/EditNews';
 function App() {
   //Authorization
   const [isAdmin, setIsAdmin] = useState(false)
@@ -64,9 +65,10 @@ function App() {
           <Route exact path="/login"><Login /></Route>
           <Route path="/login/:verified"><Login /></Route>
           <Route path="/signup"><Signup /></Route>
-          <Route path="/articles"><ReportPage /></Route>
+          <Route path="/articles/:id"><ReportPage isUser = {isUser} currentUser = {currentUser}/></Route>
+          <Route path="/editnews/:id"><EditNews isUser = {isUser} currentUser = {currentUser}/></Route>
           <Route path="/profile/:id"><MyProfile /></Route>
-          <Route path="/articleform"><CreateNews /></Route>
+          <Route path="/articleform"><CreateNews isUser = {isUser} currentUser = {currentUser}/></Route>
 
         </Switch>
         <Footer />

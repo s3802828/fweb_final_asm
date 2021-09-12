@@ -36,7 +36,7 @@ export default function NewsPage() {
                     <div className="row">
 
                         <div className="col">
-                            <Link to="/articles" style={{ "text-decoration": "none", "color": "black" }}>
+                            <Link to="/articles/61365caa56b02afd22f723ff" style={{ "text-decoration": "none", "color": "black" }}>
                                 <NewsCard />
                             </Link>
                         </div>

@@ -15,6 +15,7 @@ import CategorizedNews from './components/newsPage/CategorizedNews';
 import BreakingNewsPage from './components/newsPage/BreakingNewsPage';
 import CategorizedPost from './components/forumPage/CategorizedPost';
 import PostDetail from './components/forumPage/PostDetail';
+import Popular from './components/forumPage/Popular';
 function App() {
   //Authorization
   const [isAdmin, setIsAdmin] = useState(false)
@@ -68,6 +69,7 @@ function App() {
           <Route exact path="/breaking"><BreakingNewsPage /></Route>
           <Route exact path="/forum"><ForumPage isUser = {isUser}/></Route>
           <Route exact path="/forum/categorized/:categorized_id"><CategorizedPost isUser = {isUser}/></Route>
+          <Route exact path="/forum/popular"><Popular isUser = {isUser}/></Route>
           <Route exact path="/forum/post/postdetail/:id"><PostDetail /></Route>
           <Route exact path="/login"><Login /></Route>
           <Route exact path="/login/:verified"><Login /></Route>

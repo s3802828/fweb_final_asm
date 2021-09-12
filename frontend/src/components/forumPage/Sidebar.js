@@ -28,7 +28,7 @@ export default function Sidebar(props) {
                         </a>
                     </li>
                     <li>
-                        <a href="" class="nav-link link-dark">
+                        <a href="/forum/popular" class="nav-link link-dark">
                             <svg class="bi me-2" width="16" height="16"><use xlinkHref="#speedometer2" /></svg>
                             Popular
                         </a>

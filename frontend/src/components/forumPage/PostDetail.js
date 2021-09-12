@@ -39,6 +39,32 @@ export default function PostDetail() {
             });
         //setPosts(newData);
     };
+    const countTimeDiff = (time) => {
+        var diffTimeInMs = Date.now() - new Date(time)
+        var years = Math.floor(diffTimeInMs / (1000 * 60 * 60 * 24 * 365))
+        if (years > 0) {
+            return `${years > 1 ? `${years} years ago` : `${years} year ago`} `
+        }
+        var months = Math.floor(diffTimeInMs / (1000 * 60 * 60 * 24 * 30))
+        if (months > 0) 
+        {return `${months > 1 ? `${months} months ago` : `${months} month ago`} `}
+        var days = Math.floor(diffTimeInMs / (1000 * 60 * 60 * 24))
+        if (days > 0) {
+            return `${days > 1 ? `${days} days ago` : `${days} day ago`} `
+        }
+        var hours = Math.floor(diffTimeInMs / (1000 * 60 * 60))
+        if (hours > 0) {
+            return `${hours > 1 ? `${hours} hours ago` : `${hours} hour ago`} `
+        }
+        var minutes = Math.floor(diffTimeInMs / (1000 * 60))
+        if (minutes > 0) {
+            return `${minutes > 1 ? `${minutes} minutes ago` : `${minutes} minute ago`} `
+        }
+        var seconds = Math.floor(diffTimeInMs / 1000)
+        if (seconds > 0) {
+            return `${seconds > 1 ? `${seconds} seconds ago` : `${seconds} second ago`} `
+        }
+    }
     useEffect(() => {
         fetchPostDetail();
         fetchPostComment();
@@ -65,7 +91,7 @@ export default function PostDetail() {
                                 <h1 class="fw-bolder">
                                     {postDetail.title}
                                 </h1>
-                                <p class="text-muted fst-italic">Posted on January 1, 2021 by {postDetail.username}</p>
+                                <p class="text-muted fst-italic">Last edited {countTimeDiff(postDetail.updatedAt)} by {postDetail.username}</p>
                                 <p class="fw-normal">categories<button class="btn btn-light btn-sm">urgent</button><button class="btn btn-light btn-sm">popular</button></p>
                             </header>
                             <figure class="img-fluid">
@@ -89,7 +115,6 @@ export default function PostDetail() {
                                                 <button class="btn btn-dark mt-3 pull-right">Post</button>
                                             </form>
                                         </div>
-                                        {console.log(postCommentList)}
                                         {postCommentList.map(
                                             (postComment) => {
                                                 return (

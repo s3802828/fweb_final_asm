@@ -27,6 +27,8 @@ export default function NewsPage() {
         if (years > 0) {
             return `${years > 1 ? `${years} years ago` : `${years} year ago`} `
         }
+        var months = Math.floor(diffTimeInMs / (1000 * 60 * 60 * 24 * 30))
+        if (months > 0) { return `${months > 1 ? `${months} months ago` : `${months} month ago`} ` }
         var days = Math.floor(diffTimeInMs / (1000 * 60 * 60 * 24))
         if (days > 0) {
             return `${days > 1 ? `${days} days ago` : `${days} day ago`} `
@@ -51,7 +53,7 @@ export default function NewsPage() {
         fetch('https://corona.lmao.ninja/v2/all').then(res => res.json()).then(data => {
             setLatestCovidDataGlobal(data)
         })
-    } 
+    }
     useEffect(() => {
         fetchAllNewsCategory()
         getLatestCovidData()
@@ -59,7 +61,7 @@ export default function NewsPage() {
     return (
         <div>
             <div className="container">
-            <a href="/breaking" class="btn btn-danger btn-sm mt-3" tabindex="-1" role="button" aria-disabled="true">BREAKING NEWS</a>
+                <a href="/breaking" class="btn btn-danger btn-sm mt-3" tabindex="-1" role="button" aria-disabled="true">BREAKING NEWS</a>
                 <div class="row">
                     <div className="col-12">
                         <BreakingNewsCarousel />
@@ -68,7 +70,7 @@ export default function NewsPage() {
             </div>
             {newsCategoryList.map((element, indexCate) => {
                 return <div class="container" key={indexCate} style={{ marginTop: "2%" }} >
-                    <a href={`/category/${element._id}`} className="categoryroute" style={{textDecoration: "none", color: "black"}}><h1>{`${element.name}`}<i class="fas fa-arrow-right ms-3"></i></h1></a>
+                    <a href={`/category/${element._id}`} className="categoryroute" style={{ textDecoration: "none", color: "black" }}><h1>{`${element.name}`}<i class="fas fa-arrow-right ms-3"></i></h1></a>
                     {newsCategoryList.length !== 0 && categorizedNewsList.length === newsCategoryList.length && categorizedNewsList.map((news, i) => {
                         if (news[0] !== undefined && news[0].news_category_id === element._id) {
                             return <div>

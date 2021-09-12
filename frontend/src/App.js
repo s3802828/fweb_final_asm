@@ -11,6 +11,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import MyProfile from './components/profilePage/MyProfile';
 import { useEffect, useState } from 'react';
 import authHeader from './components/login_signup/authHeader';
+import EditNews from './components/newsPage/EditNews';
 import CategorizedNews from './components/newsPage/CategorizedNews';
 import BreakingNewsPage from './components/newsPage/BreakingNewsPage';
 import CategorizedPost from './components/forumPage/CategorizedPost';
@@ -72,6 +73,12 @@ function App() {
           <Route exact path="/forum/popular"><Popular isUser = {isUser}/></Route>
           <Route exact path="/forum/post/postdetail/:id"><PostDetail /></Route>
           <Route exact path="/login"><Login /></Route>
+          <Route path="/login/:verified"><Login /></Route>
+          <Route path="/signup"><Signup /></Route>
+          <Route path="/articles/:id"><ReportPage isUser = {isUser} currentUser = {currentUser}/></Route>
+          <Route path="/editnews/:id"><EditNews isUser = {isUser} currentUser = {currentUser}/></Route>
+          <Route path="/profile/:id"><MyProfile /></Route>
+          <Route path="/articleform"><CreateNews isUser = {isUser} currentUser = {currentUser}/></Route>
           <Route exact path="/login/:verified"><Login /></Route>
           <Route exact path="/signup"><Signup /></Route>
           <Route path="/articles"><ReportPage /></Route>

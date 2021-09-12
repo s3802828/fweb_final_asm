@@ -10,10 +10,9 @@ export default function CategorizedNews() {
     const [newsCategoryInfo, setNewsCategoryInfo] = useState()
     const [numOfLoad, setNumOfLoad] = useState(1)
     const [loading, setLoading] = useState(false)
-    const [loadedArray, setLoadArray] = useState([])
     const [newsList, setNewsList] = useState([])
     const fetchCategorizedNews = () => {
-        fetch(endPoint + `/specific/${cateId}`).then(res => res.json()).then(data => {
+        fetch(endPoint + `/specific/${cateId}?limit=${numOfLoad*8}`).then(res => res.json()).then(data => {
             setNewsList(data)
         })
     }
@@ -21,14 +20,6 @@ export default function CategorizedNews() {
         fetch(endPoint + `/category/${cateId}`).then(res => res.json()).then(data => {
             setNewsCategoryInfo(data)
         })
-    }
-    const loadMore = () => {
-        var newLoadedArray = newsList.filter((element, index) => {
-            if (index < numOfLoad * 10) {
-                return element
-            }
-        })
-        setLoadArray(newLoadedArray)
     }
     const countTimeDiff = (time) => {
         var diffTimeInMs = Date.now() - new Date(time)
@@ -54,13 +45,12 @@ export default function CategorizedNews() {
         }
     }
     useEffect(() => {
-        fetchCategorizedNews();
         fetchCategoryInfo()
     }, [])
     useEffect(() => {
-        loadMore()
+        fetchCategorizedNews();
         setLoading(false)
-    }, [newsList, numOfLoad])
+    }, [numOfLoad])
     return (
         <div>
             <div class="container" style={{ marginTop: "2%" }} >
@@ -83,8 +73,8 @@ export default function CategorizedNews() {
                                 }
                             </div>
                         </div>
-                        {newsList.length > 2 && loadedArray.map((eachNew, newsIndex) => {
-                            if (newsIndex % 2 === 0) {
+                        {newsList.length > 2 && newsList.map((eachNew, newsIndex) => {
+                            if (newsIndex % 2 === 0 && newsIndex > 1) {
                                 return <div className="row">
                                     <div className="col-6">
                                         <Link to="/articles" style={{ "textDecoration": "none", "color": "black" }}>

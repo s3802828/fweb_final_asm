@@ -7,22 +7,13 @@ export default function BreakingNewsPage() {
     const endPoint = 'http://localhost:9000/news'
     const [numOfLoad, setNumOfLoad] = useState(1)
     const [loading, setLoading] = useState(false)
-    const [loadedArray, setLoadArray] = useState([])
     const [newsList, setNewsList] = useState([])
     const fetchBreakingNews = () => {
-        fetch(endPoint + `/breaking/all`).then(res => res.json()).then(data => {
+        fetch(endPoint + `/breaking/all?limit=${numOfLoad*8}`).then(res => res.json()).then(data => {
             setNewsList(data)
         })
     }
 
-    const loadMore = () => {
-        var newLoadedArray = newsList.filter((element, index) => {
-            if (index < numOfLoad * 8) {
-                return element
-            }
-        })
-        setLoadArray(newLoadedArray)
-    }
     const countTimeDiff = (time) => {
         var diffTimeInMs = Date.now() - new Date(time)
         var years = Math.floor(diffTimeInMs / (1000 * 60 * 60 * 24 * 365))
@@ -47,12 +38,9 @@ export default function BreakingNewsPage() {
         }
     }
     useEffect(() => {
-        fetchBreakingNews();
-    }, [])
-    useEffect(() => {
-        loadMore()
+        fetchBreakingNews()
         setLoading(false)
-    }, [newsList, numOfLoad])
+    }, [numOfLoad])
     return (
         <div>
             <div class="container" style={{ marginTop: "2%" }} >
@@ -70,8 +58,9 @@ export default function BreakingNewsPage() {
                             </div>
                             <div className="col-2"></div>
                         </div>
-                        {newsList.length > 1 && loadedArray.map((eachNew) =>
-                            <div className="row">
+                        {newsList.length > 1 && newsList.map((eachNew, i) =>
+                            { if(i > 0){
+                            return <div className="row">
                                 <div className="col-2"></div>
                                 <div className="col-8">
                                     <Link to="/articles" style={{ "textDecoration": "none", "color": "black" }}>
@@ -79,7 +68,8 @@ export default function BreakingNewsPage() {
                                     </Link>
                                 </div>
                                 <div className="col-2"></div>
-                            </div>
+                            </div>}
+                            }
                         )}
                     </div>}
                 <div className="row">

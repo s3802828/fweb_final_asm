@@ -19,5 +19,5 @@ app.use('/auth', auth)
 app.use('/', verifyEmail)
 app.use('/profile', profileUser)
 app.use('/forums', forumPosts)
-app.use('/news', newsArticle)
+app.use('/newsdata', newsArticle)
 module.exports = app;

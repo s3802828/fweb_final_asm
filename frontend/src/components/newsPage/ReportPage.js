@@ -8,7 +8,7 @@ export default function ReportPage() {
     const { id } = useParams();
     console.log(id);
 
-    const endPoint = `http://localhost:9000/news/articles`
+    const endPoint = `http://localhost:9000/newsdata/articles`
 
     const [item, setItem] = useState()
 

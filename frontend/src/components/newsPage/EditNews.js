@@ -10,8 +10,8 @@ export default function EditNews(props) {
     const { id } = useParams();
     console.log(id);
 
-    const endPoint = `http://localhost:9000/news/articles`
-    const categoryEndPoint = "http://localhost:9000/news/news-catergory"
+    const endPoint = `http://localhost:9000/newsdata/articles`
+    const categoryEndPoint = "http://localhost:9000/newsdata/news-catergory"
 
     const validationSchema = Yup.object().shape({
         title: Yup.string()

@@ -6,8 +6,8 @@ import { useEffect } from "react";
 
 export default function CreateNews(props) {
 
-    const endPoint = "http://localhost:9000/news/articles"
-    const categoryEndPoint = "http://localhost:9000/news/news-catergory"
+    const endPoint = "http://localhost:9000/newsdata/articles"
+    const categoryEndPoint = "http://localhost:9000/newsdata/news-catergory"
 
     const validationSchema = Yup.object().shape({
         title: Yup.string()

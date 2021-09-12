@@ -12,6 +12,11 @@ import MyProfile from './components/profilePage/MyProfile';
 import { useEffect, useState } from 'react';
 import authHeader from './components/login_signup/authHeader';
 import EditNews from './components/newsPage/EditNews';
+import CategorizedNews from './components/newsPage/CategorizedNews';
+import BreakingNewsPage from './components/newsPage/BreakingNewsPage';
+import CategorizedPost from './components/forumPage/CategorizedPost';
+import PostDetail from './components/forumPage/PostDetail';
+import Popular from './components/forumPage/Popular';
 function App() {
   //Authorization
   const [isAdmin, setIsAdmin] = useState(false)
@@ -53,15 +58,20 @@ function App() {
     console.log(isPublic)
   }, []
   )
-
+  
   return (
     <div>
       {isPublic &&
       <Router>
         <Navbar isUser = {isUser} currentUser = {currentUser} isReporter = {isReporter}/>
         <Switch>
-          <Route exact base path="/"><NewsPage /></Route>
-          <Route path="/forum"><ForumPage /></Route>
+          <Route exact path="/"><NewsPage /></Route>
+          <Route exact path="/category/:cateId"><CategorizedNews /></Route>
+          <Route exact path="/breaking"><BreakingNewsPage /></Route>
+          <Route exact path="/forum"><ForumPage isUser = {isUser}/></Route>
+          <Route exact path="/forum/categorized/:categorized_id"><CategorizedPost isUser = {isUser}/></Route>
+          <Route exact path="/forum/popular"><Popular isUser = {isUser}/></Route>
+          <Route exact path="/forum/post/postdetail/:id"><PostDetail /></Route>
           <Route exact path="/login"><Login /></Route>
           <Route path="/login/:verified"><Login /></Route>
           <Route path="/signup"><Signup /></Route>
@@ -69,7 +79,11 @@ function App() {
           <Route path="/editnews/:id"><EditNews isUser = {isUser} currentUser = {currentUser}/></Route>
           <Route path="/profile/:id"><MyProfile /></Route>
           <Route path="/articleform"><CreateNews isUser = {isUser} currentUser = {currentUser}/></Route>
-
+          <Route exact path="/login/:verified"><Login /></Route>
+          <Route exact path="/signup"><Signup /></Route>
+          <Route path="/articles"><ReportPage /></Route>
+          <Route exact path="/profile/:id"><MyProfile isUser = {isUser}/></Route>
+          <Route path="/articleform"><CreateNews /></Route>
         </Switch>
         <Footer />
       </Router>}

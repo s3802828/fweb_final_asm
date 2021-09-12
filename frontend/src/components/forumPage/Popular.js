@@ -3,7 +3,7 @@ import Post from "./Post";
 import CreatePost from "./CreatePost";
 import { useState, useEffect } from "react";
 
-export default function ForumPage(props) {
+export default function Popular(props) {
   const [Posts, setPosts] = useState([]);
   const [sortedPostArray, setSortedPostArray] = useState([])
   //const [postUserInfo, setPostUserInfo] = useState({})
@@ -30,7 +30,7 @@ export default function ForumPage(props) {
   const sortPostArray = () => {
     var newPostArray = [...Posts];
     newPostArray.sort((first, second) => {
-      return (new Date(second.createdAt) - new Date(first.createdAt))
+      return second.vote.length - first.vote.length
     })
     setSortedPostArray(newPostArray)
   }

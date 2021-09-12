@@ -8,6 +8,9 @@ export default function CategorizedNews() {
     let { cateId } = useParams()
     const endPoint = 'http://localhost:9000/news'
     const [newsCategoryInfo, setNewsCategoryInfo] = useState()
+    const [numOfLoad, setNumOfLoad] = useState(1)
+    const [loading, setLoading] = useState(false)
+    const [loadedArray, setLoadArray] = useState([])
     const [newsList, setNewsList] = useState([])
     const fetchCategorizedNews = () => {
         fetch(endPoint + `/specific/${cateId}`).then(res => res.json()).then(data => {
@@ -19,26 +22,34 @@ export default function CategorizedNews() {
             setNewsCategoryInfo(data)
         })
     }
+    const loadMore = () => {
+        var newLoadedArray = newsList.filter((element, index) => {
+            if (index < numOfLoad * 10) {
+                return element
+            }
+        })
+        setLoadArray(newLoadedArray)
+    }
     const countTimeDiff = (time) => {
         var diffTimeInMs = Date.now() - new Date(time)
-        var years = Math.floor(diffTimeInMs/(1000*60*60*24*365))
-        if(years > 0){
+        var years = Math.floor(diffTimeInMs / (1000 * 60 * 60 * 24 * 365))
+        if (years > 0) {
             return `${years > 1 ? `${years} years ago` : `${years} year ago`} `
         }
-        var days = Math.floor(diffTimeInMs/(1000*60*60*24))
-        if(days > 0){
+        var days = Math.floor(diffTimeInMs / (1000 * 60 * 60 * 24))
+        if (days > 0) {
             return `${days > 1 ? `${days} days ago` : `${days} day ago`} `
         }
-        var hours = Math.floor(diffTimeInMs/(1000*60*60))
-        if(hours > 0){
+        var hours = Math.floor(diffTimeInMs / (1000 * 60 * 60))
+        if (hours > 0) {
             return `${hours > 1 ? `${hours} hours ago` : `${hours} hour ago`} `
         }
-        var minutes = Math.floor(diffTimeInMs/(1000*60))
-        if(minutes > 0){
+        var minutes = Math.floor(diffTimeInMs / (1000 * 60))
+        if (minutes > 0) {
             return `${minutes > 1 ? `${minutes} minutes ago` : `${minutes} minute ago`} `
         }
-        var seconds = Math.floor(diffTimeInMs/1000)
-        if(seconds > 0){
+        var seconds = Math.floor(diffTimeInMs / 1000)
+        if (seconds > 0) {
             return `${seconds > 1 ? `${seconds} seconds ago` : `${seconds} second ago`} `
         }
     }
@@ -46,8 +57,12 @@ export default function CategorizedNews() {
         fetchCategorizedNews();
         fetchCategoryInfo()
     }, [])
+    useEffect(() => {
+        loadMore()
+        setLoading(false)
+    }, [newsList, numOfLoad])
     return (
-        <div> 
+        <div>
             <div class="container" style={{ marginTop: "2%" }} >
                 <h1>{newsCategoryInfo && newsCategoryInfo.name}</h1>
                 {newsList.length > 0 &&
@@ -68,27 +83,32 @@ export default function CategorizedNews() {
                                 }
                             </div>
                         </div>
-                        {newsList.length > 2 && newsList.map((eachNew, newsIndex) => {
-                            if (newsIndex >= 2) {
-                                if (newsIndex % 2 === 0) {
-                                    return <div className="row">
-                                        <div className="col-6">
-                                            <Link to="/articles" style={{ "textDecoration": "none", "color": "black" }}>
-                                                <NewsCard news={newsList[newsIndex]} createdDiffTime={countTimeDiff(newsList[newsIndex].createdAt)} />
-                                            </Link>
-                                        </div>
-                                        <div className="col-6">
-                                            {(newsIndex + 1) < newsList.length &&
+                        {newsList.length > 2 && loadedArray.map((eachNew, newsIndex) => {
+                            if (newsIndex % 2 === 0) {
+                                return <div className="row">
+                                    <div className="col-6">
+                                        <Link to="/articles" style={{ "textDecoration": "none", "color": "black" }}>
+                                            <NewsCard news={newsList[newsIndex]} createdDiffTime={countTimeDiff(newsList[newsIndex].createdAt)} />
+                                        </Link>
+                                    </div>
+                                    <div className="col-6">
+                                        {(newsIndex + 1) < newsList.length &&
                                             <Link to="/articles" style={{ "textDecoration": "none", "color": "black" }}>
                                                 <NewsCard news={newsList[newsIndex + 1]} createdDiffTime={countTimeDiff(newsList[newsIndex + 1].createdAt)} />
                                             </Link>
-                                            }
-                                        </div>
+                                        }
                                     </div>
-                                }
+                                </div>
                             }
                         })}
                     </div>}
+                <div className="row">
+                    <div className="col-2"></div>
+                    <div className="col-8" style={{ textAlign: "center" }}>
+                        <button className="btn btn-dark" onClick={() => { setLoading(true); setNumOfLoad(numOfLoad + 1) }}> {loading ? "Loading" : "Load More"}</button>
+                    </div>
+                    <div className="col-2"></div>
+                </div>
             </div>
         </div>
     )

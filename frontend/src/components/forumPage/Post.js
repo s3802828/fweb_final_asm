@@ -8,7 +8,6 @@ export default function Post(props) {
     const [numberOfVotes, setnumberOfVotes] = useState()
     const [user, setUser] = useState()
     const [followState, setFollowState] = useState(false)
-
     const currentUser = JSON.parse(localStorage.getItem("user"))
     useEffect(() => {
         if(props.isUser && props.element.vote.includes(currentUser.id)){
@@ -92,27 +91,16 @@ export default function Post(props) {
             Posted by: {props.element.username ? props.element.username : props.username}&nbsp;&nbsp;
           </a>
           {props.createdAt}
-          {props.isProfilePage ? "" : <button id="flw-btn" type="button" class="btn btn-primary float-right"
+          {props.isProfilePage ? "" : (props.isUser && currentUser.id !== props.element.user_id ?<button id="flw-btn" type="button" class="btn btn-primary float-right"
           style={currentUser != null && followState ? {background: "grey"} : {}} 
           onClick={currentUser != null && (followState ? () => {setFollowState(false); unFollow();} : () => {setFollowState(true); follow();})}>
               {followState ? "Unfollow" : "Follow"}
-          </button>}
+          </button> : "")}
           </div>
           <span class="pull-right">
             &nbsp;&nbsp;
-
-            
             </span>
-            {/*<span class="dropdown">
-                            <i class="fas fa-edit pull-right hover-icon w3-xlarge" data-toggle="dropdown"></i>
-                            <div class="dropdown-menu" aria-labelledby="editMenu">
-                                <div class="dropdown-item" id="edit-post" data-toggle="modal" data-target="#edit-image-post-{{$post->id}}"> Edit post</div>
-                                <div class="dropdown-item" id="delete-post" data-toggle="modal" data-target="#deletePost{{$post->id}}"> Delete post</div>
-                            </div>
-    </span>*/}
-       
         </div>
-        {/*<Link to={`${props.url}/post/postdetail`} style={{ "text-decoration": "none", "color": "black" }}></Link>*/}
         <a
           href={`/forum/post/postdetail/${props.element._id}`}
           style={{ "textDecoration": "none", color: "black" }}

@@ -5,7 +5,7 @@ import './profile.css'
 import { useState, useEffect } from "react";
 import { useParams } from "react-router";
 
-export default function MyProfile() {
+export default function MyProfile(props) {
 const {id} = useParams()
 console.log(id)
 const endPoint = `http://localhost:9000/forums/userpost/${id}`
@@ -33,12 +33,11 @@ useEffect(()=>{
                 <div class="col-2">
                 </div>
                 <div class="col-8">
-                    {console.log(userProfile)}
-                    <ProfileCard user={userProfile !== undefined &&  userProfile}/>
+                    <ProfileCard user={userProfile !== undefined &&  userProfile} isUser = {props.isUser}/>
                     <div class="posts">
                         {userPost.map((element) => {
                             console.log(element)
-                            return <Post isProfilePage = {true} username={userProfile !== undefined && userProfile.username} element={element}/>;
+                            return <Post isProfilePage = {true} username={userProfile !== undefined && userProfile.username} element={element} isUser = {props.isUser}/>;
                         })}
 
                     </div>

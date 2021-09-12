@@ -73,7 +73,7 @@ function App() {
           <Route exact path="/login/:verified"><Login /></Route>
           <Route exact path="/signup"><Signup /></Route>
           <Route path="/articles"><ReportPage /></Route>
-          <Route exact path="/profile/:id"><MyProfile /></Route>
+          <Route exact path="/profile/:id"><MyProfile isUser = {isUser}/></Route>
           <Route path="/articleform"><CreateNews /></Route>
         </Switch>
         <Footer />

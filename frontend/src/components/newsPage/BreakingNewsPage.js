@@ -51,7 +51,7 @@ export default function BreakingNewsPage() {
                             <div className="col-2"></div>
                             <div class="col-8">
                                 <div className="row">
-                                    <Link to="/articles" style={{ "textDecoration": "none", "color": "black" }}>
+                                    <Link to={`/articles/${newsList[0]._id}`} style={{ "textDecoration": "none", "color": "black" }}>
                                         <TopNew news={newsList[0]} createdDiffTime={countTimeDiff(newsList[0].createdAt)} />
                                     </Link>
                                 </div>
@@ -63,7 +63,7 @@ export default function BreakingNewsPage() {
                             return <div className="row">
                                 <div className="col-2"></div>
                                 <div className="col-8">
-                                    <Link to="/articles" style={{ "textDecoration": "none", "color": "black" }}>
+                                    <Link to={`/articles/${eachNew._id}`} style={{ "textDecoration": "none", "color": "black" }}>
                                         <NewsCard news={eachNew} createdDiffTime={countTimeDiff(eachNew.createdAt)} />
                                     </Link>
                                 </div>

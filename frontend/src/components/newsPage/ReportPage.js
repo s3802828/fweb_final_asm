@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { BrowserRouter as Router, Route, Link, useRouteMatch } from 'react-router-dom';
 
-export default function ReportPage() {
+export default function ReportPage(props) {
 
     const { id } = useParams();
     console.log(id);
@@ -110,7 +110,7 @@ export default function ReportPage() {
 
                     </div>
 
-                    <div class="col-2">
+                    {props.isReporter ? <div class="col-2">
                         <figure class="text-center my-5">
                             <button type="button" class="btn btn-danger w-100" data-bs-toggle="modal" data-bs-target="#deleteModal">
                                 Delete This Article
@@ -134,8 +134,8 @@ export default function ReportPage() {
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
+                        </div> 
+                    </div>: <div className="col-2"></div>}
                 </div>
             </div>
         </div>

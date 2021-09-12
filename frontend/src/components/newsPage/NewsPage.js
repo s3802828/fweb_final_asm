@@ -16,7 +16,7 @@ export default function NewsPage() {
                 return first.name === 'Cases' ? -1 : second.name === 'Cases' ? 1 : 0
             })
             setNewsCategoryList(data)
-            data.map((element) => fetch(endPoint + `/specific/${element._id}`).then(res => res.json()).then(data => {
+            data.map((element) => fetch(endPoint + `/specific/${element._id}?limit=0`).then(res => res.json()).then(data => {
                 setCategoriedNewsList(categorizedNewsList => [...categorizedNewsList, data])
             }))
         })
@@ -77,7 +77,7 @@ export default function NewsPage() {
                                 <div class="row mb-3">
                                     <div class="col-8">
                                         <div className="row">
-                                            <Link to="/articles" style={{ "textDecoration": "none", "color": "black" }}>
+                                            <Link to={`/articles/${news[0]._id}`} style={{ "textDecoration": "none", "color": "black" }}>
                                                 <TopNew news={news[0]} createdDiffTime={countTimeDiff(news[0].createdAt)} />
                                             </Link>
                                         </div>
@@ -124,7 +124,7 @@ export default function NewsPage() {
                                             </div> : <div>Global Case Statictics See below link</div>}
                                     </div> : <div class="col-4">
                                         {news.length > 1 &&
-                                            <Link to="/articles" style={{ "textDecoration": "none", "color": "black" }}>
+                                            <Link to={`/articles/${news[1]._id}`} style={{ "textDecoration": "none", "color": "black" }}>
                                                 <TopNew news={news[1]} createdDiffTime={countTimeDiff(news[1].createdAt)} />
                                             </Link>
                                         }
@@ -134,9 +134,9 @@ export default function NewsPage() {
                                     <div className="col">
                                         {news.length > 1 &&
                                             indexCate === 0 ?
-                                            <Link to="/articles" style={{ "textDecoration": "none", "color": "black" }}>
+                                            <Link to={`/articles/${news[1]._id}`} style={{ "textDecoration": "none", "color": "black" }}>
                                                 <NewsCard news={news[1]} createdDiffTime={countTimeDiff(news[1].createdAt)} />
-                                            </Link> : news.length > 2 && <Link to="/articles" style={{ "textDecoration": "none", "color": "black" }}>
+                                            </Link> : news.length > 2 && <Link to={`/articles/${news[2]._id}`} style={{ "textDecoration": "none", "color": "black" }}>
                                                 <NewsCard news={news[2]} createdDiffTime={countTimeDiff(news[2].createdAt)} />
                                             </Link>
                                         }
@@ -144,9 +144,9 @@ export default function NewsPage() {
                                     <div className="col">
                                         {news.length > 2 &&
                                             indexCate === 0 ?
-                                            <Link to="/articles" style={{ "textDecoration": "none", "color": "black" }}>
+                                            <Link to={`/articles/${news[2]._id}`} style={{ "textDecoration": "none", "color": "black" }}>
                                                 <NewsCard news={news[2]} createdDiffTime={countTimeDiff(news[2].createdAt)} />
-                                            </Link> : news.length > 3 && <Link to="/articles" style={{ "textDecoration": "none", "color": "black" }}>
+                                            </Link> : news.length > 3 && <Link to={`/articles/${news[3]._id}`} style={{ "textDecoration": "none", "color": "black" }}>
                                                 <NewsCard news={news[3]} createdDiffTime={countTimeDiff(news[3].createdAt)} />
                                             </Link>
                                         }
@@ -154,9 +154,9 @@ export default function NewsPage() {
                                     <div className="col">
                                         {news.length > 3 &&
                                             indexCate === 0 ?
-                                            <Link to="/articles" style={{ "textDecoration": "none", "color": "black" }}>
+                                            <Link to={`/articles/${news[3]._id}`} style={{ "textDecoration": "none", "color": "black" }}>
                                                 <NewsCard news={news[3]} createdDiffTime={countTimeDiff(news[3].createdAt)} />
-                                            </Link> : news.length > 4 && <Link to="/articles" style={{ "textDecoration": "none", "color": "black" }}>
+                                            </Link> : news.length > 4 && <Link to={`/articles/${news[4]._id}`}style={{ "textDecoration": "none", "color": "black" }}>
                                                 <NewsCard news={news[4]} createdDiffTime={countTimeDiff(news[4].createdAt)} />
                                             </Link>
                                         }

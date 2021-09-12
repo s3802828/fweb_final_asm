@@ -60,14 +60,14 @@ export default function CategorizedNews() {
                         <div class="row mb-3">
                             <div class="col-8">
                                 <div className="row">
-                                    <Link to="/articles" style={{ "textDecoration": "none", "color": "black" }}>
+                                    <Link to={`/articles/${newsList[0]._id}`} style={{ "textDecoration": "none", "color": "black" }}>
                                         <TopNew news={newsList[0]} createdDiffTime={countTimeDiff(newsList[0].createdAt)} />
                                     </Link>
                                 </div>
                             </div>
                             <div class="col-4">
                                 {newsList.length > 1 &&
-                                    <Link to="/articles" style={{ "textDecoration": "none", "color": "black" }}>
+                                    <Link to={`/articles/${newsList[1]._id}`} style={{ "textDecoration": "none", "color": "black" }}>
                                         <TopNew news={newsList[1]} createdDiffTime={countTimeDiff(newsList[1].createdAt)} />
                                     </Link>
                                 }
@@ -77,13 +77,13 @@ export default function CategorizedNews() {
                             if (newsIndex % 2 === 0 && newsIndex > 1) {
                                 return <div className="row">
                                     <div className="col-6">
-                                        <Link to="/articles" style={{ "textDecoration": "none", "color": "black" }}>
+                                        <Link to={`/articles/${newsList[newsIndex]._id}`} style={{ "textDecoration": "none", "color": "black" }}>
                                             <NewsCard news={newsList[newsIndex]} createdDiffTime={countTimeDiff(newsList[newsIndex].createdAt)} />
                                         </Link>
                                     </div>
                                     <div className="col-6">
                                         {(newsIndex + 1) < newsList.length &&
-                                            <Link to="/articles" style={{ "textDecoration": "none", "color": "black" }}>
+                                            <Link to={`/articles/${newsList[newsIndex + 1]._id}`} style={{ "textDecoration": "none", "color": "black" }}>
                                                 <NewsCard news={newsList[newsIndex + 1]} createdDiffTime={countTimeDiff(newsList[newsIndex + 1].createdAt)} />
                                             </Link>
                                         }

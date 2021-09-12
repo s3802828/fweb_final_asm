@@ -73,17 +73,12 @@ function App() {
           <Route exact path="/forum/popular"><Popular isUser = {isUser}/></Route>
           <Route exact path="/forum/post/postdetail/:id"><PostDetail /></Route>
           <Route exact path="/login"><Login /></Route>
-          <Route path="/login/:verified"><Login /></Route>
-          <Route path="/signup"><Signup /></Route>
-          <Route path="/articles/:id"><ReportPage isUser = {isUser} currentUser = {currentUser}/></Route>
-          <Route path="/editnews/:id"><EditNews isUser = {isUser} currentUser = {currentUser}/></Route>
-          <Route path="/profile/:id"><MyProfile /></Route>
-          <Route path="/articleform"><CreateNews isUser = {isUser} currentUser = {currentUser}/></Route>
           <Route exact path="/login/:verified"><Login /></Route>
           <Route exact path="/signup"><Signup /></Route>
-          <Route path="/articles"><ReportPage /></Route>
+          <Route exact path="/articles/:id"><ReportPage isUser = {isUser} currentUser = {currentUser} isReporter ={isReporter}/></Route>
+          {isReporter && <Route exact path="/editnews/:id"><EditNews isUser = {isUser} currentUser = {currentUser}/></Route>}
+          {isReporter &&<Route exact path="/articleform"><CreateNews isUser = {isUser} currentUser = {currentUser}/></Route>}
           <Route exact path="/profile/:id"><MyProfile isUser = {isUser}/></Route>
-          <Route path="/articleform"><CreateNews /></Route>
         </Switch>
         <Footer />
       </Router>}

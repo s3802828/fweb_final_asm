@@ -151,7 +151,7 @@ export default function NewsPage() {
                                             </Link>
                                         }
                                     </div>
-                                    <div className="col">
+                                    {/* <div className="col">
                                         {news.length > 3 &&
                                             indexCate === 0 ?
                                             <Link to={`/articles/${news[3]._id}`} style={{ "textDecoration": "none", "color": "black" }}>
@@ -160,7 +160,7 @@ export default function NewsPage() {
                                                 <NewsCard news={news[4]} createdDiffTime={countTimeDiff(news[4].createdAt)} />
                                             </Link>
                                         }
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
 

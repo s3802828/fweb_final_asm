@@ -55,12 +55,10 @@ export default function EditNews(props) {
     const [item, setItem] = useState()
 
     const redirectToMainPage = () => { window.location.replace(`http://localhost:3000/articles/${id}`) };
-
-    const [oldImage, setOldImage] = useState('')
     const loadCurrentNews = () => {
         fetch(endPoint + "/" + id)
             .then(response => response.json())
-            .then(data => { setOldImage(data.image); setItem(data); console.log(data) })
+            .then(data => {setItem(data); setNewBreaking(data.breaking) })
     }
 
     // const [newTitle, setNewTitle] = useState('');
@@ -89,8 +87,6 @@ export default function EditNews(props) {
         formData.append("breaking", newBreaking);
 
         formData.append("news_category_id", data.category)
-
-        formData.append("oldImage", oldImage)
         fetch(endPoint, {
 
             method: 'PUT',
@@ -98,8 +94,6 @@ export default function EditNews(props) {
 
         }).then(redirectToMainPage())
         console.log(data)
-        console.log(oldImage)
-
     }
 
     const loadCategory = () => {
@@ -130,6 +124,7 @@ export default function EditNews(props) {
 
     return (
         <div>
+            {props.currentUser && item && props.currentUser.id === item.user_id &&
             <div className="container">
                 <div className="row">
                     <div className="col-3"></div>
@@ -142,8 +137,6 @@ export default function EditNews(props) {
 
                                 <div class="card-body container-fluid">
                                     <form onSubmit={handleSubmit(edit)} enctype="multipart/form-data">
-                                        <input type="hidden" name="oldImage" value={oldImage} />
-                                        {console.log(props.currentUser.id)}
                                         <div class="row">
                                             <div class="form-group mb-3 col-7">
                                                 <label for="posttitle">Title</label>
@@ -176,12 +169,12 @@ export default function EditNews(props) {
                                             <div class="form-group mb-3 col-6">
                                                 <div class="custom-file">
                                                     <label class="custom-file-label" for="postfile">Upload Image: </label><br />
-                                                    <input type="file" name="image" defaultValue={item && item.image} class={`custom-file-input ${errors.image ? 'is-invalid' : ''}`} id="inputGroupFile01" {...register('image')} />
+                                                    <input type="file" name="image" class={`custom-file-input ${errors.image ? 'is-invalid' : ''}`} id="inputGroupFile01" {...register('image')} />
                                                     <div className="invalid-feedback">{errors.image?.message}</div>
                                                 </div>
                                             </div>
                                             <div class="form-check form-switch col-6">
-                                                <input class="form-check-input" onChange={(e) => { checkBox(); setNewBreaking(e.target.value) }} name="breaking" type="checkbox" id="postbreaking" />
+                                                <input class="form-check-input" onChange={(e) => { checkBox(); setNewBreaking(e.target.value) }} name="breaking" type="checkbox" id="postbreaking" defaultChecked = {item && item.breaking === "1" ? true : false}/>
                                                 <label class="form-check-label" for="postbreaking">Breaking news</label>
                                             </div>
                                             <div>(Leaving this field empty will result in the image remains unchanged)</div>
@@ -210,7 +203,7 @@ export default function EditNews(props) {
                     <div className="col-3"></div>
                 </div>
             </div>
-
+}
         </div>
 
 

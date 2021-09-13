@@ -22,12 +22,11 @@ export default function BreakingNewsCarousel(props) {
                 </div>
                 <div class="carousel-inner">
                     {breakingNewsList.map((element, i) =>(
-                        <div class= {`carousel-item ${i === 0 && 'active'}`} style={{ "height": "250px"}}>
+                        <div class= {`carousel-item ${i === 0 && 'active'}`} style={{ "height": "300px"}}>
                             <Link to={`/articles/${element._id}`}>
-                                <img src="https://izisoft.io/wp-content/uploads/2020/03/creative-powerpoint-template-QFKTK2.jpg" style ={{"opacity": "50%"}}class="d-block w-100 img-fluid" alt="..." />
+                                <img src={`/newsUploads/${element.image && element.image}`} style ={{"opacity": "32%", "maxWidth": "1500px", "maxHeight": "300px"}}class="d-block w-100 img-fluid" alt="..." />
                                 <div class="carousel-caption d-none d-md-block" style={{color: "black"}}>
-                                    <h3>{`${element.title}`}</h3>
-                                    <p>Some representative placeholder content for the first slide.</p>
+                                    <h2>{`${element.title}`}</h2>
                                 </div>
                             </Link>
                         </div>))}

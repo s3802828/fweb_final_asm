@@ -36,7 +36,9 @@ export default function Navbar(props) {
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     {newsCategoryList.map((eachNew) => <li><a class="dropdown-item" href={`/category/${eachNew._id}`}>{eachNew.name}</a></li>)}
-                                </ul>
+                                    <li><hr class="dropdown-divider" /></li>
+                                    <li><a class="dropdown-item" href={`/breaking`}>Breaking News</a></li>
+                                </ul>    
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="/forum">Forum</a>

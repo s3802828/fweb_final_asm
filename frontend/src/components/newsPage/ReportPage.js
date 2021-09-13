@@ -6,7 +6,6 @@ import { BrowserRouter as Router, Route, Link, useRouteMatch } from 'react-route
 export default function ReportPage(props) {
 
     const { id } = useParams();
-    console.log(id);
 
     const endPoint = `http://localhost:9000/newsdata/articles`
 
@@ -20,7 +19,7 @@ export default function ReportPage(props) {
             .then(data =>
                 fetch(`http://localhost:9000/profile/profiledetails/${data.user_id}`)
                     .then((res) => res.json())
-                    .then((dataUser) => setItem({ ...data, username: dataUser.username })
+                    .then((dataUser) => setItem({ ...data, name: dataUser.name })
                     ))
     }
 
@@ -78,15 +77,12 @@ export default function ReportPage(props) {
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-2">
-
                     </div>
-
                     <div class="col-8">
                         <figure class="text-center my-5">
                             <h1 class="display-2">{item && item.title}</h1>
                             <img class="rounded-circle shadow my-3" src="http://lavinephotography.com.au/wp-content/uploads/2017/01/PROFILE-Photography-112.jpg" alt="Profile picture" style={{ "width": "80px", "height": "80px" }}></img>
-                            <p class="lead">{item && item.username}</p>
-                            {console.log(item && item._id)}
+                            <p class="lead">{item && item.name}</p>
                         </figure>
                         <p class="lead">Created at: {item && item.createdAt.substring(0, 10)} (Updated: {item && item.updatedAt.substring(0, 10)})</p>
                         <hr class="bg-secondary border-2 border-top border-secondary"></hr>
@@ -104,13 +100,13 @@ export default function ReportPage(props) {
                         </figure>
                         <hr class="bg-secondary border-2 border-top border-secondary"></hr>
                         <figure class="text-start border border-light border-2 my-3">
-                            <h6><img class="rounded-circle shadow my-3 mx-3" src="http://lavinephotography.com.au/wp-content/uploads/2017/01/PROFILE-Photography-112.jpg" alt="Profile picture" style={{ "width": "80px", "height": "80px" }}></img> Reporter {item && item.username}</h6>
+                            <h6><img class="rounded-circle shadow my-3 mx-3" src="http://lavinephotography.com.au/wp-content/uploads/2017/01/PROFILE-Photography-112.jpg" alt="Profile picture" style={{ "width": "80px", "height": "80px" }}></img> Reporter {item && item.name}</h6>
                         </figure>
 
 
                     </div>
 
-                    {props.isReporter ? <div class="col-2">
+                    {props.isReporter && props.currentUser && item && props.currentUser.id === item.user_id ? <div class="col-2">
                         <figure class="text-center my-5">
                             <button type="button" class="btn btn-danger w-100" data-bs-toggle="modal" data-bs-target="#deleteModal">
                                 Delete This Article

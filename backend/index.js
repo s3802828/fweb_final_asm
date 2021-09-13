@@ -6,7 +6,10 @@ const { MONGO_URI } = process.env;
 var newsCategoryJSON = require("./sampleNewsCategory.json")
 var News_category = require("./models/news_category")
 var postCategoryJSON = require("./samplePostCategory.json")
+var reporterAdminJSON = require("./reporterAdminList.json")
+var User = require("./models/users")
 var Post_category = require("./models/post_category")
+var bcrypt = require('bcryptjs')
 const { SERVER_PORT } = process.env;
 mongoose.connect(MONGO_URI)
 
@@ -38,5 +41,27 @@ mongoose.connect(MONGO_URI)
           })
       }
   })
+  reporterAdminJSON.map( async (element, index) => {
+    var existedElement = await User.user.findOne({username: element.username})
+    //console.log(element.name)
+    if(!existedElement){
+        User.user.create({
+            name: element.name,
+            username: element.username,
+            password: bcrypt.hashSync(element.password, 8),
+            email: element.email,
+            emailVerified: true,
+            userType: element.userType,
+            followers: []
+        }, function(error, data){
+            if(error){
+                console.log(error)
+            } else {
+                console.log(data)
+            }
+        })
+    }
+    
+})
   }))
   .catch((error) => console.log(error.message))

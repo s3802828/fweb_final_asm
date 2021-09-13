@@ -64,7 +64,7 @@ export default function BreakingNewsPage() {
                                 <div className="col-2"></div>
                                 <div className="col-8">
                                     <Link to={`/articles/${eachNew._id}`} style={{ "textDecoration": "none", "color": "black" }}>
-                                        <NewsCard news={eachNew} createdDiffTime={countTimeDiff(eachNew.createdAt)} />
+                                        <NewsCard isBreaking = {true} news={eachNew} createdDiffTime={countTimeDiff(eachNew.createdAt)} />
                                     </Link>
                                 </div>
                                 <div className="col-2"></div>

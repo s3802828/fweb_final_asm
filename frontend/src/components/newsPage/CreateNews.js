@@ -15,7 +15,7 @@ export default function CreateNews(props) {
             .matches(/^[a-zA-Z0-9 ?.$'"-_()@!%*#?&\/\\]+$/, 'Title cannot contain certain special characters'),
         content: Yup.string()
             .required('Content is required')
-            .matches(/^[a-zA-Z0-9 ?.$'"-_()@!%*#?&\/\\]+$/, 'Content cannot contain certain special characters'),
+            .matches(/^[a-zA-Z0-9 ?,.$'"-:+_()@!%*#?&\/\\(\r\n|\r|\n)]+$/, 'Content cannot contain certain special characters. Be careful with apostrophe. The valid one is " \' "'),
         image: Yup.mixed()
             .test("fileName", "Image is required", (value) => {
                 if (value.length) {
@@ -23,17 +23,18 @@ export default function CreateNews(props) {
                 }
                 return false
             })
+            
             .test("fileSize", "The file is too large", (value) => {
                 if (!value.length) {
                     return true // attachment is optional
                 }
                 return value[0].size <= 2000000
             })
-            .test("fileType", "Image file is required", (value) => {
+            .test("fileType", "Only jpeg/png file is accepted", (value) => {
                 if (!value.length) {
                     return true // attachment is optional
                 }
-                return value[0].type === "image/jpeg"
+                return value[0].type === "image/jpeg" || value[0].type === "image/png"
             }),
         category: Yup.string()
             .test("value", "Category is required", (value) => {

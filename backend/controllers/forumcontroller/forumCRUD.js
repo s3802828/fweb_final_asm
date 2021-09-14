@@ -68,10 +68,8 @@ exports.postComment = async (req, res) => {
 };
 
 exports.putComment = async (req, res) => {
-    try {
-        const comment = await Comment.findById(req.params.id);
         try {
-            const updatedComment = await comment.findByIdAndUpdate(
+            const updatedComment = await Comment.findByIdAndUpdate(
                 req.params.id,
                 {
                     $set: req.body,
@@ -83,10 +81,6 @@ exports.putComment = async (req, res) => {
             console.log(err);
             res.status(500).json(err);
         }
-    } catch (err) {
-        console.log(err);
-        res.status(500).json(err);
-    }
 };
 
 exports.deleteComment = async (req, res) => {

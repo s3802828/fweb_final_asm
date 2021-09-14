@@ -17,6 +17,7 @@ import BreakingNewsPage from './components/newsPage/BreakingNewsPage';
 import CategorizedPost from './components/forumPage/CategorizedPost';
 import PostDetail from './components/forumPage/PostDetail';
 import Popular from './components/forumPage/Popular';
+import EmailReset from './components/login_signup/EmailReset';
 function App() {
   //Authorization
   const [isAdmin, setIsAdmin] = useState(false)
@@ -79,6 +80,8 @@ function App() {
           {isReporter && <Route exact path="/editnews/:id"><EditNews isUser = {isUser} currentUser = {currentUser}/></Route>}
           {isReporter &&<Route exact path="/articleform"><CreateNews isUser = {isUser} currentUser = {currentUser}/></Route>}
           <Route exact path="/profile/:id"><MyProfile isUser = {isUser}/></Route>
+          <Route exact path="/emailresetform"><EmailReset /></Route>
+          <Route exact path="//password-reset/:id/:token"><Login /></Route>
         </Switch>
         <Footer />
       </Router>}

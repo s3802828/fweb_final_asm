@@ -79,7 +79,7 @@ const validationSchema = Yup.object().shape({
             content,
             image: file,
             post_category_id: id,
-            user,
+   
         }; 
 
         if (file) {
@@ -112,7 +112,7 @@ const validationSchema = Yup.object().shape({
                     </div>
 
                     <div class='card-body container-fluid'>
-                        <form onSubmit={submit(handleSubmit)} enctype="multipart/form-data">
+                        <form onSubmit={handleSubmit} enctype="multipart/form-data">
                             <div class='row'>
                                 <div class='form-group mb-3 col-7'>
                                     <label for='posttitle'>Title</label>

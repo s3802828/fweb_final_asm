@@ -1,5 +1,7 @@
 const Post = require('../../models/posts').post;
 const Comment = require('../../models/comments').comment;
+const fs = require('fs');
+
 
 // POST CRUD
 exports.postPost = async (req, res) => {
@@ -29,12 +31,26 @@ exports.putPost = async (req, res) => {
         res.status(500).json(err);
     }
 };
-
 exports.deletePost = async (req, res) => {
     try {
         const post = await Post.findById(req.params.id);
         try {
             await post.delete();
+            if(post.image !== null){
+            try {     
+                fs.unlink('./../frontend/public/postUpload/' + post.image, (err) => {
+                if (err) {
+                    console.error(err)
+                    // return
+                }
+                //file removed
+            })
+                
+            } catch (error) {
+                res.status(500).json(err);
+                
+            }}
+
             res.status(200).json('Post has been deleted...');
         } catch (err) {
             console.log(err);

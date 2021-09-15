@@ -79,8 +79,8 @@ export default function CreatePost(props) {
             title,
             content,
             image: file,
-            post_category_id: id, //id tưởng của user chứ. nếu sai thì sửa lại là e.category
-            user_id: currentUser.user_id,
+            post_category_id: id, 
+            user_id: currentUser.id,
         };
 
         if (file) {

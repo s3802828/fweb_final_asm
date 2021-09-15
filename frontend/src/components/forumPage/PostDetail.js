@@ -1,10 +1,13 @@
 import React from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router';
 import Sidebar from './Sidebar';
 import CreatePost from './CreatePost';
 import CommentSection from './CommentSection';
 import axios from 'axios';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as Yup from 'yup';
 
 import { countTimeDiff } from '../../utils';
 
@@ -14,7 +17,12 @@ const PostDetail = () => {
     const [file, setFile] = useState(null);
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
+    const [catId, setCatId] = useState([]);
+    const [cate, setCate] = useState('');
     const { id } = useParams();
+    const currentTitle = useRef(title);
+    const currentContent = useRef(content);
+    const currentFile = useRef(file);
     const endPoint = `http://localhost:9000/forums/posts/${id}`;
     const [postDetail, setpostDetail] = useState({});
     const currentUser = JSON.parse(localStorage.getItem('user'));
@@ -22,6 +30,7 @@ const PostDetail = () => {
     useEffect(() => {
         fetchPostDetail();
         fetchPostComment();
+        getCat();
     }, []);
 
     const fetchUserInfo = (passId, oldData, setFunction) => {
@@ -30,6 +39,18 @@ const PostDetail = () => {
             .then((dataProfile) =>
                 setFunction({ ...oldData, username: dataProfile.username })
             );
+    };
+    const getCat = async () => {
+        try {
+            const res = await axios.get(
+                'http://localhost:9000/post_categories/'
+            );
+            console.log('ressssss', res);
+            const myCat = res?.data || {};
+            setCatId(myCat);
+        } catch (err) {
+            console.log(err);
+        }
     };
     {
         /*Update Delete for Post*/
@@ -56,6 +77,7 @@ const PostDetail = () => {
             title,
             content,
             image: file,
+            post_category_id: cate,
         };
         console.log(updatedPost);
         if (file) {
@@ -103,10 +125,10 @@ const PostDetail = () => {
                         .then((res) => res.json())
                         .then(
                             (data) =>
-                                (newElement = {
-                                    ...commentElement,
-                                    username: data.username,
-                                })
+                            (newElement = {
+                                ...commentElement,
+                                username: data.username,
+                            })
                         )
                         .then((res) =>
                             setPostCommentList((postCommentList) => [
@@ -135,18 +157,21 @@ const PostDetail = () => {
                     <div class='row'>
                         <article>
                             <header class='my-4'>
+                                <h1 className='fw-bolder'>
+                                    {postDetail.title}
+                                </h1>
                                 {isEditing ? (
                                     <textarea
+                                        placeholder='Enter new title'
+
                                         onChange={(e) =>
                                             setTitle(e.target.value)
                                         }
                                     >
-                                        {postDetail.title}
                                     </textarea>
-                                ) : (
-                                    <h1 className='fw-bolder'>
-                                        {postDetail.title}
-                                    </h1>
+
+                                ) : (null
+
                                 )}{' '}
                                 <p class='text-muted fst-italic'>
                                     Last edited{' '}
@@ -163,6 +188,10 @@ const PostDetail = () => {
                                     </button>
                                 </p>
                             </header>
+                            <figure class='img-fluid'>
+                                <img src={`/postUpload/${postDetail.image}`} class="d-block w-100 img-fluid" alt="..." />
+                                A caption for the above image.
+                            </figure>
 
                             {isEditing ? (
                                 <input
@@ -171,32 +200,54 @@ const PostDetail = () => {
                                     id='inputGroupFile01'
                                     onChange={(e) => setFile(e.target.files[0])}
                                 />
-                            ) : (
-                                <figure class='img-fluid'>
-                                    {/*<img src={`/postUpload/${postDetail.image}`} style ={{"opacity": "32%", "maxWidth": "1500px", "maxHeight": "300px"}}class="d-block w-100 img-fluid" alt="..." />*/}
-                                    A caption for the above image.
-                                </figure>
+
+                            ) : (null
+
                             )}
                             <section
                                 className='mb-4 '
                                 style={{ textAlign: 'justify' }}
                             >
+                                <p className='lh-base mb-4 fs-5 lead'>
+                                    {postDetail.content}
+                                </p>
                                 {isEditing ? (
                                     <textarea
+                                        placeholder='Please enter content'
                                         onChange={(e) => {
                                             setContent(e.target.value);
                                         }}
                                     >
-                                        {postDetail.content}
                                     </textarea>
-                                ) : (
-                                    <p className='lh-base mb-4 fs-5 lead'>
-                                        {postDetail.content}
-                                    </p>
+                                ) : (null
+
                                 )}
+
+                            </section>
+                            <section>
+                                {isEditing ? (
+                                    <select
+                                        class={`custom-select`}
+                                        id='inputGroupSelect01'
+                                        style={{ height: '35px' }}
+                                        onChange={(e) =>
+                                            setCate(e.target.value)
+                                        }
+                                    >
+                                        <option selected>
+                                            Choose Category
+                                        </option>
+                                        {catId.map((cate) => (
+                                            <option value={cate._id}>
+                                                {cate.name}
+                                            </option>
+                                        ))}
+                                    </select>
+                                ) : (null)
+                                }
                             </section>
 
-                            {currentUser.user_id === postDetail.user_id && (
+                            {currentUser.id === postDetail.user_id && (
                                 <>
                                     <button
                                         type='button'

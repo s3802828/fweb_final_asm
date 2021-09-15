@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useRef, useContext } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import lodash from 'lodash';
 import { useParams } from 'react-router';
 
 const CommentSection = ({}) => {

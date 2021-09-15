@@ -16,20 +16,22 @@ export default function Navbar(props) {
     };
 
     const fetchAllNewsCategory = () => {
-        fetch(endPoint + '/newscategory')
-            .then((res) => res.json())
-            .then((data) => {
-                data.sort((first, second) => {
-                    return first.name === 'Cases'
-                        ? -1
-                        : second.name === 'Cases'
-                        ? 1
-                        : 0;
-                });
-                setNewsCategoryList(data);
-            });
-    };
 
+        fetch(endPoint + '/newscategory').then(res => res.json()).then(data => {
+            data.sort((first, second) => {
+                return first.name === 'Cases' ? -1 : second.name === 'Cases' ? 1 : 0
+            })
+            setNewsCategoryList(data)
+        })
+    }
+
+    const fetchCurrentUser = () => {
+        fetch()
+    }
+
+    useEffect(() =>{
+        fetchAllNewsCategory()
+    },[])
     return (
         <div>
             <nav
@@ -114,87 +116,26 @@ export default function Navbar(props) {
                                 </a>
                             </li>
                         </ul>
-                        {props.isUser ? (
-                            <div className='dropdown'>
-                                <a
-                                    href='#'
-                                    className='d-flex align-items-center link-dark text-decoration-none dropdown-toggle'
-                                    id='dropdownUser2'
-                                    data-bs-toggle='dropdown'
-                                    aria-expanded='false'
-                                    role='button'
-                                >
-                                    <img
-                                        src='https://github.com/mdo.png'
-                                        alt=''
-                                        width='32'
-                                        height='32'
-                                        className='rounded-circle me-2'
-                                    />
-                                    <strong>
-                                        {props.currentUser.username}
-                                    </strong>
-                                </a>
-                                <ul
-                                    className='dropdown-menu dropdown-menu-end'
-                                    aria-labelledby='dropdownUser2'
-                                    data-popper-placement='top-end'
-                                >
-                                    {props.isReporter && (
-                                        <li>
-                                            <a
-                                                className='dropdown-item'
-                                                href='/articleform'
-                                            >
-                                                Create New Article
-                                            </a>
-                                        </li>
-                                    )}
-                                    <li>
-                                        <a
-                                            className='dropdown-item'
-                                            href={`/profile/${props.currentUser.id}`}
-                                        >
-                                            Profile
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <hr className='dropdown-divider' />
-                                    </li>
-                                    <li>
-                                        <a
-                                            className='dropdown-item'
-                                            href='/'
-                                            onClick={(e) => {
-                                                e.preventDefault();
-                                                logout();
-                                            }}
-                                        >
-                                            Sign out
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        ) : (
-                            <div>
-                                <a href='/signup'>
-                                    <button
-                                        className='btn btn-light me-2'
-                                        type='button'
-                                    >
-                                        Sign Up
-                                    </button>
-                                </a>
-                                <a href='/login'>
-                                    <button
-                                        className='btn btn-light'
-                                        type='button'
-                                    >
-                                        Login
-                                    </button>
-                                </a>
-                            </div>
-                        )}
+
+                        {props.isUser ? <div className="dropdown">
+                            <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false" role="button">
+                                <img src={props.currentUser.avatar? `https://covi-away-app.s3.amazonaws.com/${props.currentUser.avatar}` : `./frontend/public/default-avatar-profile-icon-vector-social-media-user-portrait-176256935.jpg`} alt="" width="32" height="32" class="rounded-circle me-2" />
+                                <strong>{props.currentUser.username}</strong>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownUser2" data-popper-placement="top-end">
+   
+                                
+                                {props.isReporter && <li><a class="dropdown-item" href="/articleform">Create New Article</a></li>}
+                                <li><a class="dropdown-item" href={`/profile/${props.currentUser.id}`}>Profile</a></li>
+                                <li><hr class="dropdown-divider" /></li>
+                                <li><a class="dropdown-item" href="/" onClick={(e) => { e.preventDefault(); logout() }}>Sign out</a></li>
+                            </ul>
+                        </div> : <div><a href="/signup"><button class="btn btn-light me-2" type="button">Sign Up</button></a>
+                            <a href="/login"><button class="btn btn-light" type="button">Login</button></a></div>}
+
+
+
+
                     </div>
                 </div>
             </nav>

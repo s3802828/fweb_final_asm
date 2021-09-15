@@ -10,16 +10,10 @@ var {
     getNewsCategory,
 } = require('../../controllers/newsController/newsCategory');
 
-var crypto = require('crypto');
-
 var multer = require('multer');
 
-var router = require('express').Router()
 var {getArticle,getArticleDetails, addArticle, deleteArticle, updateArticle} = require('../../controllers/newsController/newsCRUD')
 var {getNewsCategory} = require('../../controllers/newsController/newsCategory')
-
-var multer = require('multer')
-
 
 // Image uploader
 var storage = multer.diskStorage({

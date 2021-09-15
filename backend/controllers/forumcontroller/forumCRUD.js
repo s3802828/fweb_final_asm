@@ -2,80 +2,120 @@ const Post = require('../../models/posts').post;
 const Comment = require('../../models/comments').comment;
 const fs = require('fs');
 
-const {uploadFile, deleteFile} = require("../s3") 
+const { uploadFile, deleteFile } = require("../s3")
 
 const bucketName = "covi-away-app/postUploads"
 
 // POST CRUD
 exports.postPost = async (req, res) => {
 
-    const file = req.file;
-    console.log(file)
-    const s3Result = await uploadFile(file, bucketName)
-    console.log(s3Result)
+    if (req.file) {
+        const file = req.file;
+        console.log(file)
+        const s3Result = await uploadFile(file, bucketName)
+        console.log(s3Result)
 
-    const newPost = new Post({
-        title: req.body.title,
-        content: req.body.content,
-        image: s3Result.Key,
-        post_category_id: req.body.post_category_id,
-        user_id: req.body.user_id
-    });
-    try {
-        
-        const savedPost = await newPost.save();
+        const newPost = new Post({
+            title: req.body.title,
+            content: req.body.content,
+            image: s3Result.Key,
+            post_category_id: req.body.post_category_id,
+            user_id: req.body.user_id
+        });
+        try {
 
-        fs.unlink('./../frontend/public/postUpload/' + file.filename, (err) => {
-            if (err) {
-                console.error(err)
-                return
-            }
-    
-            //file removed
-        })
-        
-        res.status(200).json(savedPost);
-    } catch (err) {
-        console.log(err);
-        res.status(500).json(err);
+            const savedPost = await newPost.save();
+
+            fs.unlink('./../frontend/public/postUpload/' + file.filename, (err) => {
+                if (err) {
+                    console.error(err)
+                    return
+                }
+
+                //file removed
+            })
+
+            res.status(200).json(savedPost);
+        } catch (err) {
+            console.log(err);
+            res.status(500).json(err);
+        }
+    } else {
+        const newPost = new Post({
+            title: req.body.title,
+            content: req.body.content,
+            post_category_id: req.body.post_category_id,
+            user_id: req.body.user_id
+        });
+        try {
+            const savedPost = await newPost.save();
+            res.status(200).json(savedPost);
+        } catch (err) {
+            console.log(err);
+            res.status(500).json(err);
+        }
     }
+
 };
 
 exports.putPost = async (req, res) => {
-    try {
-        const updatedPost = await Post.findByIdAndUpdate(
-            req.params.id,
-            {
-                $set: req.body,
-            },
-            { new: true }
-        );
-        res.status(200).json(updatedPost);
-    } catch (err) {
-        console.log(err);
 
-        res.status(500).json(err);
+    console.log(req.file)
+    //If update with new image
+    if (req.file) {
+        Post.findById({ _id: req.params.id }, async (error, result) => {
+            if (result) {
+
+                console.log(req.file)
+                deleteFile(result.image, bucketName)
+
+                
+                const newImage = await uploadFile(req.file, bucketName)
+                console.log(newImage)
+
+                Post.findByIdAndUpdate({ _id: req.params.id }, {
+                    title: req.body.title,
+                    content: req.body.content,
+                    image: newImage.Key,
+                    post_category_id: req.body.post_category_id
+                }, (error, result) => {
+                    if (error) {
+                        console.log(error)
+                    } else {
+                        res.send(result)
+                    }
+                })
+
+            }
+        })
+        //If update without new image
+    } else {
+        try {
+            const updatedPost = await Post.findByIdAndUpdate(
+                req.params.id,
+                {
+                    $set: req.body,
+                },
+                { new: true }
+            );
+            res.status(200).json(updatedPost);
+        } catch (err) {
+            console.log(err);
+    
+            res.status(500).json(err);
+        }
     }
+
+    
 };
 exports.deletePost = async (req, res) => {
     try {
         const post = await Post.findById(req.params.id);
         try {
             await post.delete();
-            if(post.image !== null){
-            try {     
-                fs.unlink('./../frontend/public/postUpload/' + post.image, (err) => {
-                if (err) {
-                    console.error(err)
-                    // return
-                }
-                //file removed
-            })
-                
-            } catch (error) {
-                res.status(500).json(err);
-                
-            }}
+            if (post.image !== null) {
+                deleteFile(post.image, bucketName)
+            }
 
             res.status(200).json('Post has been deleted...');
         } catch (err) {
@@ -110,19 +150,19 @@ exports.postComment = async (req, res) => {
 };
 
 exports.putComment = async (req, res) => {
-        try {
-            const updatedComment = await Comment.findByIdAndUpdate(
-                req.params.id,
-                {
-                    $set: req.body,
-                },
-                { new: true }
-            );
-            res.status(200).json(updatedComment);
-        } catch (err) {
-            console.log(err);
-            res.status(500).json(err);
-        }
+    try {
+        const updatedComment = await Comment.findByIdAndUpdate(
+            req.params.id,
+            {
+                $set: req.body,
+            },
+            { new: true }
+        );
+        res.status(200).json(updatedComment);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
 };
 
 exports.deleteComment = async (req, res) => {

@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import CreateNews from './components/newsPage/CreateNews';
 import Footer from './Footer';
@@ -9,7 +10,6 @@ import Signup from './components/login_signup/Signup';
 import ReportPage from './components/newsPage/ReportPage';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import MyProfile from './components/profilePage/MyProfile';
-import { useEffect, useState } from 'react';
 import authHeader from './components/login_signup/authHeader';
 import EditNews from './components/newsPage/EditNews';
 import CategorizedNews from './components/newsPage/CategorizedNews';
@@ -89,5 +89,7 @@ function App() {
     </div>
   );
 }
+
+
 
 export default App;

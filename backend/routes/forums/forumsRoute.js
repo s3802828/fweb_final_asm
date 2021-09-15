@@ -42,7 +42,8 @@ router.get('/posts', forumPost);
 router.get('/userpost/:id', fetchUserPost);
 
 router.post('/posts', postPost);
-router.put('/posts/:id', putPost);
+router.put('/posts/:id', upload.single('file'), putPost);
+console.log(putPost);
 router.delete('/posts/:id', deletePost);
 
 router.post('/comments', postComment);

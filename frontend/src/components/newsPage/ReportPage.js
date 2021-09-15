@@ -90,7 +90,7 @@ export default function ReportPage(props) {
                             <div style={{ textAlign: "justify" }}>
                                 <div class="card my-3">
                                     <figure class="text-center my-2">
-                                        <img style={{ "width": "90%" }} src={`/newsUploads/${item && item.image}`} alt="Image" />
+                                        <img style={{ "width": "90%" }} src={`https://covi-away-app.s3.amazonaws.com/${item && item.image}`} alt="Image" />
                                     </figure>
                                 </div>
                                 <p class="fw-normal lh-base">{item && nl2br(item.content)}</p>

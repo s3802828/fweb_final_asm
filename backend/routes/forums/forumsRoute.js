@@ -23,17 +23,18 @@ const {
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, './../frontend/public/postUpload');
-    },
-    filename: (req, file, cb) => {
-        cb(null, req.body.name);
-    },
+    }
+    // filename: (req, file, cb) => {
+    //     cb(null, req.body.name);
+    // },
 });
 
 const upload = multer({ storage });
 
-router.post('/upload', upload.single('file'), (req, res) => {
-    res.status(200).json('File has been uploaded');
-});
+// router.post('/upload', upload.single('image'), (req, res) => {
+//     console.log(req)
+//     res.status(200).json('File has been uploaded');
+// });
 
 router.get('/comment/:id', userComment);
 router.get('/posts/:id', fetchPostDetail);
@@ -41,7 +42,7 @@ router.get('/post_category', fetchPostCategories);
 router.get('/posts', forumPost);
 router.get('/userpost/:id', fetchUserPost);
 
-router.post('/posts', postPost);
+router.post('/posts', upload.single('image'), postPost);
 router.put('/posts/:id', upload.single('file'), putPost);
 console.log(putPost);
 router.delete('/posts/:id', deletePost);

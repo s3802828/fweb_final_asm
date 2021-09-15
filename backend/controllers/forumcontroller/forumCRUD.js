@@ -2,12 +2,38 @@ const Post = require('../../models/posts').post;
 const Comment = require('../../models/comments').comment;
 const fs = require('fs');
 
+const {uploadFile, deleteFile} = require("../s3") 
+
+const bucketName = "covi-away-app/postUploads"
 
 // POST CRUD
 exports.postPost = async (req, res) => {
-    const newPost = new Post(req.body);
+
+    const file = req.file;
+    console.log(file)
+    const s3Result = await uploadFile(file, bucketName)
+    console.log(s3Result)
+
+    const newPost = new Post({
+        title: req.body.title,
+        content: req.body.content,
+        image: s3Result.Key,
+        post_category_id: req.body.post_category_id,
+        user_id: req.body.user_id
+    });
     try {
+        
         const savedPost = await newPost.save();
+
+        fs.unlink('./../frontend/public/postUpload/' + file.filename, (err) => {
+            if (err) {
+                console.error(err)
+                return
+            }
+    
+            //file removed
+        })
+        
         res.status(200).json(savedPost);
     } catch (err) {
         console.log(err);

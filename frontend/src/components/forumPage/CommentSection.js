@@ -1,8 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as Yup from 'yup';
 
-const CommentSection = ({}) => {
+const CommentSection = ({ }) => {
     const { id } = useParams();
 
     const [fetchComment, setFetchComment] = useState([]);
@@ -12,6 +15,23 @@ const CommentSection = ({}) => {
     useEffect(() => {
         getComment();
     }, []);
+
+    const validationSchema = Yup.object().shape({
+        content: Yup.string()
+            .required('Content is required')
+            .matches(
+                /^[a-zA-Z0-9 ?.$'"-_()@!%*#?&\/\\]+$/,
+                'Title cannot contain certain special characters'
+            ),
+    })
+    const {
+        register,
+        handleSubmit,
+        reset,
+        formState: { errors },
+    } = useForm({
+        resolver: yupResolver(validationSchema),
+    });
 
     const getComment = () => {
         axios
@@ -47,15 +67,14 @@ const CommentSection = ({}) => {
             .catch((error) => console.error(error));
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    const submit = (e) => {
         axios
             .post('http://localhost:9000/forums/comments', {
                 content: contentComment,
                 user_id: currentUser.id,
                 post_id: id,
             })
-            .catch((err) => {});
+            .catch((err) => { });
         window.location.reload();
     };
 
@@ -65,12 +84,15 @@ const CommentSection = ({}) => {
                 <div class='card bg-light'>
                     <div class='card-body container'>
                         <div class='row'>
-                            <form class='my-4 mx-2' onSubmit={handleSubmit}>
+                            <form class='my-4 mx-2' onSubmit={handleSubmit(submit)}>
                                 <div className='form-floating'>
+
                                     <textarea
-                                        className='form-control'
+                                        className={`form-control border border-secondary ${errors.content ? 'is-invalid' : ''
+                                            }`}
                                         placeholder='Leave a comment here'
                                         id='floatingTextarea2'
+                                        {...register('content')}
                                         style={{
                                             height: '100px',
                                         }}
@@ -78,6 +100,9 @@ const CommentSection = ({}) => {
                                             setContentComment(e.target.value)
                                         }
                                     />
+                                    <div className='invalid-feedback'>
+                                        {errors.content?.message}
+                                    </div>
                                     <label for='floatingTextarea2'>
                                         Comments
                                     </label>

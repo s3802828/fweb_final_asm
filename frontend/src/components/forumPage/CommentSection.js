@@ -1,11 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
+import lodash from 'lodash';
 import { useParams } from 'react-router';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as Yup from 'yup';
 
-const CommentSection = ({ }) => {
+const CommentSection = ({}) => {
     const { id } = useParams();
 
     const [fetchComment, setFetchComment] = useState([]);
@@ -15,23 +13,6 @@ const CommentSection = ({ }) => {
     useEffect(() => {
         getComment();
     }, []);
-
-    const validationSchema = Yup.object().shape({
-        content: Yup.string()
-            .required('Content is required')
-            .matches(
-                /^[a-zA-Z0-9 ?.$'"-_()@!%*#?&\/\\]+$/,
-                'Title cannot contain certain special characters'
-            ),
-    })
-    const {
-        register,
-        handleSubmit,
-        reset,
-        formState: { errors },
-    } = useForm({
-        resolver: yupResolver(validationSchema),
-    });
 
     const getComment = () => {
         axios
@@ -49,7 +30,6 @@ const CommentSection = ({ }) => {
                                 `http://localhost:9000/profile/profiledetails/${userId}`
                             )
                             .then((result) => {
-                                console.log('result', result?.data);
                                 if (result?.data) {
                                     const { username, name } = result.data;
                                     modified.push({
@@ -67,43 +47,48 @@ const CommentSection = ({ }) => {
             .catch((error) => console.error(error));
     };
 
-    const submit = (e) => {
+    const handleSubmit = (e) => {
+        e.preventDefault();
         axios
             .post('http://localhost:9000/forums/comments', {
                 content: contentComment,
                 user_id: currentUser.id,
                 post_id: id,
             })
-            .catch((err) => { });
+            .catch((err) => {});
         window.location.reload();
     };
 
+    const handleChangeComment = (e) => {
+        const debounce = lodash.debounce(
+            (value) => setContentComment(value),
+            300
+        );
+        debounce(e.target.value);
+    };
+
+    useEffect(() => {
+        console.log(contentComment);
+    }, [contentComment]);
+
     return (
         <section>
-            <div class='mt-5'>
-                <div class='card bg-light'>
-                    <div class='card-body container'>
-                        <div class='row'>
-                            <form class='my-4 mx-2' onSubmit={handleSubmit(submit)}>
+            <div className='mt-5'>
+                <div className='card bg-light'>
+                    <div className='card-body container'>
+                        <div className='row'>
+                            <form className='my-4 mx-2' onSubmit={handleSubmit}>
                                 <div className='form-floating'>
-
                                     <textarea
-                                        className={`form-control border border-secondary ${errors.content ? 'is-invalid' : ''
-                                            }`}
+                                        className='form-control'
                                         placeholder='Leave a comment here'
                                         id='floatingTextarea2'
-                                        {...register('content')}
                                         style={{
                                             height: '100px',
                                         }}
-                                        onChange={(e) =>
-                                            setContentComment(e.target.value)
-                                        }
+                                        onChange={handleChangeComment}
                                     />
-                                    <div className='invalid-feedback'>
-                                        {errors.content?.message}
-                                    </div>
-                                    <label for='floatingTextarea2'>
+                                    <label htmlFor='floatingTextarea2'>
                                         Comments
                                     </label>
                                 </div>
@@ -133,14 +118,10 @@ const CommentObject = ({ data }) => {
     const currentComment = useRef(content);
     const currentUser = JSON.parse(localStorage.getItem('user'));
 
-    useEffect(() => {
-        console.log('data', data);
-    }, []);
-
     const handleDeleteComment = () => {
         axios
             .delete(`http://localhost:9000/forums/comment/${_id}`)
-            .catch((error) => console.log(error))
+            .catch((error) => console.error(error))
             .finally(() => window.location.reload());
     };
 
@@ -161,7 +142,7 @@ const CommentObject = ({ data }) => {
                 .put(`http://localhost:9000/forums/comment/${_id}`, {
                     content: updateDataComment,
                 })
-                .catch((error) => console.log(error))
+                .catch((error) => console.error(error))
                 .finally(() => {
                     setIsEditing(false);
                     window.location.reload();
@@ -176,17 +157,17 @@ const CommentObject = ({ data }) => {
     // }
 
     return (
-        <div class='row' key={_id}>
-            <div class='d-flex mb-4'>
-                <div class='flex-shrink-0'>
+        <div className='row' key={_id}>
+            <div className='d-flex mb-4'>
+                <div className='flex-shrink-0'>
                     <img
-                        class='rounded-circle'
+                        className='rounded-circle'
                         src='https://dummyimage.com/50x50/ced4da/6c757d.jpg'
                         alt='...'
                     />
                 </div>
-                <div class='ms-3'>
-                    <div class='fw-bold'>{username}</div>
+                <div className='ms-3'>
+                    <div className='fw-bold'>{username}</div>
                     {isEditing ? (
                         <textarea
                             onChange={(e) =>

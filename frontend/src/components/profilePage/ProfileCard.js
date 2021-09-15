@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react'
-import './ProfileCard.css'
-import UpdateProfile from './UpdateProfile'
+import { useState, useEffect } from 'react';
+import './ProfileCard.css';
+import UpdateProfile from './UpdateProfile';
 
 export default function ProfileCard(props) {
   const currentUser = JSON.parse(localStorage.getItem("user"))
@@ -183,8 +183,8 @@ export default function ProfileCard(props) {
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
               </div>
             </div>
-          </div>
         </div>
+
 
         <div class="social_media">
           <ul>

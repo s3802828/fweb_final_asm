@@ -26,6 +26,48 @@ const PostDetail = () => {
     const endPoint = `http://localhost:9000/forums/posts/${id}`;
     const [postDetail, setpostDetail] = useState({});
     const currentUser = JSON.parse(localStorage.getItem('user'));
+    const validationSchema = Yup.object().shape({
+        title: Yup.string()
+            .required('Title is required')
+            .matches(
+                /^[a-zA-Z0-9 ?.$'"-_()@!%*#?&\/\\]+$/,
+                'Title cannot contain certain special characters'
+            ),
+        content: Yup.string()
+            .required('Content is required')
+            .matches(
+                /^[a-zA-Z0-9 ?,.$'"-:+_()@!%*#?&\/\\(\r\n|\r|\n)]+$/,
+                'Content cannot contain certain special characters. Be careful with apostrophe. The valid one is " \' "'
+            ),
+        image: Yup.mixed()
+            .test('fileSize', 'The file is too large', (value) => {
+                if (!value.length) {
+                    return true; // attachment is optional
+                }
+                return value[0].size <= 2000000;
+            })
+            .test('fileType', 'Only jpeg/png file is accepted', (value) => {
+                if (!value.length) {
+                    return true; // attachment is optional
+                }
+                return (
+                    value[0].type === 'image/jpeg' ||
+                    value[0].type === 'image/png'
+                );
+            }),
+
+    });
+    const {
+        register,
+        handleSubmit,
+        reset,
+        formState: { errors },
+    } = useForm({
+        resolver: yupResolver(validationSchema),
+    });
+
+
+
 
     useEffect(() => {
         fetchPostDetail();
@@ -72,6 +114,7 @@ const PostDetail = () => {
     };
 
     const handleUpdate = async (e) => {
+
         e.preventDefault();
         const updatedPost = {
             title,
@@ -156,124 +199,142 @@ const PostDetail = () => {
                     {showCreatePostForm && <CreatePost />}
                     <div class='row'>
                         <article>
-                            <header class='my-4'>
-                                <h1 className='fw-bolder'>
-                                    {postDetail.title}
-                                </h1>
+                            <form onSubmit={handleSubmit(handleUpdate)}>
+                                <header class='my-4'>
+                                    <h1 className='fw-bolder'>
+                                        {postDetail.title}
+                                    </h1>
+                                    {isEditing ? (
+                                        <>
+                                            <textarea
+                                                placeholder='Enter new title'
+                                                class={`form-control border border-secondary ${errors.title ? 'is-invalid' : ''
+                                                    }`}
+                                                onChange={(e) =>
+                                                    setTitle(e.target.value)
+                                                }
+                                                {...register('title')}
+                                            >
+
+                                            </textarea>
+                                            <div className='invalid-feedback'>
+                                                {errors.title?.message}
+                                            </div> </>
+
+                                    ) : (null
+
+                                    )}{' '}
+                                    <p class='text-muted fst-italic'>
+                                        Last edited{' '}
+                                        {countTimeDiff(postDetail.updatedAt)} by{' '}
+                                        {postDetail.username}
+                                    </p>
+                                    <p class='fw-normal'>
+                                        categories
+                                        <button class='btn btn-light btn-sm'>
+                                            urgent
+                                        </button>
+                                        <button class='btn btn-light btn-sm'>
+                                            popular
+                                        </button>
+                                    </p>
+                                </header>
+                                <figure class='img-fluid'>
+                                    <img src={`/postUpload/${postDetail.image}`} class="d-block w-100 img-fluid" alt="..." />
+                                    A caption for the above image.
+                                </figure>
+
                                 {isEditing ? (
-                                    <textarea
-                                        placeholder='Enter new title'
+                                    <input
+                                        type='file'
+                                        class='custom-file-input'
+                                        id='inputGroupFile01'
+                                        onChange={(e) => setFile(e.target.files[0])}
+                                    />
 
-                                        onChange={(e) =>
-                                            setTitle(e.target.value)
-                                        }
-                                    >
-                                    </textarea>
-
-                                ) : (null
-
-                                )}{' '}
-                                <p class='text-muted fst-italic'>
-                                    Last edited{' '}
-                                    {countTimeDiff(postDetail.updatedAt)} by{' '}
-                                    {postDetail.username}
-                                </p>
-                                <p class='fw-normal'>
-                                    categories
-                                    <button class='btn btn-light btn-sm'>
-                                        urgent
-                                    </button>
-                                    <button class='btn btn-light btn-sm'>
-                                        popular
-                                    </button>
-                                </p>
-                            </header>
-                            <figure class='img-fluid'>
-                                <img src={`/postUpload/${postDetail.image}`} class="d-block w-100 img-fluid" alt="..." />
-                                A caption for the above image.
-                            </figure>
-
-                            {isEditing ? (
-                                <input
-                                    type='file'
-                                    class='custom-file-input'
-                                    id='inputGroupFile01'
-                                    onChange={(e) => setFile(e.target.files[0])}
-                                />
-
-                            ) : (null
-
-                            )}
-                            <section
-                                className='mb-4 '
-                                style={{ textAlign: 'justify' }}
-                            >
-                                <p className='lh-base mb-4 fs-5 lead'>
-                                    {postDetail.content}
-                                </p>
-                                {isEditing ? (
-                                    <textarea
-                                        placeholder='Please enter content'
-                                        onChange={(e) => {
-                                            setContent(e.target.value);
-                                        }}
-                                    >
-                                    </textarea>
                                 ) : (null
 
                                 )}
-
-                            </section>
-                            <section>
-                                {isEditing ? (
-                                    <select
-                                        class={`custom-select`}
-                                        id='inputGroupSelect01'
-                                        style={{ height: '35px' }}
-                                        onChange={(e) =>
-                                            setCate(e.target.value)
-                                        }
-                                    >
-                                        <option selected>
-                                            Choose Category
-                                        </option>
-                                        {catId.map((cate) => (
-                                            <option value={cate._id}>
-                                                {cate.name}
-                                            </option>
-                                        ))}
-                                    </select>
-                                ) : (null)
-                                }
-                            </section>
-
-                            {currentUser.id === postDetail.user_id && (
-                                <>
-                                    <button
-                                        type='button'
-                                        className='btn btn-danger'
-                                        onClick={handleDelete}
-                                    >
-                                        Delete
-                                    </button>
-                                    <button
-                                        type='button'
-                                        className='btn btn-secondary'
-                                        onClick={handleEdit}
-                                    >
-                                        Edit
-                                    </button>
-                                </>
-                            )}
-                            {isEditing && (
-                                <button
-                                    type='button'
-                                    className='btn btn-secondary'
-                                    onClick={handleUpdate}
+                                <section
+                                    className='mb-4 '
+                                    style={{ textAlign: 'justify' }}
                                 >
-                                    Update
-                                </button>
-                            )}
+                                    <p className='lh-base mb-4 fs-5 lead'>
+                                        {postDetail.content}
+                                    </p>
+                                    {isEditing ? (
+                                        <>
+                                            <textarea
+                                                placeholder='Please enter content'
+                                                {...register('content')}
+                                                onChange={(e) => {
+                                                    setContent(e.target.value);
+                                                }}
+                                            >
+                                            </textarea>
+                                            <div className='invalid-feedback'>
+                                                {errors.content?.message}
+                                            </div> </>
+                                    ) : (null
+
+                                    )}
+
+                                </section>
+                                <section>
+                                    {isEditing ? (
+                                        <>
+                                            <select
+                                                class={`custom-select  ${errors.post_category_id ? 'is-invalid' : ''
+                                                    }`} id='inputGroupSelect01'
+                                                style={{ height: '35px' }}
+                                                {...register('category')}
+                                                onChange={(e) =>
+                                                    setCate(e.target.value)
+                                                }
+                                            >
+                                                <option selected>
+                                                    Choose Category
+                                                </option>
+                                                {catId.map((cate) => (
+                                                    <option value={cate._id}>
+                                                        {cate.name}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                            <div className='invalid-feedback'>
+                                                {errors.category?.message}
+                                            </div> </>
+                                    ) : (null)
+                                    }
+                                </section>
+
+                                {currentUser.id === postDetail.user_id && (
+                                    <>
+                                        <button
+                                            type='button'
+                                            className='btn btn-danger'
+                                            onClick={handleDelete}
+                                        >
+                                            Delete
+                                        </button>
+                                        <button
+                                            type='button'
+                                            className='btn btn-secondary'
+                                            onClick={handleEdit}
+                                        >
+                                            Edit
+                                        </button>
+                                    </>
+                                )}
+                                {isEditing && (
+                                    <button
+                                        type='submit'
+                                        className='btn btn-secondary'
+                                    >
+                                        Update
+                                    </button>
+                                )}
+                            </form>
                         </article>
                         <CommentSection />
                     </div>

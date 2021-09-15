@@ -1,79 +1,149 @@
-import React from 'react'
-import { useEffect, useState } from "react"
-import { useParams } from 'react-router'
-import Sidebar from "./Sidebar";
-import CreatePost from "./CreatePost";
+import React from 'react';
+import { useEffect, useState, useRef } from 'react';
+import { useParams } from 'react-router';
+import Sidebar from './Sidebar';
+import CreatePost from './CreatePost';
+import CommentSection from './CommentSection';
+import axios from 'axios';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as Yup from 'yup';
 
-export default function PostDetail() {
+import { countTimeDiff } from '../../utils';
+
+const PostDetail = () => {
     const [showCreatePostForm, setShowCreatePostForm] = useState(false);
-    const { id } = useParams()
-    const endPoint = `http://localhost:9000/forums/posts/${id}`
-    const [postDetail, setpostDetail] = useState({})
-    const fetchUserInfo = (passId, oldData, setFunction) => {
-        fetch(`http://localhost:9000/profile/profiledetails/${passId}`)
-            .then((res) => res.json())
-            .then((dataProfile) => setFunction({ ...oldData, username: dataProfile.username }));
-    }
+    const [isEditing, setIsEditing] = useState(false);
+    const [file, setFile] = useState(null);
+    const [title, setTitle] = useState('');
+    const [content, setContent] = useState('');
+    const [catId, setCatId] = useState([]);
+    const [cate, setCate] = useState('');
+    const { id } = useParams();
+    const currentTitle = useRef(title);
+    const currentContent = useRef(content);
+    const currentFile = useRef(file);
+    const endPoint = `http://localhost:9000/forums/posts/${id}`;
+    const [postDetail, setpostDetail] = useState({});
+    const currentUser = JSON.parse(localStorage.getItem('user'));
 
-    const fetchPostDetail = () => {
-        fetch(endPoint)
-            .then(response => response.json())
-            .then(data => { console.log(data); fetchUserInfo(data.user_id, data, setpostDetail) })
-        //   fetch(`http://localhost:9000/profile/profiledetails/${data.user_id}`)
-        //     .then((res) => res.json())
-        //     .then((dataProfile) => setpostDetail({...data, username: dataProfile.username }));})
-    }
-    const [postCommentList, setPostCommentList] = useState([])
-    const fetchPostComment = () => {
-        fetch(`http://localhost:9000/forums/comment/${id}`)
-            .then(response => response.json())
-            .then((data) => {
-                data.map(async (commentElement) => {
-                    var newElement = {};
-                    await fetch(`http://localhost:9000/profile/profiledetails/${commentElement.user_id}`)
-                        .then((res) => res.json())
-                        .then((data) => newElement = { ...commentElement, username: data.username })
-                        .then(res => setPostCommentList(postCommentList => [...postCommentList, res]));
-                    //fetchPostUser(postElement.user_id)
-                })
-            });
-        //setPosts(newData);
-    };
-    const countTimeDiff = (time) => {
-        var diffTimeInMs = Date.now() - new Date(time)
-        var years = Math.floor(diffTimeInMs / (1000 * 60 * 60 * 24 * 365))
-        if (years > 0) {
-            return `${years > 1 ? `${years} years ago` : `${years} year ago`} `
-        }
-        var months = Math.floor(diffTimeInMs / (1000 * 60 * 60 * 24 * 30))
-        if (months > 0) 
-        {return `${months > 1 ? `${months} months ago` : `${months} month ago`} `}
-        var days = Math.floor(diffTimeInMs / (1000 * 60 * 60 * 24))
-        if (days > 0) {
-            return `${days > 1 ? `${days} days ago` : `${days} day ago`} `
-        }
-        var hours = Math.floor(diffTimeInMs / (1000 * 60 * 60))
-        if (hours > 0) {
-            return `${hours > 1 ? `${hours} hours ago` : `${hours} hour ago`} `
-        }
-        var minutes = Math.floor(diffTimeInMs / (1000 * 60))
-        if (minutes > 0) {
-            return `${minutes > 1 ? `${minutes} minutes ago` : `${minutes} minute ago`} `
-        }
-        var seconds = Math.floor(diffTimeInMs / 1000)
-        if (seconds > 0) {
-            return `${seconds > 1 ? `${seconds} seconds ago` : `${seconds} second ago`} `
-        }
-    }
     useEffect(() => {
         fetchPostDetail();
         fetchPostComment();
-    }, [])
-    return (
+        getCat();
+    }, []);
 
-        <div class="container-fluid">
-            <div className="row">
-                <div class="col-3 ps-5 pe-5">
+    const fetchUserInfo = (passId, oldData, setFunction) => {
+        fetch(`http://localhost:9000/profile/profiledetails/${passId}`)
+            .then((res) => res.json())
+            .then((dataProfile) =>
+                setFunction({ ...oldData, username: dataProfile.username })
+            );
+    };
+    const getCat = async () => {
+        try {
+            const res = await axios.get(
+                'http://localhost:9000/post_categories/'
+            );
+            console.log('ressssss', res);
+            const myCat = res?.data || {};
+            setCatId(myCat);
+        } catch (err) {
+            console.log(err);
+        }
+    };
+    {
+        /*Update Delete for Post*/
+    }
+    const handleDelete = async () => {
+        try {
+            await axios.delete(`http://localhost:9000/forums/posts/${id}`);
+            window.location.replace('/');
+        } catch (err) {
+            console.log(err);
+        }
+    };
+    const handleEdit = () => {
+        if (isEditing) {
+            setIsEditing(false);
+        } else {
+            setIsEditing(true);
+        }
+    };
+
+    const handleUpdate = async (e) => {
+        e.preventDefault();
+        const updatedPost = {
+            title,
+            content,
+            image: file,
+            post_category_id: cate,
+        };
+        console.log(updatedPost);
+        if (file) {
+            const data = new FormData();
+            const fileName = Date.now() + file.name;
+            data.append('name', fileName);
+            data.append('file', file);
+            updatedPost.image = fileName;
+            console.log(updatedPost);
+        }
+        try {
+            await axios.put(
+                'http://localhost:9000/forums/posts/' + postDetail._id,
+                updatedPost
+            );
+            window.location.replace(
+                'http://localhost:3000/forum/post/postdetail/' + postDetail._id
+            );
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    const fetchPostDetail = () => {
+        fetch(endPoint)
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                fetchUserInfo(data.user_id, data, setpostDetail);
+            });
+        //   fetch(`http://localhost:9000/profile/profiledetails/${data.user_id}`)
+        //     .then((res) => res.json())
+        //     .then((dataProfile) => setpostDetail({...data, username: dataProfile.username }));})
+    };
+    const [postCommentList, setPostCommentList] = useState([]);
+    const fetchPostComment = () => {
+        fetch(`http://localhost:9000/forums/comment/${id}`)
+            .then((response) => response.json())
+            .then((data) => {
+                data.map(async (commentElement) => {
+                    let newElement = {};
+                    await fetch(
+                        `http://localhost:9000/profile/profiledetails/${commentElement.user_id}`
+                    )
+                        .then((res) => res.json())
+                        .then(
+                            (data) =>
+                            (newElement = {
+                                ...commentElement,
+                                username: data.username,
+                            })
+                        )
+                        .then((res) =>
+                            setPostCommentList((postCommentList) => [
+                                ...postCommentList,
+                                res,
+                            ])
+                        );
+                });
+            });
+    };
+
+    return (
+        <div class='container-fluid'>
+            <div className='row'>
+                <div class='col-3 ps-5 pe-5'>
                     <Sidebar
                         showCreatePostForm={showCreatePostForm}
                         showForm={(showCreatePostForm) =>
@@ -82,66 +152,135 @@ export default function PostDetail() {
                     />
                 </div>
 
-                <div class="col-6">
+                <div class='col-6'>
                     {showCreatePostForm && <CreatePost />}
-                    <div class="row">
+                    <div class='row'>
                         <article>
-                            {console.log(postCommentList)}
-                            <header class="my-4">
-                                <h1 class="fw-bolder">
+                            <header class='my-4'>
+                                <h1 className='fw-bolder'>
                                     {postDetail.title}
                                 </h1>
-                                <p class="text-muted fst-italic">Last edited {countTimeDiff(postDetail.updatedAt)} by {postDetail.username}</p>
-                                <p class="fw-normal">categories<button class="btn btn-light btn-sm">urgent</button><button class="btn btn-light btn-sm">popular</button></p>
+                                {isEditing ? (
+                                    <textarea
+                                        placeholder='Enter new title'
+
+                                        onChange={(e) =>
+                                            setTitle(e.target.value)
+                                        }
+                                    >
+                                    </textarea>
+
+                                ) : (null
+
+                                )}{' '}
+                                <p class='text-muted fst-italic'>
+                                    Last edited{' '}
+                                    {countTimeDiff(postDetail.updatedAt)} by{' '}
+                                    {postDetail.username}
+                                </p>
+                                <p class='fw-normal'>
+                                    categories
+                                    <button class='btn btn-light btn-sm'>
+                                        urgent
+                                    </button>
+                                    <button class='btn btn-light btn-sm'>
+                                        popular
+                                    </button>
+                                </p>
                             </header>
-                            <figure class="img-fluid">
-                                <img src="https://img.buzzfeed.com/buzzfeed-static/static/2016-01/22/17/campaign_images/webdr14/19-hermosos-regalos-para-gente-obsesionada-con-fr-2-25600-1453503418-3_dblbig.jpg" class="figure-img img-fluid rounded" alt="A generic square placeholder image with rounded corners in a figure." />
-                                <figcaption class="figure-caption">A caption for the above image.</figcaption>
+                            <figure class='img-fluid'>
+                                <img src={`/postUpload/${postDetail.image}`} class="d-block w-100 img-fluid" alt="..." />
+                                A caption for the above image.
                             </figure>
-                            <section class="mb-4 " style={{ textAlign: "justify" }}>
-                                <p class="lh-base mb-4 fs-5 lead">{postDetail.content}</p>
+
+                            {isEditing ? (
+                                <input
+                                    type='file'
+                                    class='custom-file-input'
+                                    id='inputGroupFile01'
+                                    onChange={(e) => setFile(e.target.files[0])}
+                                />
+
+                            ) : (null
+
+                            )}
+                            <section
+                                className='mb-4 '
+                                style={{ textAlign: 'justify' }}
+                            >
+                                <p className='lh-base mb-4 fs-5 lead'>
+                                    {postDetail.content}
+                                </p>
+                                {isEditing ? (
+                                    <textarea
+                                        placeholder='Please enter content'
+                                        onChange={(e) => {
+                                            setContent(e.target.value);
+                                        }}
+                                    >
+                                    </textarea>
+                                ) : (null
+
+                                )}
+
                             </section>
+                            <section>
+                                {isEditing ? (
+                                    <select
+                                        class={`custom-select`}
+                                        id='inputGroupSelect01'
+                                        style={{ height: '35px' }}
+                                        onChange={(e) =>
+                                            setCate(e.target.value)
+                                        }
+                                    >
+                                        <option selected>
+                                            Choose Category
+                                        </option>
+                                        {catId.map((cate) => (
+                                            <option value={cate._id}>
+                                                {cate.name}
+                                            </option>
+                                        ))}
+                                    </select>
+                                ) : (null)
+                                }
+                            </section>
+
+                            {currentUser.id === postDetail.user_id && (
+                                <>
+                                    <button
+                                        type='button'
+                                        className='btn btn-danger'
+                                        onClick={handleDelete}
+                                    >
+                                        Delete
+                                    </button>
+                                    <button
+                                        type='button'
+                                        className='btn btn-secondary'
+                                        onClick={handleEdit}
+                                    >
+                                        Edit
+                                    </button>
+                                </>
+                            )}
+                            {isEditing && (
+                                <button
+                                    type='button'
+                                    className='btn btn-secondary'
+                                    onClick={handleUpdate}
+                                >
+                                    Update
+                                </button>
+                            )}
                         </article>
-                        <section>
-                            <div class="mt-5">
-                                <div class="card bg-light">
-                                    <div class="card-body container">
-                                        <div class="row">
-                                            <form class="my-4 mx-2">
-                                                <div class="form-floating">
-                                                    <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style={{ "height": "100px" }}></textarea>
-                                                    <label for="floatingTextarea2">Comments</label>
-                                                </div>
-                                                <button class="btn btn-dark mt-3 pull-right">Post</button>
-                                            </form>
-                                        </div>
-                                        {postCommentList.map(
-                                            (postComment) => {
-                                                return (
-                                                    <div class="row">
-                                                        <div class="d-flex mb-4">
-                                                            <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." />
-                                                            </div>
-                                                            <div class="ms-3">
-                                                                <div class="fw-bold">{postComment.username}</div>
-                                                                <div>{postComment.content}</div>
-                                                            </div>
-                                                        </div>
-                                                    </div>)
-                                            }
-                                        )}
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
+                        <CommentSection />
                     </div>
                 </div>
-
-                <div class="col-3 mt-3">
-                    {/*<button type="button" class="btn btn-dark" style={{ marginLeft: "35%" }} onClick={() => setShowCreatePostForm(!showCreatePostForm)}>{showCreatePostForm ? "Close Form" : "Create New Post"}</button>   */}
-                </div>
             </div>
-        </div >
-    )
-}
+        </div>
+    );
+};
 
+export default PostDetail;

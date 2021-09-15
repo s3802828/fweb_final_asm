@@ -18,6 +18,7 @@ import CategorizedPost from './components/forumPage/CategorizedPost';
 import PostDetail from './components/forumPage/PostDetail';
 import Popular from './components/forumPage/Popular';
 import EmailReset from './components/login_signup/EmailReset';
+import ResetPasswordForm from './components/login_signup/ResetPasswordForm';
 function App() {
   //Authorization
   const [isAdmin, setIsAdmin] = useState(false)
@@ -81,7 +82,7 @@ function App() {
           {isReporter &&<Route exact path="/articleform"><CreateNews isUser = {isUser} currentUser = {currentUser}/></Route>}
           <Route exact path="/profile/:id"><MyProfile isUser = {isUser}/></Route>
           <Route exact path="/emailresetform"><EmailReset /></Route>
-          <Route exact path="//password-reset/:id/:token"><Login /></Route>
+          <Route exact path="/password-reset/:id/:token"><ResetPasswordForm /></Route>
         </Switch>
         <Footer />
       </Router>}

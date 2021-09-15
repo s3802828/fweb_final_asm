@@ -25,7 +25,7 @@ function ResetPasswordForm() {
     const endPoint = `http://localhost:9000/auth/passwordreset/${id}/${token}`
     const verifyLink = () => {
         fetch(`http://localhost:9000/user/password-reset/${id}/${token}`)
-        .then(response => response.json()).then(data => setCanReset(data.canReset))
+        .then(response => response.json()).then(data => {console.log(data);setCanReset(data.canReset)})
     }
     const resetPassword = data => {
         fetch(endPoint, {
@@ -46,7 +46,7 @@ function ResetPasswordForm() {
                 </div>
                 {canReset ?
                 <div class="col">
-                    {returnMessage !== "Reset password email has been sent to you. Please check your email to reset your password!" ?
+                    {returnMessage !== "Your password is successfully reset. Please log in again with your new password!" ?
                         (<form onSubmit={handleSubmit(resetPassword)}>
                             <div style={{ marginLeft: "35%" }}>
                                 <img class="mb-4 mx-auto" src={weblogo} alt="Web Logo" width="45%" height="45%" />
@@ -55,7 +55,7 @@ function ResetPasswordForm() {
 
                             <div class="form-floating mt-2">
                                 <input type="password" class={`form-control ${errors.password ? 'is-invalid' : ''}`} id="floatingPassword" placeholder="Password" {...register('password')} />
-                                <label for="floatingPassword">Password</label>
+                                <label for="floatingPassword">New Password</label>
                                 <div className="invalid-feedback">{errors.password?.message}</div>
                             </div>
                             <div class="form-floating mt-2">
@@ -68,7 +68,7 @@ function ResetPasswordForm() {
                             <button class="w-100 btn btn-lg btn-primary mt-3" type="submit">Reset</button>
                         </form>) : (
                             <div class="alert alert-success" role="alert">
-                                {returnMessage}
+                                {returnMessage}. <a class="mx-auto" href="/login">Login here</a>
                             </div>
                         )
 

@@ -5,8 +5,8 @@ const crypto = require('crypto');
 const sendEmail = require('./sendEmailReset');
 const {EMAIL_BASE_URL} = process.env
 
-exports.askForEmail = async (req,res) => {
-    User.findOne({email: req.body.email}, function(error, result){
+exports.askForEmail = (req,res) => {
+    User.findOne({email: req.body.email}, async function(error, result){
         if(error){
             return console.log(error)
         }
@@ -33,7 +33,7 @@ exports.askForEmail = async (req,res) => {
     })
 }
 
-exports.resetPassword = (req, res) => {
+exports.resetPassword = async (req, res) => {
     const user = await User.findById(req.params.userId);
     if (!user) {
         return res.status(400).send({message: "Invalid link"})

@@ -23,7 +23,7 @@ function EmailReset() {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(data)
-        }).then(response => response.json()).then(data => setReturnMessage(data.message))
+        }).then(response => response.json()).then(data => {setReturnMessage(data.message)})
     };
     return (
         <div class="container" style={{ marginTop: "110px" }}>
@@ -31,7 +31,7 @@ function EmailReset() {
                 <div class="col">
                 </div>
                 <div class="col">
-                    {returnMessage !== "Verification email has been sent to you. Please verify your email to continue!" ?
+                    {returnMessage !== "Reset password email has been sent to you. Please check your email to reset your password!" ?
                         (<form onSubmit={handleSubmit(sendEmailReset)}>
                             <div style={{ marginLeft: "35%" }}>
                                 <img class="mb-4 mx-auto" src={weblogo} alt="Web Logo" width="45%" height="45%" />
@@ -40,7 +40,7 @@ function EmailReset() {
                             <div class="form-floating mt-2">
                                 <input type="email" class={`form-control ${errors.email || returnMessage === "Email is not existed" || returnMessage === "This email has not been verified" ? 'is-invalid' : ''}`} id="floatingInput-email" placeholder="name@example.com" {...register('email')} />
                                 <label for="floatingInput-email">Email</label>
-                                <div className="invalid-feedback">{returnMessage === "Email is already existed." && returnMessage} {errors.email?.message}</div>
+                                <div className="invalid-feedback">{(returnMessage === "Email is not existed" || returnMessage === "This email has not been verified") && returnMessage}. {errors.email?.message}</div>
                             </div>
                             <button class="w-100 btn btn-lg btn-primary mt-3" type="submit">Send</button>
                         </form>) : (<div>
@@ -48,7 +48,7 @@ function EmailReset() {
                                 <img class="mb-4 mx-auto" src={emailsent} alt="Verification email sent" width="100%" height="100%" />
                             </div>
                             <div class="alert alert-success" role="alert">
-                                {returnMessage}
+                                {returnMessage}. If you don't see your email in <strong>Inbox</strong> folder. Please check the <strong>Promotions</strong> folder.
                             </div></div>
                         )
 

@@ -66,9 +66,6 @@ const countTimeDiff = (time) => {
                         })}
 
                     </div>
-                   
-                    
-                    
                 </div>
                 <div class="col-2 ms-auto me-auto">
                 </div>

@@ -72,7 +72,7 @@ function Login(props) {
                         </div>
                         <div class="mb-3 mt-3 text-center">
                             <label>
-                                <a href="#">Forgot Password?</a>
+                                <a href="/emailresetform">Forgot Password?</a>
                             </label>
                         </div>
                         <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>

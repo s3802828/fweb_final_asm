@@ -106,7 +106,7 @@ function Signup(props) {
                                 <img class="mb-4 mx-auto" src={emailsent} alt="Verification email sent" width="100%" height="100%" />
                             </div>
                             <div class="alert alert-success" role="alert">
-                                {returnMessage}
+                                {returnMessage}. If you don't see your email in <strong>Inbox</strong> folder. Please check the <strong>Promotions</strong> folder.
                             </div></div>
                         )
 

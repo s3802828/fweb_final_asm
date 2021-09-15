@@ -75,14 +75,7 @@ export default function CreatePost(props) {
     };
 
     const submit = async (e) => {
-        const newPost = {
-            title,
-            content,
-            image: file,
-            post_category_id: id, 
-            user_id: currentUser.id,
-        };
-
+        const newPost = {title, content, image: file, post_category_id: id, user_id: currentUser.id};
         if (file) {
             const data = new FormData();
             const fileName = Date.now() + file.name;
@@ -94,24 +87,10 @@ export default function CreatePost(props) {
                 await axios.post('http://localhost:9000/forums/upload', data);
             } catch (err) {}
         }
-
         try {
             await axios.post('http://localhost:9000/forums/posts', newPost);
             window.location.reload();
         } catch (err) {}
-
-        //Recommend nên dùng formdata.append cho mấy cái properties còn lại luôn, rồi xong post cái formdata thôi
-        // const data = new FormData();
-        // data.append("title", e.title)
-        // data.append("content", e.content)
-        // data.append("image", e.image[0])
-        // data.append("post_category_id", e.category)
-        // data.append("user_id", ???) // Lấy từ props, pass data từ app.js
-
-        // try {
-        //     await axios.post('http://localhost:9000/forums/posts', data);
-        //     window.location.reload();
-        // } catch (err) {}
     };
 
     return (

@@ -10,12 +10,10 @@ export default function Post(props) {
     const [followState, setFollowState] = useState(false)
     const currentUser = JSON.parse(localStorage.getItem("user"))
     useEffect(() => {
-        if(props.isUser && props.element.vote.includes(currentUser.id)){
+        if(props.isUser && props.element && props.element.vote.includes(currentUser.id)){
           setLiked(true)
         }
     }, [props.element.vote, props.isUser])
-
-    console.log("PROPS.ELEMENT" + JSON.stringify(props.element))
 
     const follow = () => {
       fetch(`http://localhost:9000/user/${currentUser.id}/follow`, {
@@ -53,7 +51,6 @@ export default function Post(props) {
       })
       .then(response => response.json())
       .then(data => {
-        console.log("VOTE DATA" + JSON.stringify(data))
         setnumberOfVotes(data)})
     }
 
@@ -123,7 +120,7 @@ export default function Post(props) {
 
         <div class="card-footer text-muted">
           <span>
-            <span style={props.isUser && liked ? {color: "#0d6efd" } : {}} onClick= {props.isUser && (liked ? () => {setLiked(false); dis_like(props.element._id)} : () => {setLiked(true); create_like(props.element._id)})}>
+            <span style={props.isUser && liked ? {color: "#0d6efd" } : {}} onClick= {props.isUser && (liked ? () => {dis_like(props.element._id); setLiked(false); } : () => {create_like(props.element._id);setLiked(true); })}>
               <i
                 class="fa fa-thumbs-up hover-icon vote-button w3-large"
                 id="post-{{$post->id}}-up"

@@ -14,10 +14,10 @@ export default function EditNews(props) {
     const categoryEndPoint = "http://localhost:9000/newsdata/news-catergory"
 
     const validationSchema = Yup.object().shape({
-        title: Yup.string()
+        title: Yup.string().trim()
             .required('Title is required')
             .matches(/^[a-zA-Z0-9 ?.$'"-_()@!%*#?&\/\\]+$/, 'Title cannot contain certain special characters'),
-        content: Yup.string()
+        content: Yup.string().trim()
             .required('Content is required')
             .matches(/^[a-zA-Z0-9 ?.$'"-_()@!%*#?&\/\\(\r\n|\r|\n)]+$/, 'Content cannot contain certain special characters'),
         image: Yup.mixed()

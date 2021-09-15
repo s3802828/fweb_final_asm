@@ -164,7 +164,7 @@ export default function ProfileCard(props) {
           <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" style={{color: "black"}} id="exampleModalLabel">CHANGE PROFILE PICTURE</h5>
+                <h5 class="modal-title" style={{ color: "black" }} id="exampleModalLabel">CHANGE PROFILE PICTURE</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <form onSubmit={handleSubmit(submit)} enctype="multipart/form-data">
@@ -174,8 +174,8 @@ export default function ProfileCard(props) {
                   <div className="row">
                     <div class="form-group mb-3 col-6">
                       <div class="custom-file">
-                        <label class="custom-file-label" style={{color: "black"}} for="inputGroupFile01">Upload Image</label><br />
-                        <input type="file" name="image" style={{color: "black"}} class={`custom-file-input ${errors.image ? 'is-invalid' : ''}`} id="inputGroupFile01" {...register('image')} />
+                        <label class="custom-file-label" style={{ color: "black" }} for="inputGroupFile01">Upload Image</label><br />
+                        <input type="file" name="image" style={{ color: "black" }} class={`custom-file-input ${errors.image ? 'is-invalid' : ''}`} id="inputGroupFile01" {...register('image')} />
                         <div className="invalid-feedback">{errors.image?.message}</div>
                       </div>
                     </div>
@@ -275,24 +275,25 @@ export default function ProfileCard(props) {
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
               </div>
             </div>
-        </div>
+          </div>
 
 
-        <div class="social_media">
-          <ul>
-            <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-            <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-            <li><a href="#"><i class="fab fa-instagram"></i></a></li>
-            {(props.isUser && currentUser.id === props.user._id) ? <UpdateProfile user={props.user !== undefined && props.user} /> : (props.isUser ? <button id="follow-btn" type="button" class="btn btn-primary float-right"
-              style={currentUser != null && followState ? { background: "grey" } : {}}
-              onClick={currentUser != null && (followState ? () => { unFollow(); setFollowState(false)} : () => { follow(); setFollowState(true)})}>
-              {followState ? "Unfollow" : "Follow"}
-            </button> : "")}
+          <div class="social_media">
+            <ul>
+              <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+              <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+              <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+              {(props.isUser && currentUser.id === props.user._id) ? <UpdateProfile user={props.user !== undefined && props.user} /> : (props.isUser ? <button id="follow-btn" type="button" class="btn btn-primary float-right"
+                style={currentUser != null && followState ? { background: "grey" } : {}}
+                onClick={currentUser != null && (followState ? () => { unFollow(); setFollowState(false) } : () => { follow(); setFollowState(true) })}>
+                {followState ? "Unfollow" : "Follow"}
+              </button> : "")}
 
 
-          </ul>
+            </ul>
+          </div>
         </div>
       </div>
-    </div>
-  )
+      </div>
+      )
 }

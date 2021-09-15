@@ -30,7 +30,7 @@ export default function CategorizedPost(props) {
             .then((dataProfile) => newElement = {...postElement, username: dataProfile.username, followers: dataProfile.followers })
             .then(res => setCategorizedPosts(categorizedPosts => [...categorizedPosts, res]));
 
-        });
+        });})}
   const sortPostArray = () => {
     var newPostArray = [...categorizedPosts];
     newPostArray.sort((first, second) => {
@@ -52,12 +52,7 @@ export default function CategorizedPost(props) {
         <div className='container-fluid'>
             <div className='row'>
                 <div className='col-3 ps-5 pe-5'>
-                    <Sidebar
-                        showCreatePostForm={showCreatePostForm}
-                        showForm={(showCreatePostForm) =>
-                            setShowCreatePostForm(showCreatePostForm)
-                        }
-                    />
+                    <Sidebar showCreatePostForm={showCreatePostForm} showForm={(showCreatePostForm) =>setShowCreatePostForm(showCreatePostForm)}/>
                 </div>
 
                 <div className='col-6'>
@@ -79,5 +74,5 @@ export default function CategorizedPost(props) {
                 </div>
             </div>
         </div>
-    );
+    )
 }

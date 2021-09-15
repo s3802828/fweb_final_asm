@@ -43,7 +43,7 @@ router.get('/posts', forumPost);
 router.get('/userpost/:id', fetchUserPost);
 
 router.post('/posts', upload.single('image'), postPost);
-router.put('/posts/:id', upload.single('file'), putPost);
+router.put('/posts/:id', upload.single('image'), putPost);
 console.log(putPost);
 router.delete('/posts/:id', deletePost);
 

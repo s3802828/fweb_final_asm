@@ -144,48 +144,8 @@ export default function Post(props) {
           </a>
           &nbsp;&nbsp;&nbsp;&nbsp;
         </div>
+        </div>
     );
 }
 
-// return (
 
-//         <div className="pt-3">
-//             {Posts}
-//             {Posts.map((element, index) => {
-//         return <div className="card mb-4" key={index}>
-//             <div className="card-header text-muted" id="post-{{$post->id}}">
-//                 <a href="/profile" style={{ "text-decoration": "none", "color": "black"}}>Posted by:
-//                 &nbsp;&nbsp;</a>
-
-//                 <span className="pull-right">
-//                     &nbsp;&nbsp;
-//                     <button type="button" className="btn btn-primary">Follow</button>
-//                     {/*<span className="dropdown">
-//                         <i className="fas fa-edit pull-right hover-icon w3-xlarge" data-toggle="dropdown"></i>
-//                         <div className="dropdown-menu" aria-labelledby="editMenu">
-//                             <div className="dropdown-item" id="edit-post" data-toggle="modal" data-target="#edit-image-post-{{$post->id}}"> Edit post</div>
-//                             <div className="dropdown-item" id="delete-post" data-toggle="modal" data-target="#deletePost{{$post->id}}"> Delete post</div>
-//                         </div>
-// </span>*/}
-//                 </span>
-//             </div>
-//             {/*<Link to={`${props.url}/post/postdetail`} style={{ "text-decoration": "none", "color": "black" }}></Link>*/}
-//             <a href={`${props.url === undefined ? "/forum" : props.url}/post/postdetail`} style={{ "text-decoration": "none", "color": "black"}}>
-//                 <div className="card-body">
-//                     <h3 className="card-title">{element.title} - Category {cateid}</h3>
-//                     <p className="className-text">
-//                     </p>
-//                 </div>
-//                 <div className="">
-//                     <img className="card-img-bottom" src="http://simpleicon.com/wp-content/uploads/icon2.png" alt="post-image" style={{ "width": "50%" }} />
-//                 </div>)
-//             </a>
-
-//             <div className="card-footer text-muted">
-//                 <i className="fa fa-thumbs-up hover-icon vote-button w3-large" id="post-{{$post->id}}-up" value="0"></i>
-//                 &nbsp;&nbsp;
-//                 &nbsp;&nbsp;&nbsp;&nbsp;
-//                 <a href={`${props.url == undefined ? "/forum" : props.url}/post/postdetail`} style={{ "text-decoration": "none", "color": "black"}}><i className=" fas fa-comment-dots hover-icon w3-large"></i></a>
-//                 &nbsp;&nbsp;&nbsp;&nbsp;
-//             </div>
-//         </div>})}

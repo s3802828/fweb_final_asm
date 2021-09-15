@@ -165,7 +165,7 @@ export default function CreatePost(props) {
                                                 setId(e.target.value)
                                             }
                                         >
-                                            <option selected>
+                                            <option value="0">
                                                 Choose Category
                                             </option>
                                             {cat.map((cate) => (

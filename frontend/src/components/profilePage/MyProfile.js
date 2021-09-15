@@ -60,6 +60,9 @@ export default function MyProfile(props) {
                             );
                         })}
                     </div>
+      </div>
+                <div class="col-2 ms-auto me-auto">
+
                 </div>
                 <div className='col-2 ms-auto me-auto'></div>
             </div>

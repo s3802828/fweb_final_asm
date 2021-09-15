@@ -227,11 +227,15 @@ function Signup(props) {
                                     height='100%'
                                 />
                             </div>
-                            <div className='alert alert-success' role='alert'>
-                                {returnMessage}
-                            </div>
-                        </div>
-                    )}
+
+                            <div class="alert alert-success" role="alert">
+                                {returnMessage}. If you don't see your email in <strong>Inbox</strong> folder. Please check the <strong>Promotions</strong> folder.
+                            </div></div>
+                        )
+
+                    }
+                </div>
+                <div class="col">
                 </div>
                 <div className='col'></div>
             </div>

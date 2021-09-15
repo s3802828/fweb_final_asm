@@ -10,13 +10,11 @@ export default function Post(props) {
     const [followState, setFollowState] = useState(false);
     const currentUser = JSON.parse(localStorage.getItem('user'));
     useEffect(() => {
-        if (props.isUser && props.element.vote.includes(currentUser.id)) {
-            setLiked(true);
+        if(props.isUser && props.element && props.element.vote.includes(currentUser.id)){
+          setLiked(true)
+
         }
     }, [props.element.vote, props.isUser]);
-
-    console.log('PROPS.ELEMENT' + JSON.stringify(props.element));
-
     const follow = () => {
         fetch(`http://localhost:9000/user/${currentUser.id}/follow`, {
             method: 'PUT',
@@ -44,19 +42,18 @@ export default function Post(props) {
     };
 
     const create_like = (post_id) => {
-        fetch(new_like, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ post_id: post_id, user_id: currentUser.id }),
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                console.log('VOTE DATA' + JSON.stringify(data));
-                setnumberOfVotes(data);
-            });
-    };
+
+      fetch(new_like, {
+        method: 'PUT',
+         headers: {
+           'Content-Type': 'application/json'
+         },
+         body: JSON.stringify({ post_id: post_id, user_id: currentUser.id})
+      })
+      .then(response => response.json())
+      .then(data => {
+        setnumberOfVotes(data)})
+    }
 
     const dis_like = (post_id) => {
         fetch(dislike, {
@@ -86,113 +83,66 @@ export default function Post(props) {
     }, [props.element.followers]);
 
     return (
-        <div className='card mb-4 mt-3'>
-            <div className='card-header text-muted' id={props.element._id}>
-                <div>
-                    <a
-                        href={`/profile/${props.element.user_id}`}
-                        style={{ 'text-decoration': 'none', color: 'black' }}
-                    >
-                        Posted by:{' '}
-                        {props.element.username
-                            ? props.element.username
-                            : props.username}
-                        &nbsp;&nbsp;
-                    </a>
-                    {props.createdAt}
-                    {props.isProfilePage ? (
-                        ''
-                    ) : props.isUser &&
-                      currentUser.id !== props.element.user_id ? (
-                        <button
-                            id='flw-btn'
-                            type='button'
-                            className='btn btn-primary float-right'
-                            style={
-                                currentUser != null && followState
-                                    ? { background: 'grey' }
-                                    : {}
-                            }
-                            onClick={
-                                currentUser != null &&
-                                (followState
-                                    ? () => {
-                                          setFollowState(false);
-                                          unFollow();
-                                      }
-                                    : () => {
-                                          setFollowState(true);
-                                          follow();
-                                      })
-                            }
-                        >
-                            {followState ? 'Unfollow' : 'Follow'}
-                        </button>
-                    ) : (
-                        ''
-                    )}
-                </div>
-                <span className='pull-right'>&nbsp;&nbsp;</span>
-            </div>
-            <a
-                href={`/forum/post/postdetail/${props.element._id}`}
-                style={{ textDecoration: 'none', color: 'black' }}
-            >
-                <div className='card-body'>
-                    <h3 className='card-title'>{props.element.title}</h3>
-                    <p className='className-text'>{props.element.content}</p>
-                </div>
-                <div className=''>
-                    <img
-                        className='card-img-bottom'
-                        src='http://simpleicon.com/wp-content/uploads/icon2.png'
-                        alt='post-image'
-                        style={{ width: '50%' }}
-                    />
-                </div>
-            </a>
+      <div class="card mb-4 mt-3">
+        <div class="card-header text-muted" id={props.element._id}>
+          <div>
+          <a
+            href={`/profile/${props.element.user_id}`}
+            style={{ "text-decoration": "none", color: "black" }}
+          >
+            Posted by: {props.element.username ? props.element.username : props.username}&nbsp;&nbsp;
+          </a>
+          {props.createdAt}
+          {props.isProfilePage ? "" : (props.isUser && currentUser.id !== props.element.user_id ?<button id="flw-btn" type="button" class="btn btn-primary float-right"
+          style={currentUser != null && followState ? {background: "grey"} : {}} 
+          onClick={currentUser != null && (followState ? () => {setFollowState(false); unFollow();} : () => {setFollowState(true); follow();})}>
+              {followState ? "Unfollow" : "Follow"}
+          </button> : "")}
+          </div>
+          <span class="pull-right">
+            &nbsp;&nbsp;
+            </span>
+        </div>
+        <a
+          href={`/forum/post/postdetail/${props.element._id}`}
+          style={{ "textDecoration": "none", color: "black" }}
+        >
+          <div class="card-body">
+            <h3 class="card-title">
+              {props.element.title} 
+            </h3>
+            <p class="class-text">{props.element.content}</p>
+          </div>
+          <div class="">
+            <img
+              class="card-img-bottom"
+              src="http://simpleicon.com/wp-content/uploads/icon2.png"
+              alt="post-image"
+              style={{ width: "50%" }}
+            />
+          </div>
+        </a>
 
-            <div className='card-footer text-muted'>
-                <span>
-                    <span
-                        style={
-                            props.isUser && liked ? { color: '#0d6efd' } : {}
-                        }
-                        onClick={
-                            props.isUser &&
-                            (liked
-                                ? () => {
-                                      setLiked(false);
-                                      dis_like(props.element._id);
-                                  }
-                                : () => {
-                                      setLiked(true);
-                                      create_like(props.element._id);
-                                  })
-                        }
-                    >
-                        <i
-                            className='fa fa-thumbs-up hover-icon vote-button w3-large'
-                            id='post-{{$post->id}}-up'
-                            value='0'
-                        ></i>
-                    </span>
-                    <span className='numberOfLikes ms-2'>
-                        {numberOfVotes
-                            ? numberOfVotes.vote.length
-                            : props.element.vote.length}{' '}
-                        Likes
-                    </span>
-                </span>
-                &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
-                <a
-                    href={`/forum/post/postdetail/${props.element._id}`}
-                    style={{ textDecoration: 'none', color: 'black' }}
-                >
-                    <i className=' fas fa-comment-dots hover-icon w3-large'></i>
-                </a>
-                &nbsp;&nbsp;&nbsp;&nbsp;
-            </div>
+        <div class="card-footer text-muted">
+          <span>
+            <span style={props.isUser && liked ? {color: "#0d6efd" } : {}} onClick= {props.isUser && (liked ? () => {dis_like(props.element._id); setLiked(false); } : () => {create_like(props.element._id);setLiked(true); })}>
+              <i
+                class="fa fa-thumbs-up hover-icon vote-button w3-large"
+                id="post-{{$post->id}}-up"
+                value="0"
+              ></i>
+            </span>
+            <span class="numberOfLikes ms-2">
+              {numberOfVotes ? numberOfVotes.vote.length : props.element.vote.length} Likes
+            </span>
+          </span>
+          &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+          <a
+          href={`/forum/post/postdetail/${props.element._id}`}
+          style={{ "textDecoration": "none", color: "black" }}>
+            <i class=" fas fa-comment-dots hover-icon w3-large"></i>
+          </a>
+          &nbsp;&nbsp;&nbsp;&nbsp;
         </div>
     );
 }

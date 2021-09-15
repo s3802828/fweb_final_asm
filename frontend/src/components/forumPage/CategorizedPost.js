@@ -5,58 +5,39 @@ import CreatePost from './CreatePost';
 import { useState, useEffect } from 'react';
 import { countTimeDiff } from '../../utils';
 
-export default function CategorizedPost(props) {
-    const [categorizedPosts, setCategorizedPosts] = useState([]);
-    const [sortedPostArray, setSortedPostArray] = useState([]);
-    let { categorized_id } = useParams();
-    const endPoint = `http://localhost:9000/categorize/categorize_post/${categorized_id}`;
-    //const [haveRender, setHaveRender] = useState(false)
-    //const [postUserInfo, setPostUserInfo] = useState({})
-    // const fetchPostUser = (userId) => {
-    //     var newElement = {}
-    //     fetch(`http://localhost:9000/profile/${userId}`)
-    //     .then(res => res.json())
-    //     .then(data => setPostUserInfo({username: data.username}))
-    // }
-    const fetchCategorizedPost = () => {
-        console.log('some');
-        fetch(endPoint)
-            .then((response) => response.json())
-            .then((data) => {
-                //setCategorizedPosts(data)
-                console.log(data);
-                console.log('hello');
-                data.map(async (postElement) => {
-                    var newElement = {};
-                    await fetch(
-                        `http://localhost:9000/profile/profiledetails/${postElement.user_id}`
-                    )
-                        .then((res) => res.json())
-                        .then(
-                            (dataProfile) =>
-                                (newElement = {
-                                    ...postElement,
-                                    username: dataProfile.username,
-                                    followers: dataProfile.followers,
-                                })
-                        )
-                        .then((res) =>
-                            setCategorizedPosts((categorizedPosts) => [
-                                ...categorizedPosts,
-                                res,
-                            ])
-                        );
-                });
-            });
-    };
+export default function CategorizedPost(props) { 
+  const [categorizedPosts, setCategorizedPosts] = useState([]);
+  const [sortedPostArray, setSortedPostArray] = useState([])
+  let {categorized_id} = useParams()
+  const endPoint = `http://localhost:9000/categorize/categorize_post/${categorized_id}`
+  //const [haveRender, setHaveRender] = useState(false)
+  //const [postUserInfo, setPostUserInfo] = useState({})
+  // const fetchPostUser = (userId) => {
+  //     var newElement = {}s
+  //     fetch(`http://localhost:9000/profile/${userId}`)
+  //     .then(res => res.json())
+  //     .then(data => setPostUserInfo({username: data.username}))
+  // }
+  const fetchCategorizedPost = () => {
+    fetch(endPoint)
+      .then((response) => response.json())
+      .then((data) => {
+        //setCategorizedPosts(data)
+        data.map(async (postElement) => {
+          var newElement = {};
+          await fetch(`http://localhost:9000/profile/profiledetails/${postElement.user_id}`)
+            .then((res) => res.json())
+            .then((dataProfile) => newElement = {...postElement, username: dataProfile.username, followers: dataProfile.followers })
+            .then(res => setCategorizedPosts(categorizedPosts => [...categorizedPosts, res]));
 
-    const sortPostArray = () => {
-        var newPostArray = [...categorizedPosts];
-        newPostArray.sort((first, second) => {
-            return new Date(second.createdAt) - new Date(first.createdAt);
         });
-        setSortedPostArray(newPostArray);
-    };
+  const sortPostArray = () => {
+    var newPostArray = [...categorizedPosts];
+    newPostArray.sort((first, second) => {
+      return (new Date(second.createdAt) - new Date(first.createdAt))
+    })
+    setSortedPostArray(newPostArray)
+  }
 
     useEffect(() => {
         fetchCategorizedPost();

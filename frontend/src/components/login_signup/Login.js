@@ -143,7 +143,8 @@ function Login(props) {
                         </div>
                         <div className='mb-3 mt-3 text-center'>
                             <label>
-                                <a href='#'>Forgot Password?</a>
+
+                                <a href="/emailresetform">Forgot Password?</a>
                             </label>
                         </div>
                         <button

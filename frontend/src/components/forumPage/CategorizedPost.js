@@ -12,19 +12,16 @@ export default function CategorizedPost(props) {
   //const [haveRender, setHaveRender] = useState(false)
   //const [postUserInfo, setPostUserInfo] = useState({})
   // const fetchPostUser = (userId) => {
-  //     var newElement = {}
+  //     var newElement = {}s
   //     fetch(`http://localhost:9000/profile/${userId}`)
   //     .then(res => res.json())
   //     .then(data => setPostUserInfo({username: data.username}))
   // }
   const fetchCategorizedPost = () => {
-    console.log("some")
     fetch(endPoint)
       .then((response) => response.json())
       .then((data) => {
         //setCategorizedPosts(data)
-        console.log(data)
-        console.log("hello")
         data.map(async (postElement) => {
           var newElement = {};
           await fetch(`http://localhost:9000/profile/profiledetails/${postElement.user_id}`)

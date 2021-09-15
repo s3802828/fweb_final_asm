@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react'
 import './ProfileCard.css'
 import UpdateProfile from './UpdateProfile'
@@ -5,6 +6,8 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import defaultAvatar from './../../default-avatar-profile-icon-vector-social-media-user-portrait-176256935.jpg'
+
+
 
 export default function ProfileCard(props) {
   const currentUser = JSON.parse(localStorage.getItem("user"))
@@ -272,8 +275,8 @@ export default function ProfileCard(props) {
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
               </div>
             </div>
-          </div>
         </div>
+
 
         <div class="social_media">
           <ul>
@@ -282,7 +285,7 @@ export default function ProfileCard(props) {
             <li><a href="#"><i class="fab fa-instagram"></i></a></li>
             {(props.isUser && currentUser.id === props.user._id) ? <UpdateProfile user={props.user !== undefined && props.user} /> : (props.isUser ? <button id="follow-btn" type="button" class="btn btn-primary float-right"
               style={currentUser != null && followState ? { background: "grey" } : {}}
-              onClick={currentUser != null && (followState ? () => { unFollow(); setFollowState(false); } : () => { follow(); setFollowState(true); })}>
+              onClick={currentUser != null && (followState ? () => { unFollow(); setFollowState(false)} : () => { follow(); setFollowState(true)})}>
               {followState ? "Unfollow" : "Follow"}
             </button> : "")}
 

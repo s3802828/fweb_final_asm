@@ -1,15 +1,22 @@
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import { useEffect, useState } from 'react';
-import weblogo from './weblogo.png'
+import weblogo from './weblogo.png';
 export default function Navbar(props) {
-    const endPoint = 'http://localhost:9000/news'
+    const endPoint = 'http://localhost:9000/news';
 
-    const [newsCategoryList, setNewsCategoryList] = useState([])
+    const [newsCategoryList, setNewsCategoryList] = useState([]);
+
+    useEffect(() => {
+        fetchAllNewsCategory();
+    }, []);
+
     const logout = () => {
-        localStorage.removeItem("user");
-        window.location.replace("http://localhost:3000");
-    }
+        localStorage.removeItem('user');
+        window.location.replace('http://localhost:3000');
+    };
+
     const fetchAllNewsCategory = () => {
+
         fetch(endPoint + '/newscategory').then(res => res.json()).then(data => {
             data.sort((first, second) => {
                 return first.name === 'Cases' ? -1 : second.name === 'Cases' ? 1 : 0
@@ -27,28 +34,89 @@ export default function Navbar(props) {
     },[])
     return (
         <div>
-            <nav class="navbar navbar-expand-lg navbar-dark" style={{ backgroundColor: "#A19882" }}>
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="/" style={{ fontSize: "25px" }}><img src={weblogo} alt="" width="40" height="40" class="d-inline-block" />COVI-AWAY</a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
+            <nav
+                className='navbar navbar-expand-lg navbar-dark'
+                style={{ backgroundColor: '#A19882' }}
+            >
+                <div className='container-fluid'>
+                    <a
+                        className='navbar-brand'
+                        href='/'
+                        style={{ fontSize: '25px' }}
+                    >
+                        <img
+                            src={weblogo}
+                            alt=''
+                            width='40'
+                            height='40'
+                            className='d-inline-block'
+                        />
+                        COVI-AWAY
+                    </a>
+                    <button
+                        className='navbar-toggler'
+                        type='button'
+                        data-bs-toggle='collapse'
+                        data-bs-target='#navbarSupportedContent'
+                        aria-controls='navbarSupportedContent'
+                        aria-expanded='false'
+                        aria-label='Toggle navigation'
+                    >
+                        <span className='navbar-toggler-icon'></span>
                     </button>
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav me-auto mb-2 mb-lg-0" style={{ fontSize: "20px" }}>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="/" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <div
+                        className='collapse navbar-collapse'
+                        id='navbarSupportedContent'
+                    >
+                        <ul
+                            className='navbar-nav me-auto mb-2 mb-lg-0'
+                            style={{ fontSize: '20px' }}
+                        >
+                            <li className='nav-item dropdown'>
+                                <a
+                                    className='nav-link dropdown-toggle'
+                                    href='/'
+                                    id='navbarDropdown'
+                                    role='button'
+                                    data-bs-toggle='dropdown'
+                                    aria-expanded='false'
+                                >
                                     News
                                 </a>
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    {newsCategoryList.map((eachNew) => <li><a class="dropdown-item" href={`/category/${eachNew._id}`}>{eachNew.name}</a></li>)}
-                                    <li><hr class="dropdown-divider" /></li>
-                                    <li><a class="dropdown-item" href={`/breaking`}>Breaking News</a></li>
-                                </ul>    
+                                <ul
+                                    className='dropdown-menu'
+                                    aria-labelledby='navbarDropdown'
+                                >
+                                    {newsCategoryList.map((eachNew) => (
+                                        <li key={eachNew._id}>
+                                            <a
+                                                className='dropdown-item'
+                                                href={`/category/${eachNew._id}`}
+                                            >
+                                                {eachNew.name}
+                                            </a>
+                                        </li>
+                                    ))}
+                                    <li>
+                                        <hr className='dropdown-divider' />
+                                    </li>
+                                    <li>
+                                        <a
+                                            className='dropdown-item'
+                                            href={`/breaking`}
+                                        >
+                                            Breaking News
+                                        </a>
+                                    </li>
+                                </ul>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/forum">Forum</a>
+                            <li className='nav-item'>
+                                <a className='nav-link' href='/forum'>
+                                    Forum
+                                </a>
                             </li>
                         </ul>
+
                         {props.isUser ? <div className="dropdown">
                             <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false" role="button">
                                 <img src={props.currentUser.avatar? `https://covi-away-app.s3.amazonaws.com/${props.currentUser.avatar}` : `./frontend/public/default-avatar-profile-icon-vector-social-media-user-portrait-176256935.jpg`} alt="" width="32" height="32" class="rounded-circle me-2" />
@@ -67,9 +135,10 @@ export default function Navbar(props) {
 
 
 
+
                     </div>
                 </div>
             </nav>
         </div>
-    )
+    );
 }

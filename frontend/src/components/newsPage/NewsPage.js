@@ -36,7 +36,7 @@ export default function NewsPage() {
                 });
                 setNewsCategoryList(data);
                 data.map((element) =>
-                    fetch(endPoint + `/specific/${element._id}?limit=0`)
+                    fetch(endPoint + `/specific/${element._id}?limit=4`)
                         .then((res) => res.json())
                         .then((data) => {
                             setCategoriedNewsList((categorizedNewsList) => [

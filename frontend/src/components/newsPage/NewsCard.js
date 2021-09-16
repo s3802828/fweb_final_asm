@@ -5,9 +5,7 @@ export default function NewsCard(props) {
                 <div className='row g-0'>
                     <div className='col-md-4'>
                         <img
-                            src={`/newsUploads/${
-                                props.news.image && props.news.image
-                            }`}
+                            src={props.news.image && `https://covi-away-app.s3.amazonaws.com/${props.news.image}`}
                             className='rounded-start'
                             alt='...'
                             style={

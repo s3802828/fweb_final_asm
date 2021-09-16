@@ -11,20 +11,32 @@ import * as Yup from 'yup';
 
 import { countTimeDiff } from '../../utils';
 
-const PostDetail = () => {
+const PostDetail = (props) => {
     const [showCreatePostForm, setShowCreatePostForm] = useState(false);
-    const [isEditing, setIsEditing] = useState(false);
-    const [file, setFile] = useState(null);
-    const [title, setTitle] = useState('');
-    const [content, setContent] = useState('');
     const [catId, setCatId] = useState([]);
-    const [cate, setCate] = useState('');
     const [postDetail, setpostDetail] = useState({});
     const defaultValue = useRef();
 
     const { id } = useParams();
     const endPoint = `http://localhost:9000/forums/posts/${id}`;
     const currentUser = JSON.parse(localStorage.getItem('user'));
+    function flatMap(array, fn) {
+        var result = [];
+        for (var i = 0; i < array.length; i++) {
+            var mapping = fn(array[i]);
+            result = result.concat(mapping);
+        }
+        return result;
+    }
+
+    var nl2br = function (string) {
+        string = flatMap(string.split(/\n/), function (part) {
+            return [part, <br />];
+        });
+        // Remove the last spac
+        string.pop();
+        return <div>{string}</div>;
+    };
     const validationSchema = Yup.object().shape({
         title: Yup.string().trim()
             .required('Title is required')
@@ -95,36 +107,16 @@ const PostDetail = () => {
     const handleDelete = async () => {
         try {
             await axios.delete(`http://localhost:9000/forums/posts/${id}`);
-            window.location.replace('/');
+            window.location.replace('/forum');
         } catch (err) { }
     };
 
-
-    //     const handleEdit = () => {
-    //         if (isEditing) {
-    //             setIsEditing(false);
-    //         } else {
-    //             setIsEditing(true);
-    //         }
-    //     };
-
     const handleUpdate = async (e) => {
-        // const updatedPost = {
-        //     title: title || defaultValue.current.title,
-        //     content: content || defaultValue.current.content,
-        //     image: file || defaultValue.current.image,
-        //     post_category_id: cate || defaultValue.current.post_category_id,
-        // };
-
-
-        //    const handleUpdate = async (e) => {
-        //        const updatedPost = { title, content, image: file, post_category_id: cate };
-
         const data = new FormData();
         data.append("title", e.title)
         data.append("content", e.content)
         data.append("post_category_id", e.cat)
-         
+
 
         data.append('image', e.image[0]);
 
@@ -151,7 +143,7 @@ const PostDetail = () => {
         <div className='container-fluid'>
             <div className='row'>
                 <div className='col-3 ps-5 pe-5'>
-                    <Sidebar
+                    <Sidebar isUser={props.isUser}
                         showCreatePostForm={showCreatePostForm}
                         showForm={(showCreatePostForm) =>
                             setShowCreatePostForm(showCreatePostForm)
@@ -162,128 +154,51 @@ const PostDetail = () => {
                     {showCreatePostForm && <CreatePost />}
                     <div className='row'>
                         <article>
-                                
-                                   {/* {isEditing ? (
-                                    <textarea
-                                        placeholder='Enter new title'
-                                        className='form-control border border-secondary'
-                                        defaultValue={postDetail.title}
-                                        onChange={(e) =>
-                                            setTitle(e.target.value)
-                                        }
-                                    ></textarea>
-                                ) : (
-                                    
-                                )} */}
-                                
-
                             <header class='my-4'>
-                                <h1 className='fw-bolder'>
-                                    {postDetail.title}
-                                </h1>
+                                <div>
+                                    <h1 className='fw-bolder'>
+                                        {postDetail.title}
+                                    </h1>
+
+                                    <span className="pull-right">
+                                        {(props.isAdmin || (props.isUser && currentUser.id === postDetail.user_id)) && (<button type='button' className='btn btn-outline-danger me-2' onClick={handleDelete}>Delete This Post</button>)}
+                                        {props.isUser && currentUser.id === postDetail.user_id && (
+                                            <button type='button' className='btn btn-outline-warning' data-bs-toggle="modal" data-bs-target="#exampleModal">Edit This Post</button>)}
+                                    </span>
+                                </div>
                                 <p class='text-muted fst-italic'>
                                     Last edited{' '}
                                     {countTimeDiff(postDetail.updatedAt)} by{' '}
                                     {postDetail.username}
                                 </p>
-                                <p class='fw-normal'>
-                                    categories
-                                    <button class='btn btn-light btn-sm'>
-                                        urgent
-                                    </button>
-                                    <button class='btn btn-light btn-sm'>
 
-                                        popular
-                                    </button>
+                                <p class='fw-normal'>
+                                    Category:
+                                    {catId.map((cate) =>
+                                        cate._id === postDetail.post_category_id &&
+                                        <a href={`/forum/categorized/${cate._id}`} class='btn btn-light btn-sm'>
+                                            {cate.name}
+                                        </a>
+                                    )}
                                 </p>
                             </header>
+                            <section className='mb-2 ' style={{ textAlign: 'justify' }}>
+                                <p className='lh-base mb-4 fs-5 lead'>{postDetail && postDetail.content && nl2br(postDetail.content)}</p>
+                            </section>
 
                             {postDetail.image && (
                                 <figure className='img-fluid'>
                                     <img
-                                        src={`/postUpload/${postDetail.image}`}
+                                        src={`https://covi-away-app.s3.amazonaws.com/${postDetail.image}`}
                                         className='d-block w-100 img-fluid'
                                         alt='...'
                                     />
-                                    A caption for the above image.
                                 </figure>
                             )}
-                            {/* {isEditing ? (
-                                <input
-                                    type='file'
-                                    className='custom-file-input'
-                                    id='inputGroupFile01'
-                                    onChange={(e) => setFile(e.target.files[0])}
-                                />
-                            ) : null} */}
-                            <section
-                                className='mb-4 '
-                                style={{ textAlign: 'justify' }}
-                            >
-                                {/* {isEditing ? (
-                                    <textarea
-                                        placeholder='Please enter content'
-                                        defaultValue={postDetail.content}
-                                        onChange={(e) => {
-                                            setContent(e.target.value);
-                                        }}
-                                    ></textarea>
-                                ) : (
-                                    <p className='lh-base mb-4 fs-5 lead'>
-                                        {postDetail.content}
-                                    </p>
-                                )} */}
-                            </section>
-                            <section>
-                                {/* {isEditing ? (
-                                    <select
-                                        className='custom-select'
-                                        id='inputGroupSelect01'
-                                        style={{ height: '35px' }}
-                                        onChange={(e) =>
-                                            setCate(e.target.value)
-                                        }
-                                    >
-                                        <option selected>
-                                            Choose Category
-                                        </option>
-                                        {catId.map((cate) => (
-                                            <option
-                                                key={cate._id}
-                                                value={cate._id}
-                                            >
-                                                {cate.name}
-                                            </option>
-                                        ))}
-                                    </select>
-                                ) : null} */}
-                            </section>
 
-                            
-                            {/* {isEditing && (
-                                <button
-                                    type='button'
-                                    className='btn btn-secondary'
-                                    onClick={handleUpdate}
-                                >
-                                    Update
-                                </button>
-                            )} */}
                         </article>
-                    
-                        
-                            
-                            <section className='mb-4 ' style={{ textAlign: 'justify' }}>
-                                <p className='lh-base mb-4 fs-5 lead'>{postDetail.content}</p>
-                            </section>
-                            {currentUser.id === postDetail.user_id && (
-                                <>
-                                    <button type='button' className='btn btn-danger' onClick={handleDelete}>Delete</button>
-                                    <button type='button' className='btn btn-secondary' data-bs-toggle="modal" data-bs-target="#exampleModal">Edit</button>
-                                </>
-                            )}
-                        <CommentSection />
-    
+                        <CommentSection isAdmin={props.isAdmin} isUser={props.isUser} />
+
                     </div>
                 </div>
             </div>
@@ -326,7 +241,7 @@ const PostDetail = () => {
                                     <textarea
                                         class={`form-control border border-secondary ${errors.content ? 'is-invalid' : ''
                                             }`}
-                                        name = "content"
+                                        name="content"
                                         placeholder='Post Content'
                                         id='postcontent' defaultValue={postDetail && postDetail.content} {...register('content')}
                                     ></textarea>
@@ -345,7 +260,7 @@ const PostDetail = () => {
                                                 }`}
                                             id='inputGroupFile01'
                                             {...register('image')}
-                                            
+
                                         />
                                         <div className='invalid-feedback'>
                                             {errors.image?.message}

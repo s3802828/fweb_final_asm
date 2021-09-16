@@ -1,8 +1,9 @@
 
     var Posts = require("../../models/posts")
     exports.forumPost = function(req, res){
+    var limitNumber = parseInt(req.query.skip)
     Posts.post.find({},(err, result) =>{
-        res.send(result)}).sort({'createdAt': 'desc'})
+        res.send(result)}).sort({'createdAt': 'desc'}).skip(limitNumber * 10).limit(10)
     }
 
     exports.fetchPostDetail = function (req, res){
@@ -11,10 +12,10 @@
     }
 
     exports.fetchUserPost = function(req, res){
-        console.log('abc')
+        var limitNumber = parseInt(req.query.limit)
     Posts.post.find({user_id : req.params.id},(err, result) =>{
         
-            res.send(result)}).sort({'createdAt': 'desc'})
+            res.send(result)}).sort({'createdAt': 'desc'}).limit(limitNumber)
     }
 
     var Post_category = require("../../models/post_category")

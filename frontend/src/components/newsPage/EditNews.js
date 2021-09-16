@@ -107,7 +107,7 @@ export default function EditNews(props) {
         fetch(endPoint, {
             method: 'PUT',
             body: formData,
-        }).then(redirectToMainPage());
+        }).then(response => response.json()).then(redirectToMainPage());
         console.log(data);
     };
 

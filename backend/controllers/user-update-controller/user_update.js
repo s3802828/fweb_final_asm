@@ -1,5 +1,5 @@
 var Users = require('../../models/users').user
-
+var bcrypt = require('bcryptjs')
 const fs = require('fs')
 var { uploadFile, deleteFile } = require('../s3')
 
@@ -23,6 +23,28 @@ exports.userUpdate = (req, res) => {
     }
     res.send(result)
   })
+}
+exports.changePassword = (req, res) => {
+  Users.findById({ _id: req.params.id }, function (error, result) {
+    if (error) {
+      return console.log(error)
+    }
+    if (result) {
+      if (!bcrypt.compareSync(req.body.oldPassword, result.password)) {
+        return res.send({ message: "Wrong password. Please try again!" })
+      } else {
+        Users.findByIdAndUpdate({ _id: req.params.id }, {
+          password: bcrypt.hashSync(req.body.password, 8)
+        }, function (err, result) {
+          if (err) {
+            return res.send(err)
+          }
+          res.send({ message: "Password is successfully changed" })
+        })
+      }
+    }
+  })
+
 }
 
 exports.updateAvatar = (req, res) => {
@@ -75,6 +97,4 @@ exports.updateAvatar = (req, res) => {
       }
     }
   })
-
-
 }

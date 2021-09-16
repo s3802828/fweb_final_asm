@@ -12,30 +12,26 @@ exports.postPost = async (req, res) => {
     if (req.file) {
         const file = req.file;
         console.log(file)
-        const s3Result = await uploadFile(file, bucketName)
-        console.log(s3Result)
-
         const newPost = new Post({
             title: req.body.title,
             content: req.body.content,
-            image: s3Result.Key,
+            image: 'postUploads/' + req.file.filename + '.' +req.file.mimetype.split('/')[1],
             post_category_id: req.body.post_category_id,
             user_id: req.body.user_id
         });
         try {
-
             const savedPost = await newPost.save();
-
             fs.unlink('./../frontend/public/postUpload/' + file.filename, (err) => {
                 if (err) {
                     console.error(err)
                     return
                 }
-
-                //file removed
             })
-
-            res.status(200).json(savedPost);
+            if(savedPost) {
+                const s3Result = await uploadFile(file, bucketName)
+                console.log(s3Result)
+                res.status(200).json(savedPost);
+            }
         } catch (err) {
             console.log(err);
             res.status(500).json(err);
@@ -65,23 +61,19 @@ exports.putPost = async (req, res) => {
     if (req.file) {
         Post.findById({ _id: req.params.id }, async (error, result) => {
             if (result) {
-
                 console.log(req.file)
                 deleteFile(result.image, bucketName)
-
-                
-                const newImage = await uploadFile(req.file, bucketName)
-                console.log(newImage)
-
                 Post.findByIdAndUpdate({ _id: req.params.id }, {
                     title: req.body.title,
                     content: req.body.content,
-                    image: newImage.Key,
+                    image: 'postUploads/' + req.file.filename + '.' +req.file.mimetype.split('/')[1],
                     post_category_id: req.body.post_category_id
-                }, (error, result) => {
+                }, async (error, result) => {
                     if (error) {
                         console.log(error)
                     } else {
+                        const newImage = await uploadFile(req.file, bucketName)
+                        console.log(newImage)
                         res.send(result)
                     }
                 })

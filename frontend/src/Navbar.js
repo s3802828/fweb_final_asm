@@ -6,10 +6,21 @@ export default function Navbar(props) {
     const endPoint = 'http://localhost:9000/news';
 
     const [newsCategoryList, setNewsCategoryList] = useState([]);
+    const [currentUserInfo, setCurrentUserInfo] = useState()
+    const [searchUsername, setSearchUsername] = useState();
+    const [searchResult, setSearchResult] = useState()
 
     useEffect(() => {
         fetchAllNewsCategory();
     }, []);
+    const searchUsernameFunction = () => {
+        fetch(`http://localhost:9000/profile/search/${searchUsername}`)
+            .then(res => res.json())
+            .then(data => {
+                setSearchResult(data)
+                document.getElementById("searchResultButton").click();
+            })
+    }
 
     const logout = () => {
         localStorage.removeItem('user');
@@ -27,12 +38,15 @@ export default function Navbar(props) {
     }
 
     const fetchCurrentUser = () => {
-        fetch()
+        fetch(`http://localhost:9000/profile/profiledetails/${props.currentUser.id}`)
+            .then(res => res.json())
+            .then(data => setCurrentUserInfo(data))
     }
 
-    useEffect(() =>{
+    useEffect(() => {
+        fetchCurrentUser()
         fetchAllNewsCategory()
-    },[])
+    }, [])
     return (
         <div>
             <nav
@@ -117,15 +131,38 @@ export default function Navbar(props) {
                                 </a>
                             </li>
                         </ul>
+                        <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" onSubmit={(e) => { e.preventDefault(); searchUsernameFunction() }}>
+                            <input type="search" class="form-control" placeholder="Search Username" aria-label="Search" onChange={(e) => { setSearchUsername(e.target.value) }} />
+                        </form>
+                        <button type="button" id="searchResultButton" style={{ display: "none" }} class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#searchResultModal"></button>
+                        <div class="modal fade" id="searchResultModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Result</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        {
+                                            searchResult && searchResult.map((element) => <div style={{ marginBottom: "5px" }}><a href={`/profile/${element._id}`} style={{ textDecoration: "none", color: 'black', fontSize: "16px" }}>
+                                                <img src={element.avatar ? `https://covi-away-app.s3.amazonaws.com/${element.avatar}` : defaultAvatar} alt="" width="32" height="32" class="rounded-circle me-2" />
+                                                <span>{element.username}</span>
+                                            </a></div>)
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
 
                         {props.isUser ? <div className="dropdown">
                             <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false" role="button">
-                                <img src={props.currentUser.avatar? `https://covi-away-app.s3.amazonaws.com/${props.currentUser.avatar}` : defaultAvatar} alt="" width="32" height="32" class="rounded-circle me-2" />
+                                <img src={currentUserInfo && currentUserInfo.avatar ? `https://covi-away-app.s3.amazonaws.com/${currentUserInfo.avatar}` : defaultAvatar} alt="" width="32" height="32" class="rounded-circle me-2" />
                                 <strong>{props.currentUser.username}</strong>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownUser2" data-popper-placement="top-end">
-   
-                                
+
+
                                 {props.isReporter && <li><a class="dropdown-item" href="/articleform">Create New Article</a></li>}
                                 <li><a class="dropdown-item" href={`/profile/${props.currentUser.id}`}>Profile</a></li>
                                 <li><hr class="dropdown-divider" /></li>

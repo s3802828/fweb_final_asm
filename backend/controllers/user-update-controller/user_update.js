@@ -48,33 +48,29 @@ exports.changePassword = (req, res) => {
 }
 
 exports.updateAvatar = (req, res) => {
-  Users.findById({ _id: req.params.id }, async (error, result) => {
+  Users.findById({ _id: req.params.id }, (error, result) => {
     if (result) {
       if (result.avatar) {
         //delete old image
         console.log("Deleting old image")
         deleteFile(result.avatar, bucketName)
-
         fs.unlink('./../frontend/public/userUploads/' + result.avatar, (err) => {
           if (err) {
             console.error(err)
             return
           }
-
         })
-
         //Add new image
         console.log("UPLOAD new image after delete")
         console.log(req.file)
-        const newImage = await uploadFile(req.file, bucketName)
-        console.log(newImage)
-
         Users.findByIdAndUpdate({ _id: req.params.id }, {
-          avatar: newImage.Key
-        }, (error, result) => {
+          avatar: 'userUploads/' + req.file.filename + '.' +req.file.mimetype.split('/')[1],
+        }, async (error, result) => {
           if (error) {
             console.log(error)
-          } else {
+          } if(result) {
+            const newImage = await uploadFile(req.file, bucketName)
+            console.log(newImage)
             res.send(result)
           }
         })
@@ -82,15 +78,15 @@ exports.updateAvatar = (req, res) => {
         //Add new image
         console.log("UPLOAD new image")
         console.log(req.file)
-        const newImage = await uploadFile(req.file, bucketName)
-        console.log(newImage)
-
+        
         Users.findByIdAndUpdate({ _id: req.params.id }, {
-          avatar: newImage.Key
-        }, (error, result) => {
+          avatar: 'userUploads/' + req.file.filename + '.' +req.file.mimetype.split('/')[1],
+        }, async (error, result) => {
           if (error) {
             console.log(error)
-          } else {
+          } if(result) {
+            const newImage = await uploadFile(req.file, bucketName)
+            console.log(newImage)
             res.send(result)
           }
         })

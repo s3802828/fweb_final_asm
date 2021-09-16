@@ -8,8 +8,8 @@ import { countTimeDiff } from '../../utils';
 
 export default function MyProfile(props) {
     const { id } = useParams();
-    console.log(id);
-    const endPoint = `http://localhost:9000/forums/userpost/${id}`;
+    const [numOfLoad, setNumOfLoad] = useState(1);
+    const endPoint = `http://localhost:9000/forums/userpost/${id}?limit=${numOfLoad*10}`;
     const [userPost, setuserPost] = useState([]);
     const fetchUserPost = () => {
         fetch(endPoint)
@@ -31,8 +31,10 @@ export default function MyProfile(props) {
     };
     useEffect(() => {
         fetchUserProfile();
-        fetchUserPost();
     }, []);
+    useEffect(() => {
+        fetchUserPost();
+    }, [numOfLoad])
 
     return (
         <div className='container-fluid'>
@@ -60,11 +62,24 @@ export default function MyProfile(props) {
                             );
                         })}
                     </div>
-      </div>
+                </div>
                 <div class="col-2 ms-auto me-auto">
 
                 </div>
                 <div className='col-2 ms-auto me-auto'></div>
+            </div>
+            <div className='row'>
+                <div className='col-2'></div>
+                <div className='col-8' style={{ textAlign: 'center' }}>
+                    <button type="button"
+                        className='btn btn-dark'
+                        onClick={() => {
+                            setNumOfLoad(numOfLoad + 1);
+                        }}
+                    >Load More
+                    </button>
+                </div>
+                <div className='col-2'></div>
             </div>
         </div>
     );

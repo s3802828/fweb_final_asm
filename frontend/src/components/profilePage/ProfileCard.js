@@ -5,7 +5,8 @@ import UpdateProfile from './UpdateProfile'
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
-import defaultAvatar from './../../default-avatar-profile-icon-vector-social-media-user-portrait-176256935.jpg'
+import defaultAvatar from './../../defaultAvatar.jpg'
+import ChangePassword from './ChangePassword';
 
 
 
@@ -36,7 +37,23 @@ export default function ProfileCard(props) {
           return true // attachment is optional
         }
         return value[0].type === "image/jpeg" || value[0].type === "image/png"
-      })
+      }),
+    password: Yup.string()
+      .trim()
+      .required('Password is required')
+      .min(8, 'Password must be at least 8 characters')
+      .max(40, 'Password must not exceed 40 characters')
+      .matches(
+        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]*$/,
+        'Password must contain at least one letter, one number, and one special character'
+      ),
+    confirmPassword: Yup.string()
+      .trim()
+      .required('Confirm Password is required')
+      .oneOf(
+        [Yup.ref('password'), null],
+        'Confirm Password does not match'
+      ),
 
 
   });
@@ -55,16 +72,6 @@ export default function ProfileCard(props) {
       })
   }
   const fetchFollower = () => {
-    // if (props.user && props.user.followers.length > 0) {
-    //   var follower = userFollower;
-    //   props.user.followers.map(async (eachFollower) => {
-    //     await fetch(`http://localhost:9000/profile/profiledetails/${eachFollower}`)
-    //       .then(response => response.json())
-    //       .then(data => {
-    //         follower.push(data)
-    //         setuserFollower(follower)})
-    //   })
-    // }
     fetch(`http://localhost:9000/profile/allusers`)
       .then(response => response.json())
       .then(data => {
@@ -104,6 +111,7 @@ export default function ProfileCard(props) {
 
     }).then(response => response.json())
       .then(result => console.log(result))
+      .then(window.location.reload());
   }
 
   const follow = () => {
@@ -131,8 +139,6 @@ export default function ProfileCard(props) {
         setUser(data)
       })
   }
-
-
   useEffect(() => {
     fetchFollowing();
     // check if current user have followed
@@ -150,7 +156,7 @@ export default function ProfileCard(props) {
         <img src={props.user.avatar ? `https://covi-away-app.s3.amazonaws.com/${props.user.avatar}` : defaultAvatar} alt="user" width="200" height="200" />
         <h4>{props.user.name ? props.user.name : 'Your name is here'}</h4>
         <p>{props.user.username}</p>
-        <div class="img-button">
+        {(props.isUser && currentUser.id === props.user._id) && <div class="img-button">
 
           <button id="userId-avatar" class="btn hover-button  " value="avatar" data-bs-toggle="modal" data-bs-target="#editAvatar">
 
@@ -158,8 +164,8 @@ export default function ProfileCard(props) {
 
           </button>
 
-        </div>
-
+        </div>}
+        {/* Update Avatar modal */}
         <div class="modal fade" id="editAvatar" tabindex="-1" aria-labelledby="editAvatarLabel" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -168,9 +174,7 @@ export default function ProfileCard(props) {
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <form onSubmit={handleSubmit(submit)} enctype="multipart/form-data">
-
                 <div class="modal-body">
-
                   <div className="row">
                     <div class="form-group mb-3 col-6">
                       <div class="custom-file">
@@ -181,8 +185,6 @@ export default function ProfileCard(props) {
                     </div>
 
                   </div>
-
-
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -193,6 +195,7 @@ export default function ProfileCard(props) {
             </div>
           </div>
         </div>
+        
       </div>
       <div class="right">
         <div class="info">
@@ -234,6 +237,18 @@ export default function ProfileCard(props) {
             </div>
           </div>
         </div>
+        <div class="social_media">
+          <ul>
+            <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+            <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+            <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+            {(props.isUser && currentUser.id === props.user._id) ? <span><UpdateProfile user={props.user !== undefined && props.user} /><ChangePassword /></span> : (props.isUser ? <button id="follow-btn" type="button" class="btn btn-primary float-right"
+              style={currentUser != null && followState ? { background: "grey" } : {}}
+              onClick={currentUser != null && (followState ? () => { unFollow(); setFollowState(false) } : () => { follow(); setFollowState(true) })}>
+              {followState ? "Unfollow" : "Follow"}
+            </button> : "")}
+          </ul>
+        </div>
 
         <div class="modal fade" id="followerModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog">
@@ -245,7 +260,7 @@ export default function ProfileCard(props) {
               <div class="modal-body">
                 {userFollower ? userFollower.map((eachFollower) =>
                   <div style={{ marginBottom: "5px" }}><a href={`/profile/${eachFollower._id}`} style={{ textDecoration: "none", color: 'black', fontSize: "16px" }}>
-                    <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2" />
+                    <img src={eachFollower.avatar ? `https://covi-away-app.s3.amazonaws.com/${eachFollower.avatar}` : defaultAvatar} alt="" width="32" height="32" class="rounded-circle me-2" />
                     <span>{eachFollower.username}</span>
                   </a></div>) : <div></div>
                 }
@@ -266,7 +281,7 @@ export default function ProfileCard(props) {
               <div class="modal-body">
                 {userFollowing ? userFollowing.map((eachUser) =>
                   <div style={{ marginBottom: "5px" }}><a href={`/profile/${eachUser._id}`} style={{ textDecoration: "none", color: 'black', fontSize: "16px" }}>
-                    <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2" />
+                    <img src={eachUser.avatar ? `https://covi-away-app.s3.amazonaws.com/${eachUser.avatar}` : defaultAvatar} alt="" width="32" height="32" class="rounded-circle me-2" />
                     <span>{eachUser.username}</span>
                   </a></div>) : <div></div>
                 }
@@ -276,24 +291,8 @@ export default function ProfileCard(props) {
               </div>
             </div>
           </div>
-
-
-          <div class="social_media">
-            <ul>
-              <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-              <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-              <li><a href="#"><i class="fab fa-instagram"></i></a></li>
-              {(props.isUser && currentUser.id === props.user._id) ? <UpdateProfile user={props.user !== undefined && props.user} /> : (props.isUser ? <button id="follow-btn" type="button" class="btn btn-primary float-right"
-                style={currentUser != null && followState ? { background: "grey" } : {}}
-                onClick={currentUser != null && (followState ? () => { unFollow(); setFollowState(false) } : () => { follow(); setFollowState(true) })}>
-                {followState ? "Unfollow" : "Follow"}
-              </button> : "")}
-
-
-            </ul>
-          </div>
         </div>
       </div>
-      </div>
-      )
+    </div>
+  )
 }

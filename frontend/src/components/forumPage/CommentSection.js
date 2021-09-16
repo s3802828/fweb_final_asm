@@ -2,22 +2,20 @@ import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import lodash from 'lodash';
 import { useParams } from 'react-router';
+import { countTimeDiff } from '../../utils';
+import defaultAvatar from './../../defaultAvatar.jpg'
 
-const CommentSection = ({}) => {
+const CommentSection = ({ isUser, isAdmin }) => {
     const { id } = useParams();
 
     const [fetchComment, setFetchComment] = useState([]);
+    const [sortedCommentArray, setSortedCommentArray] = useState([]);
     const [contentComment, setContentComment] = useState();
     const currentUser = JSON.parse(localStorage.getItem('user'));
 
-    useEffect(() => {
-        getComment();
-    }, []);
-
     const getComment = () => {
-        axios
-            .get(`http://localhost:9000/forums/comment/${id}`)
-            .then((response) => {
+        axios.get(`http://localhost:9000/forums/comment/${id}`)
+            .then(async (response) => {
                 if (Array.isArray(response?.data)) {
                     const temp = response.data.filter((item) =>
                         item.hasOwnProperty('user_id')
@@ -25,22 +23,26 @@ const CommentSection = ({}) => {
                     const modified = [];
                     for (let i = 0; i < temp.length; ++i) {
                         const userId = temp[i].user_id;
-                        axios
+                        await axios
                             .get(
                                 `http://localhost:9000/profile/profiledetails/${userId}`
                             )
                             .then((result) => {
                                 if (result?.data) {
-                                    const { username, name } = result.data;
+                                    const { username, name, avatar } = result.data;
                                     modified.push({
                                         ...temp[i],
                                         username,
                                         name,
+                                        avatar
                                     });
                                 }
                             })
                             .catch((error) => console.error(error));
                     }
+                    await modified.sort((first, second) => {
+                        return (new Date(second.createdAt) - new Date(first.createdAt))
+                    })
                     setFetchComment(modified);
                 }
             })
@@ -55,7 +57,7 @@ const CommentSection = ({}) => {
                 user_id: currentUser.id,
                 post_id: id,
             })
-            .catch((err) => {});
+            .catch((err) => { });
         window.location.reload();
     };
 
@@ -66,10 +68,18 @@ const CommentSection = ({}) => {
         );
         debounce(e.target.value);
     };
-
+    const sortCommentArray = () => {
+        var newCommentArray = [...fetchComment];
+        setSortedCommentArray(newCommentArray)
+    }
     useEffect(() => {
-        console.log(contentComment);
-    }, [contentComment]);
+        getComment();
+    }, []);
+    // useEffect(() => {
+    //     sortCommentArray()
+    //     console.log(fetchComment)
+    // }, [fetchComment]);
+
 
     return (
         <section>
@@ -100,10 +110,12 @@ const CommentSection = ({}) => {
                                 </button>
                             </form>
                         </div>
-                        {fetchComment.length > 0 &&
-                            fetchComment.map((item) => (
-                                <CommentObject data={item} />
-                            ))}
+                        <div class="container-fluid">
+                            {fetchComment.length > 0 &&
+                                fetchComment.map((item) => (
+                                    <CommentObject data={item} isUser={isUser} isAdmin={isAdmin} />
+                                ))}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -111,8 +123,8 @@ const CommentSection = ({}) => {
     );
 };
 
-const CommentObject = ({ data }) => {
-    const { username, content, _id, user_id } = data || {};
+const CommentObject = ({ data, isUser, isAdmin }) => {
+    const { username, content, _id, user_id, createdAt, avatar } = data || {};
     const [isEditing, setIsEditing] = useState(false);
     const [updateDataComment, setUpdateDataComment] = useState();
     const currentComment = useRef(content);
@@ -149,62 +161,66 @@ const CommentObject = ({ data }) => {
                 });
         }
     };
-
-    // const renderButton = () => {
-    //     if (user_id === currentUser.id) {
-    //         return
-    //     }
-    // }
-
     return (
-        <div className='row' key={_id}>
-            <div className='d-flex mb-4'>
-                <div className='flex-shrink-0'>
+        <div>
+            <div className='row' key={_id}>
+                <div className='col-1'>
                     <img
                         className='rounded-circle'
-                        src='https://dummyimage.com/50x50/ced4da/6c757d.jpg'
+                        src={avatar ? `https://covi-away-app.s3.amazonaws.com/${avatar}` : defaultAvatar}
                         alt='...'
+                        width="50" height="50"
                     />
                 </div>
-                <div className='ms-3'>
-                    <div className='fw-bold'>{username}</div>
-                    {isEditing ? (
-                        <textarea
-                            onChange={(e) =>
-                                setUpdateDataComment(e.target.value)
-                            }
-                        >
-                            {content}
-                        </textarea>
-                    ) : (
-                        <div>{content}</div>
-                    )}
-                    {user_id === currentUser.id && (
-                        <>
-                            <div
-                                className='btn btn-danger'
-                                onClick={handleDeleteComment}
+                <div className='d-flex mb-3 col-11'>
+                    <div className='ms-3'>
+                        <div><span className='fw-bold'>{username}</span><span className="ms-2">{countTimeDiff(createdAt)}</span></div>
+                        {isEditing ? (
+                            <textarea
+                                onChange={(e) =>
+                                    setUpdateDataComment(e.target.value)
+                                }
                             >
-                                Delete
-                            </div>
-                            <div
-                                className='btn btn-secondary'
+                                {content}
+                            </textarea>
+                        ) : (
+                            <div>{content}</div>
+                        )}
+                    </div>
+                </div>
+            </div>
+
+            <div className="row" style={{ marginBottom: "2%" }}>
+                <div className="col-1"></div>
+                <div className="col-4">
+                    {(isAdmin || (isUser && user_id === currentUser.id)) &&
+                    <span style={{ marginLeft: "2%" }}
+                        className='btn btn-outline-danger'
+                        onClick={handleDeleteComment}
+                    >
+                        Delete
+                    </span>
+                    }
+                    {(isUser && user_id === currentUser.id) && (
+                        <span>
+                            <span style={{ marginLeft: "2%" }}
+                                className='btn btn-outline-warning'
                                 onClick={handleEditComment}
                             >
-                                Edit
-                            </div>
-                        </>
-                    )}
-                    {isEditing && (
-                        <button
-                            type='button'
-                            className='btn btn-secondary'
-                            onClick={handleUpdateComment}
-                        >
-                            Update
-                        </button>
+                                {isEditing ? "Cancel" : "Edit"}
+                            </span>
+                            {isEditing && (
+                                <span style={{ marginLeft: "2%" }}
+                                    className='btn btn-outline-success'
+                                    onClick={handleUpdateComment}
+                                >
+                                    Send
+                                </span>
+                            )}
+                        </span>
                     )}
                 </div>
+                <div className="col-7"></div>
             </div>
         </div>
     );

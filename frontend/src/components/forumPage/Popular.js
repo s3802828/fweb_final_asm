@@ -6,6 +6,7 @@ import { countTimeDiff } from '../../utils';
 
 export default function Popular(props) {
     const [Posts, setPosts] = useState([]);
+    const [numOfLoad, setNumOfLoad] = useState(0);
     const [sortedPostArray, setSortedPostArray] = useState([]);
     //const [postUserInfo, setPostUserInfo] = useState({})
     // const fetchPostUser = (userId) => {
@@ -15,7 +16,7 @@ export default function Popular(props) {
     //     .then(data => setPostUserInfo({username: data.username}))
     // }
     const fetchPost = () => {
-        fetch('http://localhost:9000/forums/posts')
+        fetch(`http://localhost:9000/forums/posts?skip=${numOfLoad}`)
             .then((response) => response.json())
             .then((data) => {
                 data.map(async function (postElement) {
@@ -49,7 +50,7 @@ export default function Popular(props) {
 
     useEffect(() => {
         fetchPost();
-    }, []);
+    }, [numOfLoad]);
 
     useEffect(() => {
         sortPostArray();
@@ -59,7 +60,7 @@ export default function Popular(props) {
         <div className='container-fluid'>
             <div className='row'>
                 <div className='col-3 ps-5 pe-5'>
-                    <Sidebar
+                    <Sidebar isUser = {props.isUser}
                         setPostList={(e) => setPosts(e)}
                         showCreatePostForm={showCreatePostForm}
                         showForm={(showCreatePostForm) =>
@@ -84,6 +85,19 @@ export default function Popular(props) {
                 <div className='col-3 mt-3'>
                     {/*<button type="button" className="btn btn-dark" style={{ marginLeft: "35%" }} onClick={() => setShowCreatePostForm(!showCreatePostForm)}>{showCreatePostForm ? "Close Form" : "Create New Post"}</button>   */}
                 </div>
+            </div>
+            <div className='row'>
+                <div className='col-2'></div>
+                <div className='col-8' style={{ textAlign: 'center' }}>
+                    <button type="button"
+                        className='btn btn-dark'
+                        onClick={() => {
+                            setNumOfLoad(numOfLoad + 1);
+                        }}
+                    >Load More
+                    </button>
+                </div>
+                <div className='col-2'></div>
             </div>
         </div>
     );

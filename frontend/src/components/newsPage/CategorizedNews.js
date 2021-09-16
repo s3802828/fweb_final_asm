@@ -146,7 +146,7 @@ export default function CategorizedNews() {
                 <div className='row'>
                     <div className='col-2'></div>
                     <div className='col-8' style={{ textAlign: 'center' }}>
-                        <button
+                        <button type="button"
                             className='btn btn-dark'
                             onClick={() => {
                                 setLoading(true);

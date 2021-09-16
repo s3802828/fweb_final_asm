@@ -64,7 +64,6 @@ export default function CreateNews(props) {
     // const [title, setTitle] = useState('');
     // const [content, setContent] = useState('');
     const [breaking, setBreaking] = useState('');
-    const [category, setCategory] = useState('');
     // const [image, setImage] = useState('');
 
     const redirectToMainPage = () => {
@@ -93,7 +92,7 @@ export default function CreateNews(props) {
         fetch(endPoint, {
             method: 'POST',
             body: formData,
-        }).then(redirectToMainPage());
+        }).then(response => response.json()).then(redirectToMainPage());
         console.log(data);
     };
 

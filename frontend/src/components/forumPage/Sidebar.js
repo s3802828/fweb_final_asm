@@ -21,17 +21,14 @@ export default function Sidebar(props) {
             style={{ width: '100%' }}
         >
             <a
-                href='/'
-                className='d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none'
+                href='/forum'
+                className='text-center nav-link link-dark'
             >
-                <svg className='bi me-2' width='40' height='32'>
-                    <use xlinkHref='#bootstrap' />
-                </svg>
-                <span className='text-center'>Categories</span>
+                <span>CATEGORIES</span>
             </a>
             <hr />
             <ul className='nav nav-pills flex-column mb-auto'>
-                <li className='nav-item'>
+                <li className='nav-item text-center'>
                     <a
                         href='/forum'
                         className='nav-link link-dark'
@@ -43,7 +40,7 @@ export default function Sidebar(props) {
                         General
                     </a>
                 </li>
-                <li>
+                <li className = "text-center">
                     <a href='/forum/popular' className='nav-link link-dark'>
                         <svg className='bi me-2' width='16' height='16'>
                             <use xlinkHref='#speedometer2' />
@@ -53,7 +50,7 @@ export default function Sidebar(props) {
                 </li>
                 {postCategoryList.map((element, index) => {
                     return (
-                        <li key={index}>
+                        <li key={index} className = "text-center">
                             <a
                                 href={`/forum/categorized/${element._id}`}
                                 className='nav-link link-dark'
@@ -67,7 +64,9 @@ export default function Sidebar(props) {
                     );
                 })}
             </ul>
+            {props.isUser && <div className = "text-center">
             <hr />
+            
             <button
                 type='button'
                 className='btn btn-dark'
@@ -79,6 +78,7 @@ export default function Sidebar(props) {
             >
                 {props.showCreatePostForm ? 'Close Form' : 'Create New Post'}
             </button>
+            </div>}
         </div>
     );
 }

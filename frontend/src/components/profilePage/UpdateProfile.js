@@ -69,8 +69,6 @@ function UpdateProfile(props) {
     const endPoint = `http://localhost:9000/user/`;
 
     const update = (data) => {
-        console.log(data);
-        console.log(currentUser);
         fetch(endPoint + `${currentUser.id}/update`, {
             method: 'PUT',
             headers: {

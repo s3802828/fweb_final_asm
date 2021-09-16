@@ -73,7 +73,7 @@ function App() {
           <Route exact path="/forum"><ForumPage isUser = {isUser}/></Route>
           <Route exact path="/forum/categorized/:categorized_id"><CategorizedPost isUser = {isUser}/></Route>
           <Route exact path="/forum/popular"><Popular isUser = {isUser}/></Route>
-          <Route exact path="/forum/post/postdetail/:id"><PostDetail /></Route>
+          <Route exact path="/forum/post/postdetail/:id"><PostDetail isAdmin={isAdmin} isUser={isUser}/></Route>
           <Route exact path="/login"><Login /></Route>
           <Route exact path="/login/:verified"><Login /></Route>
           <Route exact path="/signup"><Signup /></Route>

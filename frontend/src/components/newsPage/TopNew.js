@@ -2,7 +2,7 @@ const TopNew = ({ news, createdDiffTime }) => {
     return (
         <div className='card mb-3' style={{ width: '100%', height: '100%' }}>
             <img
-                src={`/newsUploads/${news.image && news.image}`}
+                src={news.image && `https://covi-away-app.s3.amazonaws.com/${news.image}`}
                 className='card-img-top img-fluid'
                 alt='topNew'
                 style={{ maxWidth: '900px', maxHeight: '700px' }}

@@ -1,6 +1,7 @@
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import { useEffect, useState } from 'react';
 import weblogo from './weblogo.png';
+import defaultAvatar from './defaultAvatar.jpg'
 export default function Navbar(props) {
     const endPoint = 'http://localhost:9000/news';
 
@@ -119,7 +120,7 @@ export default function Navbar(props) {
 
                         {props.isUser ? <div className="dropdown">
                             <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false" role="button">
-                                <img src={props.currentUser.avatar? `https://covi-away-app.s3.amazonaws.com/${props.currentUser.avatar}` : `./frontend/public/default-avatar-profile-icon-vector-social-media-user-portrait-176256935.jpg`} alt="" width="32" height="32" class="rounded-circle me-2" />
+                                <img src={props.currentUser.avatar? `https://covi-away-app.s3.amazonaws.com/${props.currentUser.avatar}` : defaultAvatar} alt="" width="32" height="32" class="rounded-circle me-2" />
                                 <strong>{props.currentUser.username}</strong>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownUser2" data-popper-placement="top-end">

@@ -43,9 +43,7 @@ export default function BreakingNewsCarousel(props) {
                         >
                             <Link to={`/articles/${element._id}`}>
                                 <img
-                                    src={`/newsUploads/${
-                                        element.image && element.image
-                                    }`}
+                                    src={element.image && `https://covi-away-app.s3.amazonaws.com/${element.image}`}
                                     style={{
                                         opacity: '32%',
                                         maxWidth: '1500px',

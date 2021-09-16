@@ -7,6 +7,7 @@ import {
     Link,
     useRouteMatch,
 } from 'react-router-dom';
+import defaultAvatar from './../../defaultAvatar.jpg'
 
 export default function ReportPage(props) {
     const { id } = useParams();
@@ -28,7 +29,7 @@ export default function ReportPage(props) {
                 )
                     .then((res) => res.json())
                     .then((dataUser) =>
-                        setItem({ ...data, name: dataUser.name })
+                        setItem({ ...data, name: dataUser.name, avatar: dataUser.avatar })
                     )
             );
     };
@@ -41,7 +42,7 @@ export default function ReportPage(props) {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({ _id: id }),
-        }).then(redirectToMainPage());
+        }).then(response => response.json()).then(data => redirectToMainPage());
     };
     const breakLine = <br />;
 
@@ -86,7 +87,7 @@ export default function ReportPage(props) {
                             <h1 className='display-2'>{item && item.title}</h1>
                             <img
                                 className='rounded-circle shadow my-3'
-                                src='http://lavinephotography.com.au/wp-content/uploads/2017/01/PROFILE-Photography-112.jpg'
+                                src={item && item.avatar ? `https://covi-away-app.s3.amazonaws.com/${item.avatar}` : defaultAvatar}
                                 alt='Profile picture'
                                 style={{ width: '80px', height: '80px' }}
                             ></img>
@@ -104,9 +105,7 @@ export default function ReportPage(props) {
                                     <figure className='text-center my-2'>
                                         <img
                                             style={{ width: '90%' }}
-                                            src={`/newsUploads/${
-                                                item && item.image
-                                            }`}
+                                            src={item && item.image && `https://covi-away-app.s3.amazonaws.com/${item.image}`}
                                             alt='Image'
                                         />
                                     </figure>
@@ -121,7 +120,7 @@ export default function ReportPage(props) {
                             <h6>
                                 <img
                                     className='rounded-circle shadow my-3 mx-3'
-                                    src='http://lavinephotography.com.au/wp-content/uploads/2017/01/PROFILE-Photography-112.jpg'
+                                    src={item && item.avatar ? `https://covi-away-app.s3.amazonaws.com/${item.avatar}` : defaultAvatar}
                                     alt='Profile picture'
                                     style={{ width: '80px', height: '80px' }}
                                 ></img>{' '}

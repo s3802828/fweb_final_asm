@@ -1,6 +1,6 @@
 var router = require('express').Router()
 const { model } = require('mongoose')
-var {userUpdate, updateAvatar} = require('../../controllers/user-update-controller/user_update')
+var {userUpdate, updateAvatar, changePassword} = require('../../controllers/user-update-controller/user_update')
 var validateAuth = require('../../middlewares/validateAuth')
 
 var multer = require('multer');
@@ -17,6 +17,7 @@ var upload = multer({
 });
 
 router.put('/user/:id/update', userUpdate)
+router.put('/user/:id/changepassword', changePassword)
 router.put('/user/:id/imageupdate', upload.single('image'), updateAvatar)
 
 

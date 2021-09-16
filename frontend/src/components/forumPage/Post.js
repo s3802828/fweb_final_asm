@@ -111,12 +111,12 @@ export default function Post(props) {
             </h3>
             <p class="class-text">{props.element.content}</p>
           </div>
-          <div class="">
+          <div class="img">
             <img
-              class="card-img-bottom"
+              class="card-img-bottom img-fluid"
               src="http://simpleicon.com/wp-content/uploads/icon2.png"
               alt="post-image"
-              style={{ width: "50%" }}
+              
             />
           </div>
         </a>

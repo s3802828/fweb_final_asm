@@ -75,14 +75,8 @@ export default function NewsPage() {
                         if (news[0] !== undefined && news[0].news_category_id === element._id) {
                             return <div>
                                 <div class="row mb-3">
-                                    <div class="col-8">
-                                        <div className="row">
-                                            <Link to={`/articles/${news[0]._id}`} style={{ "textDecoration": "none", "color": "black" }}>
-                                                <TopNew news={news[0]} createdDiffTime={countTimeDiff(news[0].createdAt)} />
-                                            </Link>
-                                        </div>
-                                    </div>
-                                    {indexCate === 0 ? <div class="col-4">{latestCovidDataVietnam ?
+                                    
+                                    {indexCate === 0 ? <div class="col-lg-4 col-md-12">{latestCovidDataVietnam ?
                                         <div style={{ textAlign: "center" }}>
                                             <h1>Vietnam Live Statistics</h1>
                                             <div style={{ color: "red" }}>
@@ -122,6 +116,9 @@ export default function NewsPage() {
                                                     <div style={{ fontSize: 35, fontWeight: "bold" }}> {latestCovidDataGlobal.active && latestCovidDataGlobal.active.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</div>
                                                 </div>
                                             </div> : <div>Global Case Statictics See below link</div>}
+
+
+                                    
                                     </div> : <div class="col-4">
                                         {news.length > 1 &&
                                             <Link to={`/articles/${news[1]._id}`} style={{ "textDecoration": "none", "color": "black" }}>
@@ -129,7 +126,17 @@ export default function NewsPage() {
                                             </Link>
                                         }
                                     </div>}
+
+                                    <div class="col-lg-8 col-md-12">
+                                        <div className="row">
+                                            <Link to={`/articles/${news[0]._id}`} style={{ "textDecoration": "none", "color": "black" }}>
+                                                <TopNew news={news[0]} createdDiffTime={countTimeDiff(news[0].createdAt)} />
+                                            </Link>
+                                        </div>
+                                    </div>
                                 </div>
+
+                                
                                 <div className="row">
                                     <div className="col">
                                         {news.length > 1 &&

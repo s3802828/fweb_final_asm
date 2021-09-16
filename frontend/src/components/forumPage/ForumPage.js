@@ -67,7 +67,7 @@ export default function ForumPage(props) {
   return (
     <div class="container-fluid">
       <div class="row">
-        <div class="col-3 ps-5 pe-5">
+        <div class="col-lg-4 ps-5 pe-5">
           <Sidebar
               setPostList = {e => setPosts(e)}
             showCreatePostForm={showCreatePostForm}
@@ -77,14 +77,14 @@ export default function ForumPage(props) {
           />
         </div>
 
-        <div class="col-6">
+        <div class="col-lg-6 ">
           {showCreatePostForm && <CreatePost />}
             {sortedPostArray.map((element) => {
               return <Post isUser = {props.isUser} createdAt={countTimeDiff(element.createdAt)} element={element}/>;
             })} 
         </div>
 
-        <div class="col-3 mt-3">
+        <div class="col-2 mt-3">
           {/*<button type="button" class="btn btn-dark" style={{ marginLeft: "35%" }} onClick={() => setShowCreatePostForm(!showCreatePostForm)}>{showCreatePostForm ? "Close Form" : "Create New Post"}</button>   */}
         </div>
       </div>

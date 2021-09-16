@@ -86,14 +86,13 @@ export default function ProfileCard(props) {
 
   useEffect(() => {
     fetchFollowing();
+    fetchFollower();
     // check if current user have followed
     if (currentUser != null && props.user.followers && props.user.followers.includes(currentUser.id)) {
       setFollowState(true)
     }
-  }, [props.user._id, props.user.followers])
-  useEffect(()=> {
-    fetchFollower();
-  }, [props.user.followers, user])
+  }, [props.user._id, props.user.followers, props.user.followers, user])
+  
 
   return (
     <div class="wrapper">
@@ -193,7 +192,7 @@ export default function ProfileCard(props) {
             <li><a href="#"><i class="fab fa-instagram"></i></a></li>
             {(props.isUser && currentUser.id === props.user._id) ? <UpdateProfile user={props.user !== undefined && props.user} /> : (props.isUser ? <button id="follow-btn" type="button" class="btn btn-primary float-right"
               style={currentUser != null && followState ? { background: "grey" } : {}}
-              onClick={currentUser != null && (followState ? () => { unFollow(); setFollowState(false); } : () => { follow(); setFollowState(true); })}>
+              onClick={currentUser != null && (followState ? () => {  setFollowState(false); unFollow();} : () => { setFollowState(true);  follow();})}>
               {followState ? "Unfollow" : "Follow"}
             </button> : "")}
 

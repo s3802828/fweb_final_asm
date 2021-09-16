@@ -4,7 +4,7 @@ export default function NewsCard(props) {
             <div class="card mb-3" style={{maxWidth: "100%"}}>
                 <div class="row g-0">
                     <div class="col-md-4">
-                        <img src={`/newsUploads/${props.news.image && props.news.image}`} class="rounded-start" alt="..." style ={props.isBreaking? {"maxWidth": "280px", "maxHeight": "400px"} : {"maxWidth": "210px", "maxHeight": "500px"}}/>
+                        <img src={`/newsUploads/${props.news.image && props.news.image}`} class="rounded-start" alt="..." style ={props.isBreaking? {"width": "100%", "height": "100%"} : {"width": "100%", "height": "100%"}}/>
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">

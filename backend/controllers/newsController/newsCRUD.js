@@ -19,92 +19,64 @@ exports.getArticleDetails = function (req, res) {
 }
 
 
-exports.addArticle = async function (req, res) {
-
-    // console.log(req)
-    // console.log(req.file)
-    // console.log(req.image)
-
+exports.addArticle =function (req, res) {
     const file = req.file
     console.log(file)
-    const result = await uploadFile(file, bucketName)
-    console.log(result)
-
     News.create({
         title: req.body.title,
         content: req.body.content,
         breaking: req.body.breaking,
-        image: result.Key,
+        image: 'newsUploads/' + req.file.filename + '.' + req.file.mimetype.split('/')[1],
         news_category_id: req.body.news_category_id,
         user_id: req.body.user_id
-    }, function (err, result) {
-
-        res.send(result)
-
+    }, async function (err, result) {
+        if (err) {
+            console.log(err)
+        }
+        if (result) {
+            const result = await uploadFile(file, bucketName)
+            console.log(result)
+            res.send(result)
+        }
     })
-
     fs.unlink('./../frontend/public/newsUploads/' + file.filename, (err) => {
         if (err) {
             console.error(err)
             return
         }
-
-        //file removed
     })
 
 }
 
 exports.deleteArticle = function (req, res) {
-
-
-
     News.findOneAndDelete({ _id: req.body._id }, function (err, result) {
         res.send(result)
 
         deleteFile(result.image, bucketName)
-        // console.log(result)
-        // fs.unlink('./../frontend/public/newsUploads/' + result.image, (err) => {
-        //     if (err) {
-        //         console.error(err)
-        //         return
-        //     }
-
-        //     //file removed
-        // })
     })
 }
 
-exports.updateArticle = async function (req, res) {
+exports.updateArticle = function (req, res) {
     //Find current image and remove it from the source folder
     if (req.file) {
-
-        const s3Result = await uploadFile(req.file, bucketName)
-
-        // fs.unlink('./../frontend/public/newsUploads/' + result.image, (err) => {
-        //     if (err) {
-        //         console.error(err)
-        //         // return
-        //     }
-        //     //file removed
-        // })
-
         News.findOne({ _id: req.body.id }, (err, result) => {
             console.log(result)
             if (result) {
                 deleteFile(result.image, bucketName)
-
                 News.findOneAndUpdate({ _id: result._id }, {
                     title: req.body.title,
                     content: req.body.content,
                     breaking: req.body.breaking,
-                    image: s3Result.Key,
+                    image: 'newsUploads/' + req.file.filename + '.' + req.file.mimetype.split('/')[1],
                     news_category_id: req.body.news_category_id,
                 }
-                    , function (err, result) {
+                    , async function (err, result) {
                         if (err) {
                             console.log(err)
-                        } else {
-                            console.log(result)
+                        } if (result) {
+                            const s3Result = await uploadFile(req.file, bucketName)
+                            console.log(s3Result)
+                            res.send(result)
                         }
                     })
             }
@@ -123,7 +95,7 @@ exports.updateArticle = async function (req, res) {
                 if (err) {
                     console.log(err)
                 } else {
-                    console.log(result)
+                    res.send(result)
                 }
             })
     }

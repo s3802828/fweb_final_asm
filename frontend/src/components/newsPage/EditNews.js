@@ -91,6 +91,7 @@ export default function EditNews(props) {
     const [categoryList, setCategoryList] = useState([]);
 
     const edit = (data) => {
+        console.log("Hello from edit news")
         const formData = new FormData();
 
         formData.append('id', id);
@@ -107,7 +108,8 @@ export default function EditNews(props) {
         fetch(endPoint, {
             method: 'PUT',
             body: formData,
-        }).then(response => response.json()).then(redirectToMainPage());
+        }).then(response => response.json())
+        .then(result => redirectToMainPage());
         console.log(data);
     };
 

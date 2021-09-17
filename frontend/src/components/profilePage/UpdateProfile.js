@@ -25,36 +25,29 @@ function UpdateProfile(props) {
         //     .email('Email is invalid'),
         phoneNumber: Yup.string()
             .trim()
-            .nullable()
             .min(7, 'Phone number must contains at least 7 digits')
             .max(11, 'Phone number must contains maximum 11 digits')
-            .matches(/^[0-9]*/, 'Phone numbers can only contain numbers'),
+            .matches(/^[0-9]*/, 'Phone numbers can only contain numbers')
+            .nullable(),
         address: Yup.string().trim().nullable(),
-        name: Yup.string().nullable()
+        name: Yup.string()
             .trim()
+            .required('Name is required')
             .matches(
                 /^(?![ ]+$)[a-zA-Z .]*$/,
                 'Name must only contain letters and space'
-            ),
+            )
+            .nullable(true),
         dateOfBirth: Yup.string()
             .trim()
-            .nullable()
             .matches(
                 /^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d$/,
                 'DoB must match the format dd/mm/yyyy'
-            ),
+            )
+            .nullable(true),
         gender: Yup.string().trim()
-        .nullable()
-        .matches(/^male$|^female$/, "Must be 'male' or 'female'"),
-
-        // password: Yup.string()
-        //     .required('Password is required')
-        //     .min(8, 'Password must be at least 8 characters')
-        //     .max(40, 'Password must not exceed 40 characters')
-        //     .matches(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]*$/, 'Password must contain at least one letter, one number, and one special character'),
-        // confirmPassword: Yup.string()
-        //     .required('Confirm Password is required')
-        //     .oneOf([Yup.ref('password'), null], 'Confirm Password does not match')
+        .matches(/^male$|^female$/, "Must be 'male' or 'female'")
+        .nullable(true)
     });
     const {
         register,
@@ -66,7 +59,7 @@ function UpdateProfile(props) {
         // defaultValues: { username: user && user.username}
         shouldUnregister: true,
         shouldFocusError: false,
-        mode: 'onSubmit',
+        mode: 'onSubmit'
     });
 
     const [returnMessage, setReturnMessage] = useState('');

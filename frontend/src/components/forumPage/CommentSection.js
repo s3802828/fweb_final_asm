@@ -144,6 +144,23 @@ const CommentObject = ({ data, isUser, isAdmin }) => {
             setIsEditing(true);
         }
     };
+    function flatMap(array, fn) {
+        var result = [];
+        for (var i = 0; i < array.length; i++) {
+            var mapping = fn(array[i]);
+            result = result.concat(mapping);
+        }
+        return result;
+    }
+
+    var nl2br = function (string) {
+        string = flatMap(string.split(/\n/), function (part) {
+            return [part, <br />];
+        });
+        // Remove the last spac
+        string.pop();
+        return <div>{string}</div>;
+    };
 
     const handleUpdateComment = (e) => {
         if (updateDataComment === currentComment.current) {
@@ -184,7 +201,7 @@ const CommentObject = ({ data, isUser, isAdmin }) => {
                                 {content}
                             </textarea>
                         ) : (
-                            <div>{content}</div>
+                            <div>{content && nl2br(content)}</div>
                         )}
                     </div>
                 </div>

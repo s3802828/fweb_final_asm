@@ -121,7 +121,7 @@ export default function Post(props) {
               class="card-img-bottom"
               src={`https://covi-away-app.s3.amazonaws.com/${props.element.image}`}
               alt="post-image"
-              style={{ width: "50%" }}
+              style={{ width: "100%" }}
             />
           </div>
         }

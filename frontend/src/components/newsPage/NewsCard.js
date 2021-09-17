@@ -8,10 +8,8 @@ export default function NewsCard(props) {
                             src={props.news.image && `https://covi-away-app.s3.amazonaws.com/${props.news.image}`}
                             className='rounded-start'
                             alt='...'
-                            style={
-                                props.isBreaking
-                                    ? { maxWidth: '280px', maxHeight: '400px' }
-                                    : { maxWidth: '210px', maxHeight: '500px' }
+                            style = {
+                                    { width: '100%',height: '100%' }                              
                             }
                         />
                     </div>

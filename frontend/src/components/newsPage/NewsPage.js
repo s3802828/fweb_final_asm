@@ -107,7 +107,7 @@ export default function NewsPage() {
                                     return (
                                         <div>
                                             <div className='row mb-3'>
-                                                <div className='col-8'>
+                                                <div className='col-lg-8 col-md-12 mt-3'>
                                                     <div className='row'>
                                                         <Link
                                                             to={`/articles/${news[0]._id}`}
@@ -128,7 +128,7 @@ export default function NewsPage() {
                                                     </div>
                                                 </div>
                                                 {indexCate === 0 ? (
-                                                    <div className='col-4'>
+                                                    <div className='col-lg-4 col-md-12 mt-3'>
                                                         {latestCovidDataVietnam ? (
                                                             <div
                                                                 style={{
@@ -400,7 +400,7 @@ export default function NewsPage() {
                                                         )}
                                                     </div>
                                                 ) : (
-                                                    <div className='col-4'>
+                                                    <div className='col-lg-4 col-md-12 mt-3'>
                                                         {news.length > 1 && (
                                                             <Link
                                                                 to={`/articles/${news[1]._id}`}
@@ -425,7 +425,7 @@ export default function NewsPage() {
                                                 )}
                                             </div>
                                             <div className='row'>
-                                                <div className='col'>
+                                                <div className='col-lg col-md-12'>
                                                     {news.length > 1 &&
                                                     indexCate === 0 ? (
                                                         <Link
@@ -467,7 +467,7 @@ export default function NewsPage() {
                                                         )
                                                     )}
                                                 </div>
-                                                <div className='col'>
+                                                <div className='col-lg col-md-12'>
                                                     {news.length > 2 &&
                                                     indexCate === 0 ? (
                                                         <Link

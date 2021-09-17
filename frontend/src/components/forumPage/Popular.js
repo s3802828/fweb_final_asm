@@ -59,7 +59,7 @@ export default function Popular(props) {
     return (
         <div className='container-fluid'>
             <div className='row'>
-                <div className='col-3 ps-5 pe-5'>
+                <div className='col-lg-4 col-md-12 ps-5 pe-5'>
                     <Sidebar isUser = {props.isUser}
                         setPostList={(e) => setPosts(e)}
                         showCreatePostForm={showCreatePostForm}
@@ -69,7 +69,7 @@ export default function Popular(props) {
                     />
                 </div>
 
-                <div className='col-6'>
+                <div className='col-lg-6 col-md-12'>
                     {showCreatePostForm && <CreatePost />}
                     {sortedPostArray.map((element) => {
                         return (
@@ -80,24 +80,19 @@ export default function Popular(props) {
                             />
                         );
                     })}
+                    <div style={{ textAlign: 'center' }}>
+                        <button type="button"
+                            className='btn btn-dark'
+                            onClick={() => {
+                                setNumOfLoad(numOfLoad + 1);
+                            }}
+                        >Load More
+                        </button>
+                    </div>
                 </div>
-
-                <div className='col-3 mt-3'>
+                <div className='col-lg-2 col-md-0 mt-3'>
                     {/*<button type="button" className="btn btn-dark" style={{ marginLeft: "35%" }} onClick={() => setShowCreatePostForm(!showCreatePostForm)}>{showCreatePostForm ? "Close Form" : "Create New Post"}</button>   */}
                 </div>
-            </div>
-            <div className='row'>
-                <div className='col-2'></div>
-                <div className='col-8' style={{ textAlign: 'center' }}>
-                    <button type="button"
-                        className='btn btn-dark'
-                        onClick={() => {
-                            setNumOfLoad(numOfLoad + 1);
-                        }}
-                    >Load More
-                    </button>
-                </div>
-                <div className='col-2'></div>
             </div>
         </div>
     );

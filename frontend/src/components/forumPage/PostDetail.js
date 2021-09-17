@@ -142,7 +142,7 @@ const PostDetail = (props) => {
     return (
         <div className='container-fluid'>
             <div className='row'>
-                <div className='col-3 ps-5 pe-5'>
+                <div className='col-lg-4 col-md-12 ps-5 pe-5'>
                     <Sidebar isUser={props.isUser}
                         showCreatePostForm={showCreatePostForm}
                         showForm={(showCreatePostForm) =>
@@ -150,7 +150,7 @@ const PostDetail = (props) => {
                         }
                     />
                 </div>
-                <div className='col-6'>
+                <div className='col-lg-6 col-md-12'>
                     {showCreatePostForm && <CreatePost />}
                     <div className='row'>
                         <article>

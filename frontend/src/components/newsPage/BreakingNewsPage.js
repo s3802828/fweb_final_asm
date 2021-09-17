@@ -24,12 +24,12 @@ export default function BreakingNewsPage() {
     return (
         <div>
             <div className='container' style={{ marginTop: '2%' }}>
-                <h1>Breaking News</h1>
+                <h1 style={{color: "red"}}>Breaking News</h1>
                 {newsList.length > 0 && (
                     <div>
                         <div className='row mb-3'>
-                            <div className='col-2'></div>
-                            <div className='col-8'>
+                            <div className='col-lg-2'></div>
+                            <div className='col-lg-8 col-md-12'>
                                 <div className='row'>
                                     <Link
                                         to={`/articles/${newsList[0]._id}`}
@@ -47,15 +47,15 @@ export default function BreakingNewsPage() {
                                     </Link>
                                 </div>
                             </div>
-                            <div className='col-2'></div>
+                            <div className='col-lg-2'></div>
                         </div>
                         {newsList.length > 1 &&
                             newsList.map((eachNew, i) => {
                                 if (i > 0) {
                                     return (
                                         <div className='row'>
-                                            <div className='col-2'></div>
-                                            <div className='col-8'>
+                                            <div className='col-lg-2'></div>
+                                            <div className='col-lg-8 col-md-12'>
                                                 <Link
                                                     to={`/articles/${eachNew._id}`}
                                                     style={{
@@ -72,7 +72,7 @@ export default function BreakingNewsPage() {
                                                     />
                                                 </Link>
                                             </div>
-                                            <div className='col-2'></div>
+                                            <div className='col-lg-2'></div>
                                         </div>
                                     );
                                 }

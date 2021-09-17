@@ -44,7 +44,7 @@ export default function CategorizedNews() {
                 {newsList.length > 0 && (
                     <div>
                         <div className='row mb-3'>
-                            <div className='col-8'>
+                            <div className='col-lg-8 col-md-12 mt-3'>
                                 <div className='row'>
                                     <Link
                                         to={`/articles/${newsList[0]._id}`}
@@ -62,7 +62,7 @@ export default function CategorizedNews() {
                                     </Link>
                                 </div>
                             </div>
-                            <div className='col-4'>
+                            <div className='col-lg-4 col-md-12 mt-3'>
                                 {newsList.length > 1 && (
                                     <Link
                                         to={`/articles/${newsList[1]._id}`}
@@ -86,7 +86,7 @@ export default function CategorizedNews() {
                                 if (newsIndex % 2 === 0 && newsIndex > 1) {
                                     return (
                                         <div className='row'>
-                                            <div className='col-6'>
+                                            <div className='col-lg-6 col-md-12'>
                                                 <Link
                                                     to={`/articles/${newsList[newsIndex]._id}`}
                                                     style={{
@@ -105,7 +105,7 @@ export default function CategorizedNews() {
                                                     />
                                                 </Link>
                                             </div>
-                                            <div className='col-6'>
+                                            <div className='col-lg-6 col-md-12'>
                                                 {newsIndex + 1 <
                                                     newsList.length && (
                                                     <Link

@@ -42,10 +42,10 @@ function ResetPasswordForm() {
     return (
         <div class="container" style={{ marginTop: "110px" }}>
             <div class="row">
-                <div class="col">
+                <div class="col-lg">
                 </div>
                 {canReset ?
-                <div class="col">
+                <div class="col-lg col-md-12">
                     {returnMessage !== "Your password is successfully reset. Please log in again with your new password!" ?
                         (<form onSubmit={handleSubmit(resetPassword)}>
                             <div style={{ marginLeft: "35%" }}>
@@ -74,7 +74,7 @@ function ResetPasswordForm() {
 
                     }
                 </div> : <div></div>}
-                <div class="col">
+                <div class="col-lg">
                 </div>
             </div>
         </div>

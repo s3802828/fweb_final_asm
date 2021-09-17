@@ -58,8 +58,8 @@ function Login(props) {
     return (
         <div className='container' style={{ marginTop: '150px' }}>
             <div className='row'>
-                <div className='col'></div>
-                <div className='col'>
+                <div className='col-lg'></div>
+                <div className='col-lg col-md-12'>
                     {verified === 'verified' && (
                         <div className='alert alert-success' role='alert'>
                             Your Email Is Succesfully Verified{' '}
@@ -154,7 +154,7 @@ function Login(props) {
                         </div>
                     </form>
                 </div>
-                <div className='col'></div>
+                <div className='col-lg'></div>
             </div>
         </div>
     );

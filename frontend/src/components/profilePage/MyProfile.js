@@ -78,7 +78,7 @@ export default function MyProfile(props) {
                     >Load More
                     </button>
                 </div>
-                <div className='col-2'></div>
+                <div className='col-lg-2'></div>
             </div>
         </div>
     );

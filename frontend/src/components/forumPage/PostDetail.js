@@ -107,7 +107,7 @@ const PostDetail = (props) => {
     const handleDelete = async () => {
         try {
             await axios.delete(`http://localhost:9000/forums/posts/${id}`);
-            window.location.replace('/forum');
+            window.location.replace('http://localhost:3000/forum');
         } catch (err) { }
     };
 

@@ -25,11 +25,12 @@ function UpdateProfile(props) {
         //     .email('Email is invalid'),
         phoneNumber: Yup.string()
             .trim()
+            .nullable()
             .min(7, 'Phone number must contains at least 7 digits')
             .max(11, 'Phone number must contains maximum 11 digits')
             .matches(/^[0-9]*/, 'Phone numbers can only contain numbers'),
-        address: Yup.string().trim(),
-        name: Yup.string()
+        address: Yup.string().trim().nullable(),
+        name: Yup.string().nullable()
             .trim()
             .matches(
                 /^(?![ ]+$)[a-zA-Z .]*$/,
@@ -37,11 +38,14 @@ function UpdateProfile(props) {
             ),
         dateOfBirth: Yup.string()
             .trim()
+            .nullable()
             .matches(
                 /^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d$/,
                 'DoB must match the format dd/mm/yyyy'
             ),
-        gender: Yup.string().trim(),
+        gender: Yup.string().trim()
+        .nullable()
+        .matches(/^male$|^female$/, "Must be 'male' or 'female'"),
 
         // password: Yup.string()
         //     .required('Password is required')

@@ -21,20 +21,14 @@ exports.postPost = async (req, res) => {
         });
         try {
             const savedPost = await newPost.save();
-            fs.unlink('./../frontend/public/postUpload/' + file.filename, (err) => {
-                if (err) {
-                    console.error(err)
-                    return
-                }
-            })
             if(savedPost) {
                 const s3Result = await uploadFile(file, bucketName)
                 console.log(s3Result)
-                res.status(200).json(savedPost);
+                res.status(200).send(savedPost);
             }
         } catch (err) {
             console.log(err);
-            res.status(500).json(err);
+            res.status(500).send(err);
         }
     } else {
         const newPost = new Post({
@@ -45,10 +39,10 @@ exports.postPost = async (req, res) => {
         });
         try {
             const savedPost = await newPost.save();
-            res.status(200).json(savedPost);
+            res.status(200).send(savedPost);
         } catch (err) {
             console.log(err);
-            res.status(500).json(err);
+            res.status(500).send(err);
         }
     }
 
@@ -90,11 +84,11 @@ exports.putPost = async (req, res) => {
                 },
                 { new: true }
             );
-            res.status(200).json(updatedPost);
+            res.status(200).send(updatedPost);
         } catch (err) {
             console.log(err);
     
-            res.status(500).json(err);
+            res.status(500).send(err);
         }
     }
 
@@ -109,13 +103,13 @@ exports.deletePost = async (req, res) => {
                 deleteFile(post.image, bucketName)
             }
 
-            res.status(200).json('Post has been deleted...');
+            res.status(200).send('Post has been deleted...');
         } catch (err) {
             console.log(err);
-            res.status(500).json(err);
+            res.status(500).send(err);
         }
     } catch (err) {
-        res.status(500).json(err);
+        res.status(500).send(err);
         console.log(err);
     }
 };
@@ -123,9 +117,9 @@ exports.deletePost = async (req, res) => {
 exports.getPost = async (req, res) => {
     try {
         const post = await Post.findById(req.params.id);
-        res.status(200).json(post);
+        res.status(200).send(post);
     } catch (err) {
-        res.status(500).json(err);
+        res.status(500).send(err);
     }
 };
 

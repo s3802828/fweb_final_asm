@@ -39,12 +39,6 @@ exports.addArticle =function (req, res) {
             res.send(result)
         }
     })
-    fs.unlink('./../frontend/public/newsUploads/' + file.filename, (err) => {
-        if (err) {
-            console.error(err)
-            return
-        }
-    })
 
 }
 

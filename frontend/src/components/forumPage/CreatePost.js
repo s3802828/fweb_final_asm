@@ -74,73 +74,21 @@ export default function CreatePost(props) {
     };
 
     const submit = (e) => {
-        // const newPost = {
-        //     title,
-        //     content,
-        //     image,
-        //     post_category_id: id, 
-        //     user_id: currentUser.id,
-        // };
-
-        // if (file) {
-        //     const data = new FormData();
-        //     const fileName = Date.now() + file.name;
-        //     data.append('name', fileName);
-        //     data.append('file', file);
-        //     newPost.image = file;
-        //     console.log(newPost);
-        //     try {
-        //         await axios.post('http://localhost:9000/forums/upload', data);
-        //         console.log(data)
-        //     } catch (err) {}
-        // }
-
-        // try {
-        //     await axios.post('http://localhost:9000/forums/posts', newPost);
-        //     console.log(newPost)
-        //     // window.location.reload();
-        // } catch (err) {}
-
-        //Recommend nên dùng formdata.append cho mấy cái properties còn lại luôn, rồi xong post cái formdata thôi
         const data = new FormData();
         data.append("title", e.title)
         data.append("content", e.content)
         data.append("image", e.image[0])
         data.append("post_category_id", e.cat)
-        data.append("user_id", currentUser.id) // Lấy từ props, pass data từ app.js
+        data.append("user_id", currentUser.id) 
 
         const img = e.image[0]
         console.log(e)
-        // try {
-        //      axios.post('http://localhost:9000/forums/posts', data);
-            
-        //     // window.location.reload();
-        // } catch (err) {}
         fetch('http://localhost:9000/forums/posts', {
 
             method: 'POST',
             body: data
 
-        }).then(result => console.log(result))
-
-//     const submit = async (e) => {
-//         const newPost = {title, content, image: file, post_category_id: id, user_id: currentUser.id};
-
-//         if (file) {
-//             const data = new FormData();
-//             const fileName = Date.now() + file.name;
-//             data.append('name', fileName);
-//             data.append('file', file);
-//             newPost.image = fileName;
-//             try {
-//                 await axios.post('http://localhost:9000/forums/upload', data);
-//             } catch (err) {}
-//         }
-//         try {
-//             await axios.post('http://localhost:9000/forums/posts', newPost);
-//             window.location.reload();
-//         } catch (err) {}
-
+        }).then(res => res.json()).then(data => window.location.replace("/forum"))
     };
 
     return (

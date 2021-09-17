@@ -55,14 +55,6 @@ function Login(props) {
                 }
             });
     };
-    // const deleteToken = () => {
-    //     fetch(`http://localhost:9000/user/verify/deletetoken/${deleteTokenUser}`, {
-    //         method: 'DELETE',
-    //         headers: {
-    //             'Content-Type': 'application/json'
-    //         },
-    //     })
-    // }
     return (
         <div className='container' style={{ marginTop: '150px' }}>
             <div className='row'>

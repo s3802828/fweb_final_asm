@@ -115,11 +115,11 @@ export default function Post(props) {
                         ? props.element.content.substring(0, 399) + '......'
                         : props.element.content}</p>
         </div>
-        {props.image &&
+        {props.element.image &&
           <div class="">
             <img
               class="card-img-bottom"
-              src={`https://covi-away-app.s3.amazonaws.com/${props.image}`}
+              src={`https://covi-away-app.s3.amazonaws.com/${props.element.image}`}
               alt="post-image"
               style={{ width: "50%" }}
             />

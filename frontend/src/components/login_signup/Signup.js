@@ -235,8 +235,6 @@ function Signup(props) {
 
                     }
                 </div>
-                <div class="col">
-                </div>
                 <div className='col'></div>
             </div>
         </div>

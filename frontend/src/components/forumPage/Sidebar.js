@@ -64,9 +64,9 @@ export default function Sidebar(props) {
                     );
                 })}
             </ul>
-            {props.isUser && <div className = "text-center">
-            <hr />
             
+            <hr />
+            {props.isUser ? <div className = "text-center">
             <button
                 type='button'
                 className='btn btn-dark'
@@ -78,7 +78,7 @@ export default function Sidebar(props) {
             >
                 {props.showCreatePostForm ? 'Close Form' : 'Create New Post'}
             </button>
-            </div>}
+            </div> : <div style={{color: "black", textAlign: "center"}}><a href="/login">Login</a> to Create New Post</div>}
         </div>
     );
 }

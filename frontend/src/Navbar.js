@@ -38,9 +38,11 @@ export default function Navbar(props) {
     }
 
     const fetchCurrentUser = () => {
-        fetch(`http://localhost:9000/profile/profiledetails/${props.currentUser.id}`)
-            .then(res => res.json())
-            .then(data => setCurrentUserInfo(data))
+        if (props.currentUser) {
+            fetch(`http://localhost:9000/profile/profiledetails/${props.currentUser.id}`)
+                .then(res => res.json())
+                .then(data => setCurrentUserInfo(data))
+        }
     }
 
     useEffect(() => {

@@ -92,7 +92,7 @@ export default function CreateNews(props) {
         fetch(endPoint, {
             method: 'POST',
             body: formData,
-        }).then(response => response.json()).then(redirectToMainPage());
+        }).then(response => response.json()).then((data) =>redirectToMainPage());
         console.log(data);
     };
 

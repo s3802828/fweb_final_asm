@@ -82,7 +82,9 @@ exports.putPost = async (req, res) => {
             const updatedPost = await Post.findByIdAndUpdate(
                 req.params.id,
                 {
-                    $set: req.body,
+                    title: req.body.title,
+                    content: req.body.content,
+                    post_category_id: req.body.post_category_id
                 },
                 { new: true }
             );

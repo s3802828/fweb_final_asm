@@ -39,8 +39,8 @@ export default function MyProfile(props) {
     return (
         <div className='container-fluid'>
             <div className='row'>
-                <div className='col-2'></div>
-                <div className='col-8'>
+                <div className='col-lg-2'></div>
+                <div className='col-lg-8 col-md-12'>
                     <ProfileCard
                         user={userProfile !== undefined && userProfile}
                         isUser={props.isUser}
@@ -63,10 +63,9 @@ export default function MyProfile(props) {
                         })}
                     </div>
                 </div>
-                <div class="col-2 ms-auto me-auto">
-
+                <div class="col-lg-2 ms-auto me-auto">
                 </div>
-                <div className='col-2 ms-auto me-auto'></div>
+                <div className='col-lg-2 ms-auto me-auto'></div>
             </div>
             <div className='row'>
                 <div className='col-2'></div>
@@ -79,7 +78,7 @@ export default function MyProfile(props) {
                     >Load More
                     </button>
                 </div>
-                <div className='col-2'></div>
+                <div className='col-lg-2'></div>
             </div>
         </div>
     );

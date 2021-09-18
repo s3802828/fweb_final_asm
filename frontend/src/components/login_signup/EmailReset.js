@@ -28,9 +28,9 @@ function EmailReset() {
     return (
         <div class="container" style={{ marginTop: "110px" }}>
             <div class="row">
-                <div class="col">
+                <div class="col-lg">
                 </div>
-                <div class="col">
+                <div class="col-lg col-md-12">
                     {returnMessage !== "Reset password email has been sent to you. Please check your email to reset your password!" ?
                         (<form onSubmit={handleSubmit(sendEmailReset)}>
                             <div style={{ marginLeft: "35%" }}>
@@ -54,7 +54,7 @@ function EmailReset() {
 
                     }
                 </div>
-                <div class="col">
+                <div class="col-lg">
                 </div>
             </div>
         </div>

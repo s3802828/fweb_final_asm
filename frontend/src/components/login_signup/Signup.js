@@ -89,8 +89,8 @@ function Signup(props) {
     return (
         <div className='container' style={{ marginTop: '110px' }}>
             <div className='row'>
-                <div className='col'></div>
-                <div className='col'>
+                <div className='col-lg'></div>
+                <div className='col-lg col-md-12'>
                     {returnMessage !==
                     'Verification email has been sent to you. Please verify your email to continue!' ? (
                         <form onSubmit={handleSubmit(signUp)}>
@@ -235,7 +235,7 @@ function Signup(props) {
 
                     }
                 </div>
-                <div className='col'></div>
+                <div className='col-lg'></div>
             </div>
         </div>
     );

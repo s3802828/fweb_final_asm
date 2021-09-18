@@ -107,7 +107,7 @@ export default function NewsPage() {
                                     return (
                                         <div>
                                             <div className='row mb-3'>
-                                                <div className='col-lg-8 col-md-12 mt-3'>
+                                                <div className='col-lg-8 col-md-12 mt-3 order-lg-first'>
                                                     <div className='row'>
                                                         <Link
                                                             to={`/articles/${news[0]._id}`}
@@ -128,7 +128,7 @@ export default function NewsPage() {
                                                     </div>
                                                 </div>
                                                 {indexCate === 0 ? (
-                                                    <div className='col-lg-4 col-md-12 mt-3'>
+                                                    <div className='col-lg-4 col-md-12 mt-3 order-md-first order-sm-first order-first'>
                                                         {latestCovidDataVietnam ? (
                                                             <div
                                                                 style={{

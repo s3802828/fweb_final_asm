@@ -81,17 +81,17 @@ export default function ReportPage(props) {
         <div>
             <div className='container-fluid'>
                 <div className='row'>
-                    <div className='col-2'></div>
-                    <div className='col-8'>
-                        <figure className='text-center my-5'>
+                    <div className='col-lg-2'></div>
+                    <div className='col-lg-8 col-md-12'>
+                    <figure className='text-center my-5'>
                             <h1 className='display-2'>{item && item.title}</h1>
-                            <img
+                            <a href={item && `/profile/${item.user_id}`} style={{textDecoration: "none", color:"black"}}><img
                                 className='rounded-circle shadow my-3'
                                 src={item && item.avatar ? `https://covi-away-app.s3.amazonaws.com/${item.avatar}` : defaultAvatar}
                                 alt='Profile picture'
                                 style={{ width: '80px', height: '80px' }}
                             ></img>
-                            <p className='lead'>{item && item.name}</p>
+                            <p className='lead'>{item && item.name}</p></a>
                         </figure>
                         <p className='lead'>
                             Created at:{' '}
@@ -116,7 +116,7 @@ export default function ReportPage(props) {
                             </div>
                         </figure>
                         <hr className='bg-secondary border-2 border-top border-secondary'></hr>
-                        <figure className='text-start border border-light border-2 my-3'>
+                        <a href={item && `/profile/${item.user_id}`} style={{textDecoration: "none", color:"black"}}><figure className='text-start border border-light border-2 my-3'>
                             <h6>
                                 <img
                                     className='rounded-circle shadow my-3 mx-3'
@@ -126,14 +126,14 @@ export default function ReportPage(props) {
                                 ></img>{' '}
                                 Reporter {item && item.name}
                             </h6>
-                        </figure>
+                        </figure></a>
                     </div>
 
                     {props.isReporter &&
                     props.currentUser &&
                     item &&
                     props.currentUser.id === item.user_id ? (
-                        <div className='col-2'>
+                        <div className='col-lg-2'>
                             <figure className='text-center my-5'>
                                 <button
                                     type='button'
@@ -192,7 +192,7 @@ export default function ReportPage(props) {
                             </div>
                         </div>
                     ) : (
-                        <div className='col-2'></div>
+                        <div className='col-lg-2'></div>
                     )}
                 </div>
             </div>

@@ -124,7 +124,7 @@ function UpdateProfile(props) {
                                         <div className='py-5 text-center'>
                                             <img
                                                 className='d-block mx-auto mb-4'
-                                                src='../assets/brand/bootstrap-logo.svg'
+                                                src={props.user && `https://covi-away-app.s3.amazonaws.com/${props.user.avatar}`}
                                                 alt=''
                                                 width='72'
                                                 height='57'

@@ -75,7 +75,7 @@ function UpdateProfile(props) {
             body: JSON.stringify(data),
         })
             .then((response) => response.json())
-            .then((data) => setReturnMessage(data.message));
+            .then((data) => {setReturnMessage(data.message); window.location.reload()});
     };
 
     return (

@@ -9,13 +9,13 @@ export default function CreatePost(props) {
         title: Yup.string()
             .required('Title is required')
             .matches(
-                /^[a-zA-Z0-9 ?.$'"-_()@!%*#?&\/\\]+$/,
+                /^[a-zA-Z0-9 ?.,;$'"-_()@!%*#?&\/\\]+$/,
                 'Title cannot contain certain special characters'
             ),
         content: Yup.string()
             .required('Content is required')
             .matches(
-                /^[a-zA-Z0-9 ?,.$'"-:+_()@!%*#?&\/\\(\r\n|\r|\n)]+$/,
+                /^[a-zA-Z0-9 ?,.;$'"-:+_()@!%*#?&\/\\(\r\n|\r|\n)]+$/,
                 'Content cannot contain certain special characters. Be careful with apostrophe. The valid one is " \' "'
             ),
         image: Yup.mixed()

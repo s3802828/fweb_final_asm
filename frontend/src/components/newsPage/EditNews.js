@@ -15,12 +15,12 @@ export default function EditNews(props) {
     const validationSchema = Yup.object().shape({
         title: Yup.string().trim()
             .required('Title is required')
-            .matches(/^[a-zA-Z0-9 ?.$'";,-_()@!%*#?&\/\\]+$/, 'Title cannot contain certain special characters'),
+            .matches(/^[a-zA-Z0-9 ?,;.$'"-_()@!%*#?&\/\\]+$/, 'Title cannot contain certain special characters'),
         content: Yup.string().trim()
 
             .required('Content is required')
             .matches(
-                /^[a-zA-Z0-9 ?.;,$'"-_()@!%*#?&\/\\(\r\n|\r|\n)]+$/,
+                /^[a-zA-Z0-9 ?,.$'"-:+_();@!%*#?&\/\\(\r\n|\r|\n)]+$/,
                 'Content cannot contain certain special characters'
             ),
         image: Yup.mixed()

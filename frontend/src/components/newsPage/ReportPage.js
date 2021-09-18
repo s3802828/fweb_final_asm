@@ -83,16 +83,16 @@ export default function ReportPage(props) {
                 <div className='row'>
                     <div className='col-lg-2'></div>
                     <div className='col-lg-8 col-md-12'>
-                    <a href={item && `/profile/${item.user_id}`} style={{textDecoration: "none", color:"black"}}><figure className='text-center my-5'>
+                    <figure className='text-center my-5'>
                             <h1 className='display-2'>{item && item.title}</h1>
-                            <img
+                            <a href={item && `/profile/${item.user_id}`} style={{textDecoration: "none", color:"black"}}><img
                                 className='rounded-circle shadow my-3'
                                 src={item && item.avatar ? `https://covi-away-app.s3.amazonaws.com/${item.avatar}` : defaultAvatar}
                                 alt='Profile picture'
                                 style={{ width: '80px', height: '80px' }}
                             ></img>
-                            <p className='lead'>{item && item.name}</p>
-                        </figure></a>
+                            <p className='lead'>{item && item.name}</p></a>
+                        </figure>
                         <p className='lead'>
                             Created at:{' '}
                             {item && item.createdAt.substring(0, 10)} (Updated:{' '}

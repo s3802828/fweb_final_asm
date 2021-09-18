@@ -56,7 +56,9 @@ exports.putPost = async (req, res) => {
         Post.findById({ _id: req.params.id }, async (error, result) => {
             if (result) {
                 console.log(req.file)
-                deleteFile(result.image, bucketName)
+                if(result.image){
+                    deleteFile(result.image, bucketName)
+                }
                 Post.findByIdAndUpdate({ _id: req.params.id }, {
                     title: req.body.title,
                     content: req.body.content,

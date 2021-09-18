@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import { useState, useEffect } from 'react';
+import defaultAvatar from './../../defaultAvatar.jpg'
 
 function UpdateProfile(props) {
     const currentUser = JSON.parse(localStorage.getItem('user'));
@@ -124,7 +125,7 @@ function UpdateProfile(props) {
                                         <div className='py-5 text-center'>
                                             <img
                                                 className='d-block mx-auto mb-4'
-                                                src={props.user && `https://covi-away-app.s3.amazonaws.com/${props.user.avatar}`}
+                                                src={(props.user && props.user.avatar) ? `https://covi-away-app.s3.amazonaws.com/${props.user.avatar}` : defaultAvatar}
                                                 alt=''
                                                 width='72'
                                                 height='57'
